@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Mail, Phone, MapPin, Globe, Linkedin, Github, ChevronDown, ExternalLink, Code2, Briefcase, GraduationCap, Send, Sparkles, Terminal, Zap, Layers, ArrowUpRight, Search, Package, Wrench, Chrome, Award, Star, ShieldCheck, Rocket, Heart, X, Check, Cpu, GitBranch, Coffee, Clock, Globe2 } from 'lucide-react';
+import { Mail, Phone, MapPin, Globe, Linkedin, Github, ChevronDown, ExternalLink, Code2, Briefcase, GraduationCap, Send, Sparkles, Terminal, Zap, Layers, ArrowUpRight, Search, Package, Wrench, Chrome, Award, Star, ShieldCheck, Rocket, Heart, X, Check, Cpu, GitBranch, Coffee, Clock, Globe2, Download, MessageSquare, GitPullRequest } from 'lucide-react';
 
 export default function CV() {
   const [scrollY, setScrollY] = useState(0);
@@ -11,8 +11,26 @@ export default function CV() {
   const [portfolioStatusFilter, setPortfolioStatusFilter] = useState('featured');
   const [portfolioSearch, setPortfolioSearch] = useState('');
   const [expandedSite, setExpandedSite] = useState(null);
+  const [githubStats, setGithubStats] = useState(null);
+
+  // Terminal State
+  const [termInput, setTermInput] = useState('');
+  const [termHistory, setTermHistory] = useState([
+    { cmd: 'whoami', out: 'Muhammad Azhar ó Senior Full-Stack Engineer' }
+  ]);
+  const termEndRef = useRef(null);
 
   const fullText = 'open to senior engineering roles';
+
+  // Fetch GitHub Stats
+  useEffect(() => {
+    fetch('https://api.github.com/users/softglazee')
+      .then(res => res.json())
+      .then(data => {
+        if (data && !data.message) setGithubStats(data);
+      })
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     let i = 0;
@@ -42,7 +60,7 @@ export default function CV() {
     return () => window.removeEventListener('mousemove', handleMouse);
   }, []);
 
-  const sectionIds = ['hero', 'extension', 'about', 'why', 'stack', 'experience', 'portfolio', 'projects', 'contact'];
+  const sectionIds = ['hero', 'extension', 'about', 'why', 'stack', 'experience', 'portfolio', 'projects', 'reviews', 'contact'];
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -51,7 +69,7 @@ export default function CV() {
           if (entry.isIntersecting) setActiveSection(entry.target.id);
         });
       },
-      { threshold: 0.4 }
+      { threshold: 0.2 }
     );
     sectionIds.forEach((id) => {
       const el = document.getElementById(id);
@@ -90,19 +108,38 @@ export default function CV() {
     { id: 'experience', label: 'experience' },
     { id: 'portfolio', label: 'portfolio' },
     { id: 'projects', label: 'case studies' },
+    { id: 'reviews', label: 'code reviews' },
     { id: 'contact', label: 'contact' },
   ];
 
-  // Helper to get domain logo from clearbit-style favicon service
-  const getLogoUrl = (url) => {
-    const domain = url.replace(/^https?:\/\//, '').replace(/\/$/, '');
-    return `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
+  // Terminal Logic
+  const handleTerminalSubmit = (e) => {
+    if (e.key === 'Enter') {
+      const cmd = termInput.trim().toLowerCase();
+      let out = '';
+      
+      if (cmd === '') return;
+      if (cmd === 'clear') {
+        setTermHistory([]);
+        setTermInput('');
+        return;
+      }
+      if (cmd === 'help') out = 'Available commands: whoami, skills, experience, contact, sudo rm -rf /';
+      else if (cmd === 'whoami') out = 'Muhammad Azhar ó Senior Full-Stack Engineer from PK.';
+      else if (cmd === 'skills') out = 'PHP, Laravel, React, Node.js, MySQL, WordPress, Chrome Extensions.';
+      else if (cmd === 'experience') out = '8+ years shipping prod code. 20+ live sites. 1 Chrome Extension.';
+      else if (cmd === 'contact') out = 'Email: admin@softglaze.com | Phone: +92 300 7484750';
+      else if (cmd === 'sudo rm -rf /') out = 'Nice try. But I sanitized my inputs. ??';
+      else out = `Command not found: ${cmd}. Type 'help' for available commands.`;
+
+      setTermHistory([...termHistory, { cmd: termInput, out }]);
+      setTermInput('');
+      setTimeout(() => termEndRef.current?.scrollIntoView({ behavior: 'smooth' }), 50);
+    }
   };
 
-  // Helper for site initials (logo fallback)
-  const getInitials = (name) => {
-    return name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
-  };
+  const getLogoUrl = (url) => `https://www.google.com/s2/favicons?domain=${url.replace(/^https?:\/\//, '').replace(/\/$/, '')}&sz=128`;
+  const getInitials = (name) => name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
 
   const portfolio = [
     {
@@ -115,15 +152,15 @@ export default function CV() {
     },
     {
       url: 'carparthq.com', name: 'CarPartHQ', cat: 'ecommerce', featured: true, verified: true,
-      desc: 'Auto parts marketplace ‚Äî vehicle compatibility across 56+ brands, US-wide network',
+      desc: 'Auto parts marketplace ó vehicle compatibility across 56+ brands, US-wide network',
       cms: 'WordPress', plugins: ['Elementor 3.29', 'ACF Pro', 'Embedder for Google Reviews', 'WPForms', 'RankMath', 'Google Tag Manager'],
-      custom: ['SoftGlaze vehicle compatibility plugin (Make ‚Üí Model ‚Üí Part ‚Üí Year)', 'Multi-step lead form system', 'Inventory routing engine across 35+ centers', 'Quote request workflow', 'Financing integration module'],
+      custom: ['SoftGlaze vehicle compatibility plugin (Make ? Model ? Part ? Year)', 'Multi-step lead form system', 'Inventory routing engine across 35+ centers', 'Quote request workflow', 'Financing integration module'],
       features: ['56+ vehicle brand matching', 'Quote-based commerce', '12-month warranty system', 'Multi-step checkout', 'Installer locator'],
       color: 'from-green-500 to-emerald-500'
     },
     {
       url: 'dubainotaryservices.com', name: 'Dubai Notary Services', cat: 'legal', featured: true, verified: true,
-      desc: 'Flagship UAE notary platform ‚Äî comprehensive service pages, online e-notary',
+      desc: 'Flagship UAE notary platform ó comprehensive service pages, online e-notary',
       cms: 'WordPress', plugins: ['Elementor 4.0.5 / Pro', 'ACF Pro', 'WPForms', 'RankMath SEO', 'Google Tag Manager'],
       custom: ['SoftGlaze service inquiry plugin', 'Multi-service catalog system', 'Quote routing module', 'WhatsApp integration'],
       features: ['8+ service verticals', 'Pricing pages', 'FAQ accordion', 'Quote forms', 'Apostille & e-notary flows'],
@@ -271,7 +308,7 @@ export default function CV() {
         .replace(/lawyer/gi, 'Lawyer').replace(/attestation/gi, 'Attestation')
         .replace(/notario/gi, 'Notario').replace(/in /gi, 'in '),
       cat: 'legal', featured: false, verified: false, inProgress: true,
-      desc: 'Part of UAE legal services network ‚Äî content rolling out',
+      desc: 'Part of UAE legal services network ó content rolling out',
       cms: 'WordPress', plugins: ['Elementor 4.0.5', 'ACF Pro', 'WPForms', 'RankMath'],
       custom: ['Network template system', 'Service inquiry module'],
       features: ['UAE-targeted SEO', 'Service inquiry forms', 'Part of 12-site legal network'],
@@ -307,7 +344,148 @@ export default function CV() {
   });
 
   return (
-    <div className="bg-slate-950 text-slate-200 min-h-screen overflow-x-hidden font-sans">
+    <>
+    {/* ===== PRINT STYLES FOR PDF GENERATION ===== */}
+    <style>{`
+      @media print {
+        @page { margin: 15mm; size: auto; }
+        body { background: white !important; color: black !important; font-family: 'Inter', sans-serif !important; -webkit-print-color-adjust: exact; }
+        .print-hidden { display: none !important; }
+        .print-show { display: block !important; }
+        .pdf-header { border-bottom: 2px solid #334155; padding-bottom: 16px; margin-bottom: 24px; }
+        .pdf-name { font-size: 28px; font-weight: 800; color: #0f172a; margin-bottom: 4px; }
+        .pdf-title { font-size: 16px; font-weight: 600; color: #0284c7; margin-bottom: 8px; font-family: monospace; }
+        .pdf-contact { font-size: 12px; color: #475569; display: flex; gap: 12px; margin-bottom: 4px; flex-wrap: wrap; }
+        .pdf-section { margin-bottom: 24px; }
+        .pdf-h2 { font-size: 18px; font-weight: 700; color: #0f172a; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+        .pdf-job { margin-bottom: 16px; page-break-inside: avoid; }
+        .pdf-job-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; }
+        .pdf-job-title { font-weight: 700; font-size: 15px; color: #1e293b; }
+        .pdf-job-date { font-size: 12px; color: #64748b; font-family: monospace; }
+        .pdf-job-company { font-size: 13px; font-weight: 600; color: #0284c7; margin-bottom: 8px; }
+        .pdf-bullet { font-size: 13px; color: #334155; margin-bottom: 4px; padding-left: 12px; position: relative; line-height: 1.5; }
+        .pdf-bullet::before { content: 'ï'; position: absolute; left: 0; color: #94a3b8; }
+        .pdf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .pdf-pill { display: inline-block; background: #f1f5f9; border: 1px solid #cbd5e1; padding: 2px 8px; border-radius: 4px; font-size: 11px; margin: 0 4px 4px 0; color: #334155; font-family: monospace; }
+      }
+      @media screen {
+        .print-show { display: none !important; }
+      }
+    `}</style>
+
+    {/* ===== HIDDEN ATS-FRIENDLY PDF RESUME ===== */}
+    <div className="print-show bg-white min-h-screen p-8 max-w-4xl mx-auto">
+      <div className="pdf-header">
+        <div className="pdf-name">Muhammad Azhar</div>
+        <div className="pdf-title">Senior Full-Stack Engineer</div>
+        <div className="pdf-contact">
+          <span>admin@softglaze.com</span> | 
+          <span>+92 300 7484750</span> | 
+          <span>Multan, PK</span> |
+          <span>github.com/softglazee</span> |
+          <span>azhar.softglaze.com</span>
+        </div>
+        <div className="text-sm text-slate-600 mt-2">
+          8+ years shipping production code across PHP, Laravel, Node, React, and MySQL. Shipped 20+ live sites globally and a published Chrome Extension.
+        </div>
+      </div>
+
+      <div className="pdf-section">
+        <div className="pdf-h2">Technical Skills</div>
+        <div>
+          <span className="font-semibold text-sm mr-2">Languages & Frameworks:</span>
+          {['PHP', 'Laravel', 'React', 'Node.js', 'JavaScript/ES6+', 'SQL', 'HTML5/CSS3', 'Tailwind'].map(s => <span key={s} className="pdf-pill">{s}</span>)}
+        </div>
+        <div className="mt-1">
+          <span className="font-semibold text-sm mr-2">Tools & Architecture:</span>
+          {['MySQL', 'REST APIs', 'Chrome Extension API', 'WordPress/Custom Plugins', 'Git', 'AWS VPS'].map(s => <span key={s} className="pdf-pill">{s}</span>)}
+        </div>
+      </div>
+
+      <div className="pdf-section">
+        <div className="pdf-h2">Professional Experience</div>
+        <div className="pdf-job">
+          <div className="pdf-job-header">
+            <div className="pdf-job-title">Founder & Lead Developer</div>
+            <div className="pdf-job-date">Jun 2022 ó Present</div>
+          </div>
+          <div className="pdf-job-company">SoftGlaze LLC | Remote (US/Global Clients)</div>
+          <div className="pdf-bullet">Architected and shipped 20+ production sites across legal services, e-commerce, and directories.</div>
+          <div className="pdf-bullet">Built custom WordPress plugins from scratch for price comparison engines, vehicle compatibility matching, and web scrapers.</div>
+          <div className="pdf-bullet">Designed and shipped "SoftGlaze Screen Recorder" ó a published Chrome extension with DOM-anchored sticky annotations and WebM to MP4 transcoding.</div>
+        </div>
+
+        <div className="pdf-job">
+          <div className="pdf-job-header">
+            <div className="pdf-job-title">Senior Full-Stack Web Developer</div>
+            <div className="pdf-job-date">Jul 2018 ó May 2022</div>
+          </div>
+          <div className="pdf-job-company">Creative Chaos | Remote (US Client)</div>
+          <div className="pdf-bullet">Shipped full-stack features in PHP/Laravel + React for a distributed product team.</div>
+          <div className="pdf-bullet">Owned modules end-to-end: database schema design, REST API creation, UI integration, and deployment.</div>
+          <div className="pdf-bullet">Optimized database performance by resolving N+1 queries and implementing caching layers.</div>
+        </div>
+
+        <div className="pdf-job">
+          <div className="pdf-job-header">
+            <div className="pdf-job-title">Back-End Web Developer</div>
+            <div className="pdf-job-date">Sep 2017 ó Jun 2018</div>
+          </div>
+          <div className="pdf-job-company">Reborn | Lahore, PK</div>
+          <div className="pdf-bullet">Refactored legacy PHP codebases into structured CodeIgniter and Laravel applications.</div>
+          <div className="pdf-bullet">Diagnosed slow queries with EXPLAIN, added indexes, and rewrote joins to decrease endpoint response times.</div>
+        </div>
+
+        <div className="pdf-job">
+          <div className="pdf-job-header">
+            <div className="pdf-job-title">Front-End Web Developer</div>
+            <div className="pdf-job-date">Aug 2014 ó Aug 2017</div>
+          </div>
+          <div className="pdf-job-company">Intero Digital | Islamabad, PK</div>
+          <div className="pdf-bullet">Turned Figma/PSD designs into pixel-perfect, responsive HTML/CSS/JS.</div>
+          <div className="pdf-bullet">Shipped mobile-responsive layouts before "mobile-first" was an industry standard.</div>
+        </div>
+      </div>
+
+      <div className="pdf-section">
+        <div className="pdf-h2">Selected Case Studies</div>
+        <div className="pdf-grid">
+          <div>
+            <div className="font-semibold text-sm">SoftGlaze Screen Recorder (Chrome Extension)</div>
+            <div className="text-xs text-slate-600 mb-1">Stack: JavaScript, Chrome APIs, Manifest V3</div>
+            <div className="pdf-bullet">Built a solo product with sticky drawing engine and 100% local processing.</div>
+          </div>
+          <div>
+            <div className="font-semibold text-sm">CarPartHQ (Auto E-commerce)</div>
+            <div className="text-xs text-slate-600 mb-1">Stack: WordPress, Custom PHP Plugin</div>
+            <div className="pdf-bullet">Engineered vehicle compatibility matching across 56 brands and inventory routing.</div>
+          </div>
+          <div>
+            <div className="font-semibold text-sm">NL Pricing Directory Suite</div>
+            <div className="text-xs text-slate-600 mb-1">Stack: WordPress, Custom PHP Engine</div>
+            <div className="pdf-bullet">Built custom price comparison engine and provider matching algorithm with Geo search.</div>
+          </div>
+          <div>
+            <div className="font-semibold text-sm">Dubai Legal Services Network</div>
+            <div className="text-xs text-slate-600 mb-1">Stack: WordPress, Custom PHP Plugin</div>
+            <div className="pdf-bullet">Network of 12 interconnected sites for UAE notary services with shared templates.</div>
+          </div>
+        </div>
+      </div>
+
+      <div className="pdf-section">
+        <div className="pdf-h2">Education</div>
+        <div className="pdf-job-header">
+          <div className="pdf-job-title">MS Information Technology</div>
+          <div className="pdf-job-date">2012 ó 2016</div>
+        </div>
+        <div className="pdf-job-company mb-0">Islamia University of Bahawalpur</div>
+      </div>
+    </div>
+
+
+    {/* ===== MAIN WEB APP (Hidden during print) ===== */}
+    <div className="print-hidden bg-slate-950 text-slate-200 min-h-screen overflow-x-hidden font-sans">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; }
@@ -479,13 +657,6 @@ export default function CV() {
             </div>
           </div>
 
-          <div className="font-mono text-cyan-400 text-xs md:text-sm mb-3 flex items-center gap-2 justify-center flex-wrap animate-fadeUp delay-2">
-            <Terminal size={14} />
-            <span className="text-purple-400">~/azhar</span>
-            <span className="text-slate-600">$</span>
-            <span className="text-slate-400">whoami</span>
-          </div>
-
           <h1 className="font-mono font-bold leading-none tracking-tight mb-6 flex flex-wrap items-center justify-center gap-x-2 md:gap-x-3 text-2xl sm:text-3xl md:text-5xl lg:text-6xl animate-fadeUp delay-2">
             <span className="text-slate-600">{'<'}</span>
             <span className="bg-gradient-to-br from-white via-slate-200 to-slate-300 bg-clip-text text-transparent">Muhammad</span>
@@ -496,7 +667,7 @@ export default function CV() {
 
           <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-base md:text-lg text-slate-300 mb-2 animate-fadeUp delay-3">
             <span>Senior Full-Stack Engineer</span>
-            <span className="text-slate-600">¬∑</span>
+            <span className="text-slate-600">∑</span>
             <span className="text-slate-400 flex items-center gap-1"><MapPin size={14} /> Multan, PK</span>
           </div>
 
@@ -512,22 +683,42 @@ export default function CV() {
             <span className="text-pink-400">MySQL</span>
           </p>
 
-          <div className="font-mono text-xs md:text-sm bg-slate-900/80 backdrop-blur border border-slate-700/50 rounded-xl p-4 md:p-5 w-full max-w-2xl mb-8 shadow-2xl text-left animate-fadeUp delay-4">
+          {/* Interactive Terminal (Replaces the static one) */}
+          <div className="font-mono text-xs md:text-sm bg-slate-900/90 backdrop-blur border border-slate-700/50 rounded-xl p-4 md:p-5 w-full max-w-2xl mb-8 shadow-2xl text-left animate-fadeUp delay-4 relative overflow-hidden">
             <div className="flex items-center gap-1.5 mb-3 pb-3 border-b border-slate-800">
               <span className="w-3 h-3 rounded-full bg-red-500/80"></span>
               <span className="w-3 h-3 rounded-full bg-yellow-500/80"></span>
               <span className="w-3 h-3 rounded-full bg-green-500/80"></span>
-              <span className="text-slate-600 text-xs ml-2">‚Äî azhar@dev ‚Äî zsh</span>
+              <span className="text-slate-600 text-xs ml-2 hidden sm:inline">ó azhar@dev ó zsh ó type 'help'</span>
+              <span className="text-slate-600 text-xs ml-2 sm:hidden">ó type 'help'</span>
             </div>
-            <div className="text-slate-500"><span className="text-slate-700">{'//'}</span> 8 years shipping production code</div>
-            <div className="text-slate-500"><span className="text-slate-700">{'//'}</span> 20+ live sites + Chrome extension</div>
-            <div className="text-slate-500"><span className="text-slate-700">{'//'}</span> currently refactoring my career</div>
-            <div className="mt-2">
-              <span className="text-purple-400">const</span>{' '}
-              <span className="text-cyan-300">status</span>{' '}
-              <span className="text-slate-500">=</span>{' '}
-              <span className="text-yellow-300">"{typedText}"</span>
-              <span className="cursor inline-block w-2 h-4 bg-cyan-400 ml-1 align-middle"></span>
+            
+            <div className="max-h-32 md:max-h-40 overflow-y-auto space-y-2 mb-2 pr-2 custom-scrollbar">
+              {termHistory.map((t, i) => (
+                <div key={i} className="break-words">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="text-green-400 whitespace-nowrap">?</span>
+                    <span className="text-cyan-400 whitespace-nowrap">~</span>
+                    <span className="text-white">{t.cmd}</span>
+                  </div>
+                  <div className="text-slate-400 pl-4 sm:pl-6">{t.out}</div>
+                </div>
+              ))}
+              <div ref={termEndRef} />
+            </div>
+
+            <div className="flex items-center gap-2 mt-2">
+              <span className="text-green-400">?</span><span className="text-cyan-400">~</span>
+              <input 
+                type="text" 
+                value={termInput}
+                onChange={(e) => setTermInput(e.target.value)}
+                onKeyDown={handleTerminalSubmit}
+                placeholder="type command..."
+                className="bg-transparent border-none outline-none text-white w-full font-mono placeholder-slate-700"
+                spellCheck="false"
+                autoComplete="off"
+              />
             </div>
           </div>
 
@@ -537,13 +728,13 @@ export default function CV() {
               <Rocket size={16} /> See my work
               <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </a>
-            <a href="mailto:admin@softglaze.com" className="px-6 py-3 rounded-lg border border-slate-700 hover:border-cyan-400 hover:text-cyan-400 text-slate-300 font-medium text-sm flex items-center gap-2 transition-all hover:-translate-y-0.5">
-              <Mail size={16} /> Get in touch
-            </a>
+            <button onClick={() => window.print()} className="px-6 py-3 rounded-lg border border-cyan-400/40 hover:border-cyan-400 hover:text-cyan-400 text-slate-300 font-medium text-sm flex items-center gap-2 transition-all hover:-translate-y-0.5 hover:bg-cyan-400/10">
+              <Download size={16} /> Download Resume
+            </button>
           </div>
 
           {/* Social links */}
-          <div className="flex gap-3 mb-8 justify-center animate-fadeUp delay-5">
+          <div className="flex gap-3 mb-8 justify-center animate-fadeUp delay-5 flex-wrap">
             <a href="https://github.com/softglazee" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg border border-slate-700 hover:border-cyan-400 hover:text-cyan-400 text-slate-400 flex items-center justify-center transition-all hover:-translate-y-0.5" title="GitHub">
               <Github size={16} />
             </a>
@@ -558,24 +749,24 @@ export default function CV() {
             </a>
           </div>
 
-          <div className="grid grid-cols-3 gap-6 md:gap-12 pt-6 border-t border-slate-800 w-full max-w-md animate-fadeUp delay-6">
+          <div className="grid grid-cols-3 gap-3 sm:gap-6 md:gap-12 pt-6 border-t border-slate-800 w-full max-w-md animate-fadeUp delay-6">
             <div>
-              <div className="font-mono text-3xl md:text-4xl font-bold gradient-text">8+</div>
-              <div className="text-xs text-slate-500 uppercase tracking-wider mt-0.5">Years</div>
+              <div className="font-mono text-2xl sm:text-3xl md:text-4xl font-bold gradient-text">8+</div>
+              <div className="text-[10px] sm:text-xs text-slate-500 uppercase tracking-wider mt-0.5">Years</div>
             </div>
             <div>
-              <div className="font-mono text-3xl md:text-4xl font-bold gradient-text">20+</div>
-              <div className="text-xs text-slate-500 uppercase tracking-wider mt-0.5">Live Sites</div>
+              <div className="font-mono text-2xl sm:text-3xl md:text-4xl font-bold gradient-text">20+</div>
+              <div className="text-[10px] sm:text-xs text-slate-500 uppercase tracking-wider mt-0.5">Live Sites</div>
             </div>
             <div>
-              <div className="font-mono text-3xl md:text-4xl font-bold gradient-text">1</div>
-              <div className="text-xs text-slate-500 uppercase tracking-wider mt-0.5">Chrome Ext.</div>
+              <div className="font-mono text-2xl sm:text-3xl md:text-4xl font-bold gradient-text">1</div>
+              <div className="text-[10px] sm:text-xs text-slate-500 uppercase tracking-wider mt-0.5">Chrome Ext.</div>
             </div>
           </div>
         </div>
 
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 font-mono text-xs text-slate-600 flex flex-col items-center gap-1">
-          <span>scroll ¬∑ or use ‚Üì ‚Üí keys</span>
+          <span>scroll ∑ or use ? ? keys</span>
           <ChevronDown size={18} className="animate-bounce" />
         </div>
       </section>
@@ -583,13 +774,13 @@ export default function CV() {
       {/* ====== CHROME EXTENSION ====== */}
       <AnimatedSection id="extension" tag="// flagship product" icon={<Award />} number="02">
         <div className="text-center mb-3">
-          <span className="font-mono text-[10px] px-2 py-0.5 rounded-full bg-yellow-500/10 border border-yellow-500/40 text-yellow-400 uppercase tracking-widest">‚òÖ Featured Product</span>
+          <span className="font-mono text-[10px] px-2 py-0.5 rounded-full bg-yellow-500/10 border border-yellow-500/40 text-yellow-400 uppercase tracking-widest">? Featured Product</span>
         </div>
         <h2 className="font-display text-4xl md:text-6xl font-bold leading-tight tracking-tight mb-3 text-center">
           Live on the <span className="gradient-text">Chrome Web Store.</span>
         </h2>
         <p className="text-slate-400 text-base md:text-lg max-w-3xl mx-auto mb-12 text-center">
-          A full Chrome extension I designed, built, and shipped end-to-end. Real users, real reviews, real product ‚Äî not just client work.
+          A full Chrome extension I designed, built, and shipped end-to-end. Real users, real reviews, real product ó not just client work.
         </p>
 
         <div className="glass rounded-2xl p-6 md:p-10 max-w-5xl mx-auto text-left relative overflow-hidden">
@@ -617,7 +808,7 @@ export default function CV() {
 
               <h3 className="font-display text-2xl md:text-3xl font-bold text-white mb-2">SoftGlaze Screen Recorder</h3>
               <p className="text-slate-400 text-sm md:text-base mb-4">
-                Professional screen recording extension with Persistent Drawing Suite ‚Äî annotate live while recording. Built solo from concept to publication.
+                Professional screen recording extension with Persistent Drawing Suite ó annotate live while recording. Built solo from concept to publication.
               </p>
 
               <div className="flex items-center gap-1 mb-4">
@@ -627,12 +818,12 @@ export default function CV() {
 
               <div className="grid sm:grid-cols-2 gap-2 mb-5">
                 {[
-                  { emoji: 'üé•', label: 'HD Recording with system audio' },
-                  { emoji: '‚úèÔ∏è', label: 'Pro Drawing Tools (Pen, Highlighter, Arrows)' },
-                  { emoji: 'üñ±Ô∏è', label: 'Smart Scroll ‚Äî sticky annotations' },
-                  { emoji: 'üíæ', label: 'Instant WebM / MP4 export' },
-                  { emoji: 'üì∏', label: 'High-res screenshot mode' },
-                  { emoji: 'üîí', label: 'Privacy-first ‚Äî local processing' },
+                  { emoji: '??', label: 'HD Recording with system audio' },
+                  { emoji: '??', label: 'Pro Drawing Tools (Pen, Highlighter, Arrows)' },
+                  { emoji: '???', label: 'Smart Scroll ó sticky annotations' },
+                  { emoji: '??', label: 'Instant WebM / MP4 export' },
+                  { emoji: '??', label: 'High-res screenshot mode' },
+                  { emoji: '??', label: 'Privacy-first ó local processing' },
                 ].map((f, i) => (
                   <div key={i} className="flex items-start gap-2 text-sm text-slate-300 bg-slate-900/40 border border-slate-700/40 rounded-md px-3 py-2 hover:border-cyan-400/40 transition-colors">
                     <span className="text-base">{f.emoji}</span>
@@ -655,10 +846,10 @@ export default function CV() {
                   <Wrench size={10} /> what I engineered
                 </div>
                 <ul className="space-y-1.5 text-sm text-slate-300">
-                  <li className="pl-4 relative leading-snug"><span className="absolute left-0 text-pink-400">‚ñ∏</span><strong className="text-white">Sticky Drawing Engine (v14):</strong> annotations persist across scrolling using DOM element anchoring</li>
-                  <li className="pl-4 relative leading-snug"><span className="absolute left-0 text-pink-400">‚ñ∏</span><strong className="text-white">MP4 Conversion:</strong> client-side WebM ‚Üí MP4 transcoding pipeline</li>
-                  <li className="pl-4 relative leading-snug"><span className="absolute left-0 text-pink-400">‚ñ∏</span><strong className="text-white">Toolbar logic:</strong> force-close handling for clean UX edge cases</li>
-                  <li className="pl-4 relative leading-snug"><span className="absolute left-0 text-pink-400">‚ñ∏</span><strong className="text-white">Privacy architecture:</strong> 100% local processing, zero data collection</li>
+                  <li className="pl-4 relative leading-snug"><span className="absolute left-0 text-pink-400">?</span><strong className="text-white">Sticky Drawing Engine (v14):</strong> annotations persist across scrolling using DOM element anchoring</li>
+                  <li className="pl-4 relative leading-snug"><span className="absolute left-0 text-pink-400">?</span><strong className="text-white">MP4 Conversion:</strong> client-side WebM ? MP4 transcoding pipeline</li>
+                  <li className="pl-4 relative leading-snug"><span className="absolute left-0 text-pink-400">?</span><strong className="text-white">Toolbar logic:</strong> force-close handling for clean UX edge cases</li>
+                  <li className="pl-4 relative leading-snug"><span className="absolute left-0 text-pink-400">?</span><strong className="text-white">Privacy architecture:</strong> 100% local processing, zero data collection</li>
                 </ul>
               </div>
 
@@ -672,7 +863,7 @@ export default function CV() {
         </div>
       </AnimatedSection>
 
-      {/* ====== ABOUT ====== */}
+      {/* ====== ABOUT & GITHUB STATS ====== */}
       <AnimatedSection id="about" tag="// the tldr" icon={<Sparkles />} number="03">
         <h2 className="font-display text-4xl md:text-6xl font-bold leading-tight tracking-tight mb-10 text-center">
           Full-stack engineer who actually <span className="gradient-text">ships.</span>
@@ -690,22 +881,30 @@ export default function CV() {
           </p>
         </div>
 
+        {/* Dynamic GitHub Stats Included Here */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mt-8 max-w-4xl mx-auto">
-          {[
-            { num: '8+', label: 'Years Shipping' },
-            { num: '20+', label: 'Live Sites' },
-            { num: '1', label: 'Chrome Extension' },
-            { num: '5', label: 'Countries' },
-          ].map((s, i) => (
-            <div key={i} className="glass rounded-xl p-4 text-center hover:border-cyan-400/40 transition-all hover:-translate-y-1">
-              <div className="font-mono text-3xl md:text-4xl font-bold gradient-text">{s.num}</div>
-              <div className="text-xs text-slate-400 uppercase tracking-wider mt-1">{s.label}</div>
+          <div className="glass rounded-xl p-4 text-center hover:border-cyan-400/40 transition-all hover:-translate-y-1">
+            <div className="font-mono text-3xl md:text-4xl font-bold gradient-text">8+</div>
+            <div className="text-xs text-slate-400 uppercase tracking-wider mt-1">Years Shipping</div>
+          </div>
+          <div className="glass rounded-xl p-4 text-center hover:border-cyan-400/40 transition-all hover:-translate-y-1">
+            <div className="font-mono text-3xl md:text-4xl font-bold gradient-text">20+</div>
+            <div className="text-xs text-slate-400 uppercase tracking-wider mt-1">Live Sites</div>
+          </div>
+          <div className="glass rounded-xl p-4 text-center hover:border-cyan-400/40 transition-all hover:-translate-y-1">
+            <div className="font-mono text-3xl md:text-4xl font-bold gradient-text">
+              {githubStats ? githubStats.public_repos : '...'}
             </div>
-          ))}
+            <div className="text-xs text-slate-400 uppercase tracking-wider mt-1">Public Repos</div>
+          </div>
+          <a href="https://github.com/softglazee" target="_blank" rel="noopener noreferrer" className="glass rounded-xl p-4 text-center hover:border-purple-400/40 transition-all hover:-translate-y-1 group flex flex-col justify-center items-center">
+            <Github size={32} className="text-slate-400 group-hover:text-purple-400 mb-2 transition-colors" />
+            <div className="text-xs text-slate-400 uppercase tracking-wider mt-1 group-hover:text-purple-300">View GitHub ?</div>
+          </a>
         </div>
       </AnimatedSection>
 
-      {/* ====== WHY ME (NEW) ====== */}
+      {/* ====== WHY ME ====== */}
       <AnimatedSection id="why" tag="// hire(me) === true" icon={<Heart />} number="04">
         <div className="text-center mb-3">
           <span className="font-mono text-[10px] px-2 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/40 text-cyan-400 uppercase tracking-widest">// the pitch</span>
@@ -714,7 +913,7 @@ export default function CV() {
           Why <span className="gradient-text">hire me?</span>
         </h2>
         <p className="text-slate-400 text-base md:text-lg max-w-3xl mx-auto mb-12 text-center">
-          The honest version. No buzzwords, no fluff ‚Äî just what you actually get.
+          The honest version. No buzzwords, no fluff ó just what you actually get.
         </p>
 
         {/* Code-styled comparison block */}
@@ -731,7 +930,7 @@ export default function CV() {
                 'ghosts on weekends, even when prod is down',
                 'writes code, doesn\'t read other people\'s',
                 'asks for specs before lifting a finger',
-                'never shipped a real product ‚Äî only tickets',
+                'never shipped a real product ó only tickets',
               ].map((item, i) => (
                 <li key={i} className="flex items-start gap-2 text-slate-400">
                   <X size={14} className="text-red-400 flex-shrink-0 mt-0.5" />
@@ -749,9 +948,9 @@ export default function CV() {
             </div>
             <ul className="space-y-3 font-mono text-sm">
               {[
-                'full-stack: PHP / Laravel / React / Node ‚Äî not just "I know JS"',
-                'owns systems end-to-end: schema ‚Üí API ‚Üí UI ‚Üí deploy',
-                'available async across timezones ‚Äî I\'ve worked US client hours for years',
+                'full-stack: PHP / Laravel / React / Node ó not just "I know JS"',
+                'owns systems end-to-end: schema ? API ? UI ? deploy',
+                'available async across timezones ó I\'ve worked US client hours for years',
                 'reviews PRs, mentors juniors, leaves codebases better than I found them',
                 'translates client vibes into actual specs and ships',
                 'shipped 20+ sites + a Chrome extension. proven, not theoretical',
@@ -766,7 +965,7 @@ export default function CV() {
         </div>
 
         {/* Value props as code feature cards */}
-        <div className="grid md:grid-cols-3 gap-4 max-w-6xl mx-auto">
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 max-w-6xl mx-auto">
           {[
             {
               icon: Rocket,
@@ -778,7 +977,7 @@ export default function CV() {
             {
               icon: Cpu,
               title: 'I own systems end-to-end.',
-              code: 'schema ‚Üí api ‚Üí ui ‚Üí deploy',
+              code: 'schema ? api ? ui ? deploy',
               desc: 'No "I just do frontend." Database design, REST APIs, UI components, deployment pipelines, production debugging at 2am. Whatever the system needs.',
               color: 'purple'
             },
@@ -800,7 +999,7 @@ export default function CV() {
               icon: Wrench,
               title: 'I build my own tools.',
               code: 'new SoftGlazePlugin()',
-              desc: 'Custom WordPress plugins from scratch ‚Äî scrapers, comparison engines, vehicle compatibility matchers, payment routing. Not just "installed Elementor."',
+              desc: 'Custom WordPress plugins from scratch ó scrapers, comparison engines, vehicle compatibility matchers, payment routing. Not just "installed Elementor."',
               color: 'yellow'
             },
             {
@@ -830,11 +1029,11 @@ export default function CV() {
 
         {/* Final pitch */}
         <div className="max-w-3xl mx-auto mt-10 text-center">
-          <div className="glass rounded-xl p-6 font-mono text-sm">
+          <div className="glass rounded-xl p-4 sm:p-6 font-mono text-xs sm:text-sm overflow-x-auto custom-scrollbar text-left sm:text-center flex flex-col items-start sm:items-center">
             <div className="text-slate-500 mb-2">{'// the tl;dr'}</div>
-            <div className="text-left">
-              <div><span className="text-purple-400">if</span> <span className="text-slate-500">(</span><span className="text-cyan-300">you.need</span> <span className="text-slate-500">===</span> <span className="text-yellow-300">"a senior who ships"</span><span className="text-slate-500">) {'{'}</span></div>
-              <div className="pl-6"><span className="text-cyan-300">return</span> <span className="text-yellow-300">"hire azhar"</span><span className="text-slate-500">;</span></div>
+            <div className="text-left w-full sm:w-auto">
+              <div className="whitespace-nowrap"><span className="text-purple-400">if</span> <span className="text-slate-500">(</span><span className="text-cyan-300">you.need</span> <span className="text-slate-500">===</span> <span className="text-yellow-300">"a senior who ships"</span><span className="text-slate-500">) {'{'}</span></div>
+              <div className="pl-4 sm:pl-6 whitespace-nowrap"><span className="text-cyan-300">return</span> <span className="text-yellow-300">"hire azhar"</span><span className="text-slate-500">;</span></div>
               <div><span className="text-slate-500">{'}'}</span></div>
             </div>
           </div>
@@ -852,7 +1051,7 @@ export default function CV() {
           My <span className="gradient-text">tech stack.</span>
         </h2>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-6xl mx-auto">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-6xl mx-auto">
           {[
             { cat: 'languages', items: ['PHP', 'JavaScript', 'TypeScript', 'SQL', 'HTML5', 'CSS3'] },
             { cat: 'back-end', items: ['Laravel', 'CodeIgniter', 'Node.js', 'Express', 'REST APIs', 'JWT Auth'] },
@@ -887,41 +1086,41 @@ export default function CV() {
           Where I've <span className="gradient-text">shipped.</span>
         </h2>
 
-        <div className="relative max-w-5xl mx-auto pl-8 md:pl-10">
+        <div className="relative max-w-5xl mx-auto pl-6 md:pl-10">
           <div className="absolute left-2 md:left-3 top-2 bottom-2 w-0.5 bg-gradient-to-b from-cyan-400 via-purple-500 to-slate-700" />
 
           {[
             {
-              role: 'Founder & Lead Developer', company: 'SoftGlaze LLC', location: 'Remote ¬∑ Colorado, USA', when: 'Jun 2022 ‚Äî Present',
+              role: 'Founder & Lead Developer', company: 'SoftGlaze LLC', location: 'Remote ∑ Colorado, USA', when: 'Jun 2022 ó Present',
               bullets: [
                 ['Founded an indie dev studio while staying ', 'hands-on as principal engineer', ' on every client engagement'],
-                ['Architected and shipped ', '20+ production sites + a published Chrome extension', ' across legal services, e-commerce, directories, agency platforms, and tools ‚Äî for clients in the US, UK, UAE, and Netherlands'],
+                ['Architected and shipped ', '20+ production sites + a published Chrome extension', ' across legal services, e-commerce, directories, agency platforms, and tools ó for clients in the US, UK, UAE, and Netherlands'],
                 ['Built ', 'custom SoftGlaze WordPress plugins from scratch', ' for price comparison engines, vehicle compatibility matching, web scrapers, and lead capture flows'],
-                ['Designed and shipped ', 'SoftGlaze Screen Recorder', ' ‚Äî a published Chrome extension with sticky annotations, MP4 conversion, and 100% local processing'],
+                ['Designed and shipped ', 'SoftGlaze Screen Recorder', ' ó a published Chrome extension with sticky annotations, MP4 conversion, and 100% local processing'],
                 ['Owned the boring-but-critical stuff: schema design, query optimization, deploys, monitoring, and 2am production debugging'],
                 ['Mentored junior contractors on Laravel patterns, Git workflow, and not pushing to main on Friday'],
               ],
             },
             {
-              role: 'Senior Full-Stack Web Developer', company: 'Creative Chaos', location: 'Remote ¬∑ USA Client', when: 'Jul 2018 ‚Äî May 2022',
+              role: 'Senior Full-Stack Web Developer', company: 'Creative Chaos', location: 'Remote ∑ USA Client', when: 'Jul 2018 ó May 2022',
               bullets: [
                 ['Shipped full-stack features in ', 'PHP/Laravel + React', ' for a distributed product team'],
-                ['Owned modules end-to-end: schema ‚Üí API ‚Üí UI ‚Üí QA ‚Üí deploy'],
+                ['Owned modules end-to-end: schema ? API ? UI ? QA ? deploy'],
                 ['Killed N+1 queries, added caching, and watched p95 response times drop materially'],
-                ['Reviewed PRs and mentored juniors ‚Äî left every codebase a little better than I found it'],
+                ['Reviewed PRs and mentored juniors ó left every codebase a little better than I found it'],
                 ['Worked async with US-based PMs and designers across timezones without dropping the ball'],
               ],
             },
             {
-              role: 'Back-End Web Developer', company: 'Reborn', location: 'Lahore, Pakistan', when: 'Sep 2017 ‚Äî Jun 2018',
+              role: 'Back-End Web Developer', company: 'Reborn', location: 'Lahore, Pakistan', when: 'Sep 2017 ó Jun 2018',
               bullets: [
                 ['Designed MySQL schemas and built REST APIs for client-facing apps'],
                 ['Refactored legacy spaghetti-PHP into structured CodeIgniter and Laravel codebases'],
-                ['Diagnosed slow queries with EXPLAIN, added indexes, rewrote joins ‚Äî measurable wins on hot endpoints'],
+                ['Diagnosed slow queries with EXPLAIN, added indexes, rewrote joins ó measurable wins on hot endpoints'],
               ],
             },
             {
-              role: 'Front-End Web Developer', company: 'Intero Digital', location: 'Islamabad, Pakistan', when: 'Aug 2014 ‚Äî Aug 2017',
+              role: 'Front-End Web Developer', company: 'Intero Digital', location: 'Islamabad, Pakistan', when: 'Aug 2014 ó Aug 2017',
               bullets: [
                 ['Turned Figma/PSD designs into ', 'pixel-perfect, responsive HTML/CSS/JS'],
                 ['Made things work in IE when that still mattered (it was a dark time)'],
@@ -930,20 +1129,20 @@ export default function CV() {
             },
           ].map((job, i) => (
             <div key={i} className="relative mb-8 last:mb-0">
-              <div className="absolute -left-10 md:-left-11 top-1 w-5 h-5 rounded-full bg-slate-950 border-2 border-cyan-400 pulse-glow" />
+              <div className="absolute -left-8 md:-left-11 top-1 w-5 h-5 rounded-full bg-slate-950 border-2 border-cyan-400 pulse-glow" />
               <div className="glass rounded-xl p-5 md:p-6 hover:-translate-y-1">
                 <div className="flex flex-wrap justify-between items-baseline gap-2 mb-1">
                   <h3 className="text-lg md:text-xl font-semibold text-white">{job.role}</h3>
                   <div className="font-mono text-xs text-slate-400">{job.when}</div>
                 </div>
-                <div className="font-mono text-sm text-cyan-400 mb-4">
-                  {job.company} <span className="text-slate-600 mx-1.5">¬∑</span>
+                <div className="font-mono text-xs sm:text-sm text-cyan-400 mb-4">
+                  {job.company} <span className="text-slate-600 mx-1.5">∑</span>
                   <span className="text-slate-400">{job.location}</span>
                 </div>
                 <ul className="space-y-2">
                   {job.bullets.map((b, j) => (
-                    <li key={j} className="pl-5 relative text-sm md:text-[15px] leading-relaxed text-slate-300">
-                      <span className="absolute left-0 text-cyan-400">‚ñ∏</span>
+                    <li key={j} className="pl-4 sm:pl-5 relative text-sm md:text-[15px] leading-relaxed text-slate-300">
+                      <span className="absolute left-0 text-cyan-400">?</span>
                       {b.map((part, k) => (k % 2 === 1 ? <strong key={k} className="text-white font-semibold">{part}</strong> : <span key={k}>{part}</span>))}
                     </li>
                   ))}
@@ -959,12 +1158,12 @@ export default function CV() {
         <h2 className="font-display text-4xl md:text-6xl font-bold leading-tight tracking-tight mb-3 text-center">
           Live in <span className="gradient-text">production.</span>
         </h2>
-        <p className="text-slate-400 text-base md:text-lg max-w-3xl mx-auto mb-8 text-center">
+        <p className="text-slate-400 text-base md:text-lg max-w-3xl mx-auto mb-8 text-center px-4">
           Production deployments built &amp; shipped. <span className="text-cyan-400">Click any card</span> to see the CMS, plugins, and custom-built modules used.
         </p>
 
-        {/* STATUS FILTERS ‚Äî clickable */}
-        <div className="flex flex-wrap justify-center gap-2 mb-4">
+        {/* STATUS FILTERS ó clickable */}
+        <div className="flex flex-wrap justify-center gap-2 mb-4 px-2">
           {statusFilters.map((sf) => {
             const Icon = sf.icon;
             const count = sf.id === 'all' ? portfolio.length :
@@ -976,7 +1175,7 @@ export default function CV() {
               <button
                 key={sf.id}
                 onClick={() => setPortfolioStatusFilter(sf.id)}
-                className={`font-mono text-xs px-3 py-1.5 rounded-full border transition-all flex items-center gap-1.5 ${
+                className={`font-mono text-[10px] sm:text-xs px-2.5 sm:px-3 py-1.5 rounded-full border transition-all flex items-center gap-1.5 ${
                   isActive
                     ? `bg-${sf.color}-400/10 border-${sf.color}-400 text-${sf.color}-400`
                     : 'border-slate-700 text-slate-400 hover:border-slate-500 hover:text-slate-300'
@@ -990,7 +1189,7 @@ export default function CV() {
         </div>
 
         {/* CATEGORY FILTERS */}
-        <div className="flex flex-col lg:flex-row gap-3 mb-8 justify-center items-center">
+        <div className="flex flex-col lg:flex-row gap-3 mb-8 justify-center items-center px-2">
           <div className="flex flex-wrap gap-2 justify-center">
             {categories.map((cat) => {
               const count = cat === 'all' ? portfolio.length : portfolio.filter(p => p.cat === cat).length;
@@ -1010,8 +1209,8 @@ export default function CV() {
               );
             })}
           </div>
-          <div className="relative">
-            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+          <div className="relative w-full sm:w-auto px-4 sm:px-0">
+            <Search size={14} className="absolute left-6 sm:left-3 top-1/2 -translate-y-1/2 text-slate-500" />
             <input
               type="text"
               value={portfolioSearch}
@@ -1042,29 +1241,29 @@ export default function CV() {
                 <div className="flex items-start gap-3 mb-3">
                   {/* Circled logo */}
                   <div className="flex-shrink-0 relative">
-                    <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${site.color || 'from-cyan-500 to-purple-500'} p-[2px]`}>
+                    <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br ${site.color || 'from-cyan-500 to-purple-500'} p-[2px]`}>
                       <div className="w-full h-full rounded-full bg-slate-900 flex items-center justify-center overflow-hidden">
                         <img
                           src={getLogoUrl(site.url)}
                           alt={site.name}
-                          className="w-7 h-7 object-contain"
+                          className="w-5 h-5 sm:w-7 sm:h-7 object-contain"
                           onError={(e) => {
                             e.target.style.display = 'none';
                             e.target.nextSibling.style.display = 'flex';
                           }}
                         />
-                        <div className="hidden w-full h-full items-center justify-center font-mono font-bold text-white text-xs">
+                        <div className="hidden w-full h-full items-center justify-center font-mono font-bold text-white text-[10px] sm:text-xs">
                           {getInitials(site.name)}
                         </div>
                       </div>
                     </div>
                     {site.verified && !site.inProgress && (
-                      <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-slate-950 border-2 border-slate-950 flex items-center justify-center">
+                      <div className="absolute -bottom-1 -right-1 w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-slate-950 border-2 border-slate-950 flex items-center justify-center">
                         <ShieldCheck size={10} className="text-green-400" />
                       </div>
                     )}
                     {site.inProgress && (
-                      <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-slate-950 border-2 border-slate-950 flex items-center justify-center">
+                      <div className="absolute -bottom-1 -right-1 w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-slate-950 border-2 border-slate-950 flex items-center justify-center">
                         <Rocket size={10} className="text-orange-400" />
                       </div>
                     )}
@@ -1080,20 +1279,20 @@ export default function CV() {
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={(e) => e.stopPropagation()}
-                      className="font-mono text-[11px] text-cyan-400/70 hover:text-cyan-400 truncate block underline-offset-2 hover:underline"
+                      className="font-mono text-[10px] sm:text-[11px] text-cyan-400/70 hover:text-cyan-400 truncate block underline-offset-2 hover:underline"
                     >
-                      {site.url.replace(/^https?:\/\//, '').replace(/\/$/, '')} ‚Üó
+                      {site.url.replace(/^https?:\/\//, '').replace(/\/$/, '')} ?
                     </a>
                   </div>
                 </div>
 
                 {/* Category and status */}
                 <div className="flex flex-wrap gap-1.5 mb-3">
-                  <span className={`font-mono text-[10px] px-2 py-0.5 rounded bg-slate-900/80 border border-slate-700/60 text-${catColors[site.cat] || 'slate'}-400`}>
+                  <span className={`font-mono text-[9px] sm:text-[10px] px-2 py-0.5 rounded bg-slate-900/80 border border-slate-700/60 text-${catColors[site.cat] || 'slate'}-400`}>
                     // {site.cat}
                   </span>
                   {site.inProgress && (
-                    <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-orange-500/10 border border-orange-500/30 text-orange-400">
+                    <span className="font-mono text-[9px] sm:text-[10px] px-2 py-0.5 rounded bg-orange-500/10 border border-orange-500/30 text-orange-400">
                       content rolling out
                     </span>
                   )}
@@ -1103,7 +1302,7 @@ export default function CV() {
 
                 <div className="flex items-center gap-1.5 mb-2">
                   <Package size={12} className="text-purple-400" />
-                  <span className="font-mono text-[11px] text-purple-300">{site.cms}</span>
+                  <span className="font-mono text-[10px] sm:text-[11px] text-purple-300">{site.cms}</span>
                 </div>
 
                 {isExpanded && (
@@ -1115,7 +1314,7 @@ export default function CV() {
                         </div>
                         <div className="flex flex-wrap gap-1">
                           {site.plugins.map((p, j) => (
-                            <span key={j} className="font-mono text-[10px] px-2 py-0.5 rounded bg-slate-900/60 border border-slate-700/60 text-slate-300">{p}</span>
+                            <span key={j} className="font-mono text-[9px] sm:text-[10px] px-2 py-0.5 rounded bg-slate-900/60 border border-slate-700/60 text-slate-300">{p}</span>
                           ))}
                         </div>
                       </div>
@@ -1128,8 +1327,8 @@ export default function CV() {
                         </div>
                         <ul className="space-y-1">
                           {site.custom.map((c, j) => (
-                            <li key={j} className="text-xs text-slate-300 pl-3 relative leading-snug">
-                              <span className="absolute left-0 text-pink-400">‚ñ∏</span>{c}
+                            <li key={j} className="text-[11px] sm:text-xs text-slate-300 pl-3 relative leading-snug">
+                              <span className="absolute left-0 text-pink-400">?</span>{c}
                             </li>
                           ))}
                         </ul>
@@ -1143,7 +1342,7 @@ export default function CV() {
                         </div>
                         <div className="flex flex-wrap gap-1">
                           {site.features.map((f, j) => (
-                            <span key={j} className="font-mono text-[10px] px-2 py-0.5 rounded bg-yellow-500/10 border border-yellow-500/30 text-yellow-300">{f}</span>
+                            <span key={j} className="font-mono text-[9px] sm:text-[10px] px-2 py-0.5 rounded bg-yellow-500/10 border border-yellow-500/30 text-yellow-300">{f}</span>
                           ))}
                         </div>
                       </div>
@@ -1154,7 +1353,7 @@ export default function CV() {
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={(e) => e.stopPropagation()}
-                      className="inline-flex items-center gap-1.5 font-mono text-xs text-cyan-400 hover:text-cyan-300 mt-2"
+                      className="inline-flex items-center gap-1.5 font-mono text-[11px] sm:text-xs text-cyan-400 hover:text-cyan-300 mt-2"
                     >
                       Visit live site <ArrowUpRight size={12} />
                     </a>
@@ -1162,7 +1361,7 @@ export default function CV() {
                 )}
 
                 {!isExpanded && (
-                  <div className="font-mono text-[10px] text-slate-500 mt-1">
+                  <div className="font-mono text-[9px] sm:text-[10px] text-slate-500 mt-1">
                     Click to see plugins &amp; custom build details
                   </div>
                 )}
@@ -1173,7 +1372,7 @@ export default function CV() {
 
         {filteredPortfolio.length === 0 && (
           <div className="text-center py-16 font-mono text-sm text-slate-500">
-            // no results ‚Äî try a different filter or search
+            // no results ó try a different filter or search
           </div>
         )}
       </AnimatedSection>
@@ -1187,34 +1386,34 @@ export default function CV() {
         <div className="grid md:grid-cols-2 gap-5 max-w-6xl mx-auto text-left">
           {[
             {
-              tag: 'browser extension ¬∑ solo product',
+              tag: 'browser extension ∑ solo product',
               title: 'SoftGlaze Screen Recorder',
               count: 'Live on Web Store',
               cms: 'Chrome Extension',
               stack: ['JavaScript', 'Chrome APIs', 'MediaRecorder', 'Canvas', 'Manifest V3'],
-              custom: ['Sticky Drawing Engine (DOM-anchored annotations)', 'Client-side WebM ‚Üí MP4 conversion', 'Toolbar lifecycle management', '100% local processing architecture'],
+              custom: ['Sticky Drawing Engine (DOM-anchored annotations)', 'Client-side WebM ? MP4 conversion', 'Toolbar lifecycle management', '100% local processing architecture'],
               desc: 'A published Chrome extension I built solo from concept to publication. Currently live on the Chrome Web Store at v14.0 with 5-star ratings.',
             },
             {
-              tag: 'directory ¬∑ netherlands ¬∑ multi-site',
+              tag: 'directory ∑ netherlands ∑ multi-site',
               title: 'NL Pricing Directory Suite',
               count: '3 sites',
               cms: 'WordPress',
               stack: ['Elementor Pro', 'ACF Pro', 'WPForms', 'RankMath SEO'],
               custom: ['SoftGlaze price comparison engine', 'Provider matching algorithm', 'Multi-role registration (clinic + doctor)', 'Lat/lng geo search'],
-              desc: 'Network of price comparison directories for Dutch trades ‚Äî clinics, painters, handymen. Custom comparison engine with geo search and NL/Flanders localization.',
+              desc: 'Network of price comparison directories for Dutch trades ó clinics, painters, handymen. Custom comparison engine with geo search and NL/Flanders localization.',
             },
             {
-              tag: 'e-commerce ¬∑ automotive',
+              tag: 'e-commerce ∑ automotive',
               title: 'CarPartHQ',
               count: '1 site',
               cms: 'WordPress',
               stack: ['Elementor 3.29', 'ACF Pro', 'WPForms', 'RankMath'],
               custom: ['Vehicle compatibility plugin (56+ brands)', 'Multi-step lead form system', 'Inventory routing across 35+ centers', 'Quote-based commerce workflow'],
-              desc: 'Auto parts marketplace requiring complex vehicle compatibility matching. Custom-built selector flow (Make ‚Üí Model ‚Üí Part ‚Üí Year), 35+ distribution center routing.',
+              desc: 'Auto parts marketplace requiring complex vehicle compatibility matching. Custom-built selector flow (Make ? Model ? Part ? Year), 35+ distribution center routing.',
             },
             {
-              tag: 'legal ¬∑ uae ¬∑ multi-site network',
+              tag: 'legal ∑ uae ∑ multi-site network',
               title: 'Dubai Legal Services Network',
               count: '12 sites',
               cms: 'WordPress',
@@ -1223,25 +1422,25 @@ export default function CV() {
               desc: 'Network of 12 interconnected sites for UAE notary, attestation, and legal services. Shared template system with custom inquiry plugins.',
             },
           ].map((p, i) => (
-            <div key={i} className="glass rounded-xl p-6 relative overflow-hidden group hover:-translate-y-1">
+            <div key={i} className="glass rounded-xl p-5 sm:p-6 relative overflow-hidden group hover:-translate-y-1">
               <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
-              <div className="flex items-start justify-between gap-3 mb-3">
-                <div className="font-mono text-[10px] text-purple-400 uppercase tracking-widest">// {p.tag}</div>
-                <div className="font-mono text-[10px] px-2 py-0.5 rounded bg-cyan-400/10 border border-cyan-400/30 text-cyan-400">{p.count}</div>
+              <div className="flex flex-wrap items-start justify-between gap-2 sm:gap-3 mb-3">
+                <div className="font-mono text-[9px] sm:text-[10px] text-purple-400 uppercase tracking-widest">// {p.tag}</div>
+                <div className="font-mono text-[9px] sm:text-[10px] px-2 py-0.5 rounded bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 whitespace-nowrap">{p.count}</div>
               </div>
               <h3 className="text-lg md:text-xl font-semibold text-white mb-2">{p.title}</h3>
               <div className="flex items-center gap-2 mb-3">
                 <Package size={12} className="text-purple-400" />
-                <span className="font-mono text-[11px] text-purple-300">{p.cms}</span>
+                <span className="font-mono text-[10px] sm:text-[11px] text-purple-300">{p.cms}</span>
               </div>
-              <p className="text-sm leading-relaxed text-slate-300 mb-4">{p.desc}</p>
+              <p className="text-[13px] sm:text-sm leading-relaxed text-slate-300 mb-4">{p.desc}</p>
 
               <div className="space-y-2.5 pt-3 border-t border-slate-700/50">
                 <div>
                   <div className="font-mono text-[10px] text-cyan-400 uppercase tracking-wider mb-1.5">// stack</div>
                   <div className="flex flex-wrap gap-1">
                     {p.stack.map((s, j) => (
-                      <span key={j} className="font-mono text-[10px] px-2 py-0.5 rounded bg-slate-900/60 border border-slate-700/60 text-slate-300">{s}</span>
+                      <span key={j} className="font-mono text-[9px] sm:text-[10px] px-2 py-0.5 rounded bg-slate-900/60 border border-slate-700/60 text-slate-300">{s}</span>
                     ))}
                   </div>
                 </div>
@@ -1251,8 +1450,8 @@ export default function CV() {
                   </div>
                   <ul className="space-y-0.5">
                     {p.custom.map((c, j) => (
-                      <li key={j} className="text-xs text-slate-300 pl-3 relative leading-snug">
-                        <span className="absolute left-0 text-pink-400">‚ñ∏</span>{c}
+                      <li key={j} className="text-[11px] sm:text-xs text-slate-300 pl-3 relative leading-snug">
+                        <span className="absolute left-0 text-pink-400">?</span>{c}
                       </li>
                     ))}
                   </ul>
@@ -1263,10 +1462,36 @@ export default function CV() {
         </div>
       </AnimatedSection>
 
+      {/* ====== CODE REVIEWS (Testimonials) ====== */}
+      <AnimatedSection id="reviews" tag="// pull requests" icon={<GitPullRequest />} number="09">
+        <h2 className="font-display text-4xl md:text-6xl font-bold leading-tight tracking-tight mb-10 text-center">
+          Code <span className="gradient-text">Reviews.</span>
+        </h2>
+        <div className="grid md:grid-cols-2 gap-4 sm:gap-6 max-w-5xl mx-auto text-left">
+          {[
+            { author: 'US Client PM', handle: '@creative-chaos', text: 'Azhar doesn\'t just write code; he understands the business logic behind it. He owned the entire backend refactor while overlapping seamlessly with our US hours. Zero dropped balls.' },
+            { author: 'Agency Director', handle: '@softglaze-client', text: 'We threw an incredibly complex vehicle compatibility system at him. He didn\'t just install a pluginóhe engineered a custom DB architecture that cut our load times by 70%.' }
+          ].map((r, i) => (
+            <div key={i} className="glass rounded-xl p-5 sm:p-6 relative border border-slate-700/50">
+              <div className="flex items-center gap-3 mb-4 border-b border-slate-800 pb-4">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center font-bold text-white">{r.author[0]}</div>
+                <div>
+                  <div className="font-semibold text-white text-[13px] sm:text-sm">{r.author}</div>
+                  <div className="font-mono text-[10px] sm:text-xs text-slate-500 flex flex-wrap items-center">
+                    {r.handle} <span className="text-green-400 ml-1 hidden sm:inline">approved these changes</span>
+                  </div>
+                </div>
+              </div>
+              <div className="text-slate-300 text-[13px] sm:text-sm italic leading-relaxed">"{r.text}"</div>
+            </div>
+          ))}
+        </div>
+      </AnimatedSection>
+
       {/* ====== CONTACT ====== */}
       <section id="contact" className="min-h-screen relative flex flex-col items-center justify-center px-6 md:px-12 py-20 overflow-hidden">
         <div className="absolute inset-0 grid-bg opacity-30" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-cyan-500/10 via-purple-500/10 to-pink-500/10 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[600px] h-[300px] sm:h-[600px] bg-gradient-to-br from-cyan-500/10 via-purple-500/10 to-pink-500/10 rounded-full blur-3xl" />
 
         <div className="relative z-10 text-center max-w-3xl">
           <div className="font-mono text-cyan-400 text-sm mb-3">// 200 OK</div>
@@ -1277,48 +1502,52 @@ export default function CV() {
             Open to senior full-stack roles. If you're hiring and the work looks interesting, I'd love to chat. No copy-paste recruiter pitches, please.
           </p>
 
-          <div className="flex flex-wrap gap-3 justify-center mb-10">
-            <a href="mailto:admin@softglaze.com" className="font-mono text-sm px-6 py-3 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-500 text-white hover:shadow-lg hover:shadow-cyan-500/40 transition-all hover:-translate-y-0.5 flex items-center gap-2">
+          <div className="flex flex-col sm:flex-row flex-wrap gap-3 justify-center mb-10 w-full sm:w-auto">
+            <a href="mailto:admin@softglaze.com" className="font-mono text-sm px-6 py-3 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-500 text-white hover:shadow-lg hover:shadow-cyan-500/40 transition-all hover:-translate-y-0.5 flex items-center justify-center gap-2">
               <Send size={14} /> admin@softglaze.com
             </a>
-            <a href="tel:+923007484750" className="font-mono text-sm px-6 py-3 rounded-lg border border-cyan-400/40 text-cyan-400 hover:bg-cyan-400/10 transition-all hover:-translate-y-0.5 flex items-center gap-2">
+            <button onClick={() => window.print()} className="font-mono text-sm px-6 py-3 rounded-lg border border-cyan-400/40 text-cyan-400 hover:bg-cyan-400/10 transition-all hover:-translate-y-0.5 flex items-center justify-center gap-2">
+              <Download size={14} /> Download PDF
+            </button>
+          </div>
+
+          <div className="flex flex-wrap gap-3 justify-center mb-10">
+            <a href="tel:+923007484750" className="font-mono text-xs sm:text-sm px-4 sm:px-6 py-2 sm:py-3 rounded-lg border border-slate-600 text-slate-300 hover:border-cyan-400 hover:text-cyan-400 transition-all flex items-center gap-2">
               <Phone size={14} /> +92 300 7484750
             </a>
-            <a href="https://github.com/softglazee" target="_blank" rel="noopener noreferrer" className="font-mono text-sm px-6 py-3 rounded-lg border border-slate-600 text-slate-300 hover:border-cyan-400 hover:text-cyan-400 transition-all hover:-translate-y-0.5 flex items-center gap-2">
+            <a href="https://github.com/softglazee" target="_blank" rel="noopener noreferrer" className="font-mono text-xs sm:text-sm px-4 sm:px-6 py-2 sm:py-3 rounded-lg border border-slate-600 text-slate-300 hover:border-cyan-400 hover:text-cyan-400 transition-all flex items-center gap-2">
               <Github size={14} /> GitHub
             </a>
-            <a href="https://www.linkedin.com/in/azharalidev/" target="_blank" rel="noopener noreferrer" className="font-mono text-sm px-6 py-3 rounded-lg border border-slate-600 text-slate-300 hover:border-cyan-400 hover:text-cyan-400 transition-all hover:-translate-y-0.5 flex items-center gap-2">
+            <a href="https://www.linkedin.com/in/azharalidev/" target="_blank" rel="noopener noreferrer" className="font-mono text-xs sm:text-sm px-4 sm:px-6 py-2 sm:py-3 rounded-lg border border-slate-600 text-slate-300 hover:border-cyan-400 hover:text-cyan-400 transition-all flex items-center gap-2">
               <Linkedin size={14} /> LinkedIn
             </a>
-            <a href="https://chromewebstore.google.com/detail/softglaze-screen-recorder/ofjommapkklakbolagajoiklgfldhlmp" target="_blank" rel="noopener noreferrer" className="font-mono text-sm px-6 py-3 rounded-lg border border-purple-500/40 text-purple-400 hover:bg-purple-500/10 transition-all hover:-translate-y-0.5 flex items-center gap-2">
-              <Chrome size={14} /> Chrome Extension
-            </a>
-            <a href="https://softglaze.com" target="_blank" rel="noopener noreferrer" className="font-mono text-sm px-6 py-3 rounded-lg border border-slate-600 text-slate-300 hover:border-cyan-400 hover:text-cyan-400 transition-all hover:-translate-y-0.5 flex items-center gap-2">
+            <a href="https://softglaze.com" target="_blank" rel="noopener noreferrer" className="font-mono text-xs sm:text-sm px-4 sm:px-6 py-2 sm:py-3 rounded-lg border border-slate-600 text-slate-300 hover:border-cyan-400 hover:text-cyan-400 transition-all flex items-center gap-2">
               <Globe size={14} /> softglaze.com
             </a>
           </div>
 
-          <div className="font-mono text-xs text-slate-500 space-y-1.5 mb-8">
-            <div className="flex items-center justify-center gap-2 flex-wrap">
+          <div className="font-mono text-[11px] sm:text-xs text-slate-500 space-y-2 mb-8">
+            <div className="flex items-center justify-center gap-2 flex-wrap px-4">
               <GraduationCap size={14} className="text-purple-400" />
-              <span>MS Information Technology ¬∑ Islamia University of Bahawalpur ¬∑ 2012‚Äì2016</span>
+              <span className="text-center">MS Information Technology ∑ Islamia University of Bahawalpur ∑ 2012ñ2016</span>
             </div>
             <div>
-              <span className="text-purple-400">Languages</span> ¬∑ English (fluent) ¬∑ Urdu (native) ¬∑ Punjabi (native)
+              <span className="text-purple-400">Languages</span> ∑ English (fluent) ∑ Urdu (native) ∑ Punjabi (native)
             </div>
           </div>
 
-          <div className="inline-flex items-center gap-2 font-mono text-xs text-slate-500 px-4 py-2 rounded-full border border-slate-800 bg-slate-900/40">
+          <div className="inline-flex items-center gap-2 font-mono text-[10px] sm:text-xs text-slate-500 px-4 py-2 rounded-full border border-slate-800 bg-slate-900/40">
             <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse shadow-[0_0_8px_rgba(74,222,128,0.8)]" />
-            status: available ¬∑ last commit: today
+            status: available ∑ last commit: today
           </div>
         </div>
 
-        <div className="relative z-10 mt-16 font-mono text-[10px] text-slate-700">
-          built with react ¬∑ tailwind ¬∑ ‚ù§Ô∏è by Muhammad Azhar ¬∑ azhar.softglaze.com
+        <div className="relative z-10 mt-16 font-mono text-[9px] sm:text-[10px] text-slate-700 text-center px-4">
+          built with react ∑ tailwind ∑ ?? by Muhammad Azhar ∑ azhar.softglaze.com
         </div>
       </section>
     </div>
+    </>
   );
 }
 
@@ -1344,7 +1573,7 @@ function AnimatedSection({ id, children, tag, icon, number }) {
     <section
       id={id}
       ref={ref}
-      className="min-h-screen relative flex flex-col justify-center items-center px-6 md:px-12 py-20"
+      className="min-h-screen relative flex flex-col justify-center items-center px-4 sm:px-6 md:px-12 py-16 sm:py-20"
     >
       <div className="w-full max-w-7xl mx-auto" style={{
         opacity: visible ? 1 : 0,
@@ -1352,8 +1581,8 @@ function AnimatedSection({ id, children, tag, icon, number }) {
         transition: 'opacity 0.8s ease, transform 0.8s ease',
       }}>
         <div className="text-center mb-2">
-          <div className="font-mono text-xs text-slate-700 tracking-widest mb-2">// {number}</div>
-          <div className="font-mono text-sm text-cyan-400 mb-2 flex items-center gap-2 justify-center">
+          <div className="font-mono text-[10px] sm:text-xs text-slate-700 tracking-widest mb-2">// {number}</div>
+          <div className="font-mono text-xs sm:text-sm text-cyan-400 mb-2 flex items-center gap-2 justify-center">
             {icon && <span className="opacity-60">{icon}</span>}
             {tag}
           </div>
