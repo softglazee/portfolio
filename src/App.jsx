@@ -167,7 +167,6 @@ export default function CV() {
     { author: 'Product Owner', handle: '@nl-directories', text: 'Azhar built our entire pricing comparison engine from scratch. His ability to take vague requirements and turn them into robust features is unmatched.' }
   ];
 
-  // 100% EXACT MATCH OF YOUR ORIGINAL PORTFOLIO ARRAY - NOTHING DELETED
   const portfolio = [
     {
       url: 'kliniektarieven.nl', name: 'Kliniektarieven', cat: 'directory', featured: true, verified: true,
@@ -673,7 +672,7 @@ export default function CV() {
         </div>
       </AnimatedSection>
 
-      {/* ====== CHROME EXTENSION ====== */}
+      {/* ====== CHROME EXTENSION (100% RESTORED) ====== */}
       <AnimatedSection id="extension" tag="// flagship product" icon={<Award />} number="03">
         <div className="text-center mb-3">
           <span className="font-mono text-[10px] px-2 py-0.5 rounded-full bg-yellow-500/10 border border-yellow-500/40 text-yellow-400 uppercase tracking-widest"><Star size={10} className="inline mr-1 text-yellow-400 fill-yellow-400" />Featured Product</span>
@@ -681,26 +680,86 @@ export default function CV() {
         <h2 className="font-display text-4xl md:text-6xl font-bold leading-tight tracking-tight mb-3 text-center">
           Live on the <span className="gradient-text">Chrome Web Store.</span>
         </h2>
-        
-        <div className="glass rounded-2xl p-6 md:p-10 max-w-5xl mx-auto mt-8 md:mt-12 text-left relative overflow-hidden">
+        <p className="text-slate-400 text-base md:text-lg max-w-3xl mx-auto mb-8 md:mb-12 text-center px-4">
+          A full Chrome extension I designed, built, and shipped end-to-end. Real users, real reviews, real product - not just client work.
+        </p>
+
+        <div className="glass rounded-2xl p-6 md:p-10 max-w-5xl mx-auto text-left relative overflow-hidden w-full">
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500" />
+
           <div className="grid md:grid-cols-[auto_1fr] gap-6 md:gap-10 items-start">
             <div className="flex justify-center md:justify-start">
               <div className="relative">
                 <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-purple-500 to-pink-500 rounded-3xl blur-xl opacity-40"></div>
                 <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-3xl bg-gradient-to-br from-cyan-500 via-purple-600 to-pink-600 flex items-center justify-center shadow-2xl pulse-glow">
-                  <Chrome size={64} className="text-white" />
+                  <Chrome size={48} className="text-white sm:w-16 sm:h-16" />
                 </div>
+                <div className="absolute -bottom-2 -right-2 bg-slate-900 border-2 border-cyan-400 rounded-xl px-2 py-1 font-mono text-[10px] text-cyan-400">v14.0</div>
               </div>
             </div>
-            <div>
+
+            <div className="min-w-0">
+              <div className="flex items-center gap-2 mb-3 flex-wrap">
+                <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-green-500/10 border border-green-500/30 text-green-400 uppercase tracking-wider flex items-center gap-1">
+                  <ShieldCheck size={10} /> Verified Live
+                </span>
+                <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-cyan-400/10 border border-cyan-400/30 text-cyan-400">Chrome Web Store</span>
+                <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-purple-500/10 border border-purple-500/30 text-purple-400">Published</span>
+              </div>
+
               <h3 className="font-display text-2xl md:text-3xl font-bold text-white mb-2">SoftGlaze Screen Recorder</h3>
-              <p className="text-slate-400 text-sm md:text-base mb-4">
-                Professional screen recording extension with Persistent Drawing Suite. Built solo from concept to publication. Includes DOM-anchored sticky annotations and client-side WebM to MP4 transcoding.
+              <p className="text-slate-400 text-[13px] sm:text-sm md:text-base mb-4 leading-relaxed">
+                Professional screen recording extension with Persistent Drawing Suite - annotate live while recording. Built solo from concept to publication.
               </p>
+
+              <div className="flex items-center gap-1 mb-5 flex-wrap">
+                <div className="flex items-center">
+                  {[1,2,3,4,5].map(i => <Star key={i} size={14} className="text-yellow-400 fill-yellow-400" />)}
+                </div>
+                <span className="font-mono text-[10px] sm:text-xs text-slate-400 ml-1 sm:ml-2">5.0 / by Azhar Ali (softglaze.com)</span>
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-2 mb-6">
+                {[
+                  { emoji: '🎥', label: 'HD Recording with system audio' },
+                  { emoji: '✏️', label: 'Pro Drawing Tools (Pen, Highlighter, Arrows)' },
+                  { emoji: '🖱️', label: 'Smart Scroll - sticky annotations' },
+                  { emoji: '💾', label: 'Instant WebM / MP4 export' },
+                  { emoji: '📸', label: 'High-res screenshot mode' },
+                  { emoji: '🔒', label: 'Privacy-first - local processing' },
+                ].map((f, i) => (
+                  <div key={i} className="flex items-start gap-2.5 text-[13px] sm:text-sm text-slate-300 bg-slate-900/40 border border-slate-700/40 rounded-md px-3 py-2 hover:border-cyan-400/40 transition-colors">
+                    <span className="text-base flex-shrink-0">{f.emoji}</span>
+                    <span className="leading-snug pt-0.5">{f.label}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mb-6">
+                <div className="font-mono text-[10px] text-cyan-400 uppercase tracking-wider mb-2.5">// built with</div>
+                <div className="flex flex-wrap gap-1.5">
+                  {['JavaScript', 'Chrome Extension API', 'MediaRecorder API', 'Canvas API', 'WebRTC', 'MP4 Conversion', 'Manifest V3'].map((t, i) => (
+                    <span key={i} className="font-mono text-[10px] sm:text-[11px] px-2.5 py-1 rounded-md bg-slate-900/60 border border-slate-700/60 text-slate-300 hover:border-cyan-400 hover:text-cyan-400 transition-colors cursor-default">{t}</span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mb-8">
+                <div className="font-mono text-[10px] text-pink-400 uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
+                  <Wrench size={10} /> what I engineered
+                </div>
+                <ul className="space-y-2 text-[13px] sm:text-sm text-slate-300">
+                  <li className="pl-4 relative leading-relaxed"><span className="absolute left-0 text-pink-400">&gt;</span><strong className="text-white font-semibold">Sticky Drawing Engine (v14):</strong> annotations persist across scrolling using DOM element anchoring</li>
+                  <li className="pl-4 relative leading-relaxed"><span className="absolute left-0 text-pink-400">&gt;</span><strong className="text-white font-semibold">MP4 Conversion:</strong> client-side WebM to MP4 transcoding pipeline</li>
+                  <li className="pl-4 relative leading-relaxed"><span className="absolute left-0 text-pink-400">&gt;</span><strong className="text-white font-semibold">Toolbar logic:</strong> force-close handling for clean UX edge cases</li>
+                  <li className="pl-4 relative leading-relaxed"><span className="absolute left-0 text-pink-400">&gt;</span><strong className="text-white font-semibold">Privacy architecture:</strong> 100% local processing, zero data collection</li>
+                </ul>
+              </div>
+
               <a href="https://chromewebstore.google.com/detail/softglaze-screen-recorder/ofjommapkklakbolagajoiklgfldhlmp" target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-medium text-sm hover:-translate-y-0.5 w-full sm:w-auto">
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-medium text-sm hover:shadow-xl hover:shadow-cyan-500/30 transition-all hover:-translate-y-0.5 w-full sm:w-auto">
                 <Chrome size={16} /> View on Chrome Web Store
+                <ArrowUpRight size={14} className="hidden sm:block" />
               </a>
             </div>
           </div>
@@ -937,7 +996,7 @@ export default function CV() {
           Production deployments built &amp; shipped. <span className="text-cyan-400">Click any card</span> to see the CMS, plugins, and custom-built modules used.
         </p>
 
-        {/* STATUS FILTERS — clickable */}
+        {/* STATUS FILTERS */}
         <div className="flex flex-wrap justify-center gap-2 mb-4 px-2">
           {statusFilters.map((sf) => {
             const Icon = sf.icon;
@@ -1014,7 +1073,6 @@ export default function CV() {
 
                 {/* HEADER WITH CIRCLED LOGO */}
                 <div className="flex items-start gap-3 mb-3">
-                  {/* Circled logo */}
                   <div className="flex-shrink-0 relative">
                     <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br ${site.color || 'from-cyan-500 to-purple-500'} p-[2px]`}>
                       <div className="w-full h-full rounded-full bg-slate-900 flex items-center justify-center overflow-hidden">
@@ -1044,7 +1102,6 @@ export default function CV() {
                     )}
                   </div>
 
-                  {/* Title and link */}
                   <div className="min-w-0 flex-1 pr-3">
                     <div className="font-semibold text-white text-[13px] sm:text-sm md:text-base truncate">
                       {site.name}
@@ -1061,7 +1118,6 @@ export default function CV() {
                   </div>
                 </div>
 
-                {/* Category and status */}
                 <div className="flex flex-wrap gap-1.5 mb-3">
                   <span className={`font-mono text-[8px] sm:text-[9px] md:text-[10px] px-2 py-0.5 rounded bg-slate-900/80 border border-slate-700/60 text-${catColors[site.cat] || 'slate'}-400`}>
                     // {site.cat}
@@ -1144,12 +1200,6 @@ export default function CV() {
             );
           })}
         </div>
-
-        {filteredPortfolio.length === 0 && (
-          <div className="text-center py-16 font-mono text-sm text-slate-500">
-            // no results - try a different filter or search
-          </div>
-        )}
       </AnimatedSection>
 
       {/* ====== CASE STUDIES ====== */}
