@@ -16,7 +16,7 @@ export default function CV() {
   // Terminal State
   const [termInput, setTermInput] = useState('');
   const [termHistory, setTermHistory] = useState([
-    { cmd: 'whoami', out: 'Muhammad Azhar — Senior Full-Stack Engineer' }
+    { cmd: 'whoami', out: 'Muhammad Azhar ï¿½ Senior Full-Stack Engineer' }
   ]);
   const termEndRef = useRef(null);
 
@@ -125,7 +125,7 @@ export default function CV() {
         return;
       }
       if (cmd === 'help') out = 'Available commands: whoami, skills, experience, contact, sudo rm -rf /';
-      else if (cmd === 'whoami') out = 'Muhammad Azhar — Senior Full-Stack Engineer from PK.';
+      else if (cmd === 'whoami') out = 'Muhammad Azhar ï¿½ Senior Full-Stack Engineer from PK.';
       else if (cmd === 'skills') out = 'PHP, Laravel, React, Node.js, MySQL, WordPress, Chrome Extensions.';
       else if (cmd === 'experience') out = '8+ years shipping prod code. 20+ live sites. 1 Chrome Extension.';
       else if (cmd === 'contact') out = 'Email: admin@softglaze.com | Phone: +92 300 7484750';
@@ -152,7 +152,7 @@ export default function CV() {
     },
     {
       url: 'carparthq.com', name: 'CarPartHQ', cat: 'ecommerce', featured: true, verified: true,
-      desc: 'Auto parts marketplace — vehicle compatibility across 56+ brands, US-wide network',
+      desc: 'Auto parts marketplace ï¿½ vehicle compatibility across 56+ brands, US-wide network',
       cms: 'WordPress', plugins: ['Elementor 3.29', 'ACF Pro', 'Embedder for Google Reviews', 'WPForms', 'RankMath', 'Google Tag Manager'],
       custom: ['SoftGlaze vehicle compatibility plugin (Make ? Model ? Part ? Year)', 'Multi-step lead form system', 'Inventory routing engine across 35+ centers', 'Quote request workflow', 'Financing integration module'],
       features: ['56+ vehicle brand matching', 'Quote-based commerce', '12-month warranty system', 'Multi-step checkout', 'Installer locator'],
@@ -160,7 +160,7 @@ export default function CV() {
     },
     {
       url: 'dubainotaryservices.com', name: 'Dubai Notary Services', cat: 'legal', featured: true, verified: true,
-      desc: 'Flagship UAE notary platform — comprehensive service pages, online e-notary',
+      desc: 'Flagship UAE notary platform ï¿½ comprehensive service pages, online e-notary',
       cms: 'WordPress', plugins: ['Elementor 4.0.5 / Pro', 'ACF Pro', 'WPForms', 'RankMath SEO', 'Google Tag Manager'],
       custom: ['SoftGlaze service inquiry plugin', 'Multi-service catalog system', 'Quote routing module', 'WhatsApp integration'],
       features: ['8+ service verticals', 'Pricing pages', 'FAQ accordion', 'Quote forms', 'Apostille & e-notary flows'],
@@ -308,7 +308,7 @@ export default function CV() {
         .replace(/lawyer/gi, 'Lawyer').replace(/attestation/gi, 'Attestation')
         .replace(/notario/gi, 'Notario').replace(/in /gi, 'in '),
       cat: 'legal', featured: false, verified: false, inProgress: true,
-      desc: 'Part of UAE legal services network — content rolling out',
+      desc: 'Part of UAE legal services network ï¿½ content rolling out',
       cms: 'WordPress', plugins: ['Elementor 4.0.5', 'ACF Pro', 'WPForms', 'RankMath'],
       custom: ['Network template system', 'Service inquiry module'],
       features: ['UAE-targeted SEO', 'Service inquiry forms', 'Part of 12-site legal network'],
@@ -364,7 +364,7 @@ export default function CV() {
         .pdf-job-date { font-size: 12px; color: #64748b; font-family: monospace; }
         .pdf-job-company { font-size: 13px; font-weight: 600; color: #0284c7; margin-bottom: 8px; }
         .pdf-bullet { font-size: 13px; color: #334155; margin-bottom: 4px; padding-left: 12px; position: relative; line-height: 1.5; }
-        .pdf-bullet::before { content: '•'; position: absolute; left: 0; color: #94a3b8; }
+        .pdf-bullet::before { content: 'ï¿½'; position: absolute; left: 0; color: #94a3b8; }
         .pdf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
         .pdf-pill { display: inline-block; background: #f1f5f9; border: 1px solid #cbd5e1; padding: 2px 8px; border-radius: 4px; font-size: 11px; margin: 0 4px 4px 0; color: #334155; font-family: monospace; }
       }
@@ -407,18 +407,18 @@ export default function CV() {
         <div className="pdf-job">
           <div className="pdf-job-header">
             <div className="pdf-job-title">Founder & Lead Developer</div>
-            <div className="pdf-job-date">Jun 2022 — Present</div>
+            <div className="pdf-job-date">Jun 2022 ï¿½ Present</div>
           </div>
           <div className="pdf-job-company">SoftGlaze LLC | Remote (US/Global Clients)</div>
           <div className="pdf-bullet">Architected and shipped 20+ production sites across legal services, e-commerce, and directories.</div>
           <div className="pdf-bullet">Built custom WordPress plugins from scratch for price comparison engines, vehicle compatibility matching, and web scrapers.</div>
-          <div className="pdf-bullet">Designed and shipped "SoftGlaze Screen Recorder" — a published Chrome extension with DOM-anchored sticky annotations and WebM to MP4 transcoding.</div>
+          <div className="pdf-bullet">Designed and shipped "SoftGlaze Screen Recorder" ï¿½ a published Chrome extension with DOM-anchored sticky annotations and WebM to MP4 transcoding.</div>
         </div>
 
         <div className="pdf-job">
           <div className="pdf-job-header">
             <div className="pdf-job-title">Senior Full-Stack Web Developer</div>
-            <div className="pdf-job-date">Jul 2018 — May 2022</div>
+            <div className="pdf-job-date">Jul 2018 ï¿½ May 2022</div>
           </div>
           <div className="pdf-job-company">Creative Chaos | Remote (US Client)</div>
           <div className="pdf-bullet">Shipped full-stack features in PHP/Laravel + React for a distributed product team.</div>
@@ -429,7 +429,7 @@ export default function CV() {
         <div className="pdf-job">
           <div className="pdf-job-header">
             <div className="pdf-job-title">Back-End Web Developer</div>
-            <div className="pdf-job-date">Sep 2017 — Jun 2018</div>
+            <div className="pdf-job-date">Sep 2017 ï¿½ Jun 2018</div>
           </div>
           <div className="pdf-job-company">Reborn | Lahore, PK</div>
           <div className="pdf-bullet">Refactored legacy PHP codebases into structured CodeIgniter and Laravel applications.</div>
@@ -439,7 +439,7 @@ export default function CV() {
         <div className="pdf-job">
           <div className="pdf-job-header">
             <div className="pdf-job-title">Front-End Web Developer</div>
-            <div className="pdf-job-date">Aug 2014 — Aug 2017</div>
+            <div className="pdf-job-date">Aug 2014 ï¿½ Aug 2017</div>
           </div>
           <div className="pdf-job-company">Intero Digital | Islamabad, PK</div>
           <div className="pdf-bullet">Turned Figma/PSD designs into pixel-perfect, responsive HTML/CSS/JS.</div>
@@ -477,7 +477,7 @@ export default function CV() {
         <div className="pdf-h2">Education</div>
         <div className="pdf-job-header">
           <div className="pdf-job-title">MS Information Technology</div>
-          <div className="pdf-job-date">2012 — 2016</div>
+          <div className="pdf-job-date">2012 ï¿½ 2016</div>
         </div>
         <div className="pdf-job-company mb-0">Islamia University of Bahawalpur</div>
       </div>
@@ -667,7 +667,7 @@ export default function CV() {
 
           <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-base md:text-lg text-slate-300 mb-2 animate-fadeUp delay-3">
             <span>Senior Full-Stack Engineer</span>
-            <span className="text-slate-600">·</span>
+            <span className="text-slate-600">ï¿½</span>
             <span className="text-slate-400 flex items-center gap-1"><MapPin size={14} /> Multan, PK</span>
           </div>
 
@@ -689,8 +689,8 @@ export default function CV() {
               <span className="w-3 h-3 rounded-full bg-red-500/80"></span>
               <span className="w-3 h-3 rounded-full bg-yellow-500/80"></span>
               <span className="w-3 h-3 rounded-full bg-green-500/80"></span>
-              <span className="text-slate-600 text-xs ml-2 hidden sm:inline">— azhar@dev — zsh — type 'help'</span>
-              <span className="text-slate-600 text-xs ml-2 sm:hidden">— type 'help'</span>
+              <span className="text-slate-600 text-xs ml-2 hidden sm:inline">ï¿½ azhar@dev ï¿½ zsh ï¿½ type 'help'</span>
+              <span className="text-slate-600 text-xs ml-2 sm:hidden">ï¿½ type 'help'</span>
             </div>
             
             <div className="max-h-32 md:max-h-40 overflow-y-auto space-y-2 mb-2 pr-2 custom-scrollbar">
@@ -766,7 +766,7 @@ export default function CV() {
         </div>
 
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 font-mono text-xs text-slate-600 flex flex-col items-center gap-1">
-          <span>scroll · or use ? ? keys</span>
+          <span>scroll ï¿½ or use ? ? keys</span>
           <ChevronDown size={18} className="animate-bounce" />
         </div>
       </section>
@@ -780,7 +780,7 @@ export default function CV() {
           Live on the <span className="gradient-text">Chrome Web Store.</span>
         </h2>
         <p className="text-slate-400 text-base md:text-lg max-w-3xl mx-auto mb-12 text-center">
-          A full Chrome extension I designed, built, and shipped end-to-end. Real users, real reviews, real product — not just client work.
+          A full Chrome extension I designed, built, and shipped end-to-end. Real users, real reviews, real product ï¿½ not just client work.
         </p>
 
         <div className="glass rounded-2xl p-6 md:p-10 max-w-5xl mx-auto text-left relative overflow-hidden">
@@ -808,7 +808,7 @@ export default function CV() {
 
               <h3 className="font-display text-2xl md:text-3xl font-bold text-white mb-2">SoftGlaze Screen Recorder</h3>
               <p className="text-slate-400 text-sm md:text-base mb-4">
-                Professional screen recording extension with Persistent Drawing Suite — annotate live while recording. Built solo from concept to publication.
+                Professional screen recording extension with Persistent Drawing Suite ï¿½ annotate live while recording. Built solo from concept to publication.
               </p>
 
               <div className="flex items-center gap-1 mb-4">
@@ -820,10 +820,10 @@ export default function CV() {
                 {[
                   { emoji: '??', label: 'HD Recording with system audio' },
                   { emoji: '??', label: 'Pro Drawing Tools (Pen, Highlighter, Arrows)' },
-                  { emoji: '???', label: 'Smart Scroll — sticky annotations' },
+                  { emoji: '???', label: 'Smart Scroll ï¿½ sticky annotations' },
                   { emoji: '??', label: 'Instant WebM / MP4 export' },
                   { emoji: '??', label: 'High-res screenshot mode' },
-                  { emoji: '??', label: 'Privacy-first — local processing' },
+                  { emoji: '??', label: 'Privacy-first ï¿½ local processing' },
                 ].map((f, i) => (
                   <div key={i} className="flex items-start gap-2 text-sm text-slate-300 bg-slate-900/40 border border-slate-700/40 rounded-md px-3 py-2 hover:border-cyan-400/40 transition-colors">
                     <span className="text-base">{f.emoji}</span>
@@ -913,7 +913,7 @@ export default function CV() {
           Why <span className="gradient-text">hire me?</span>
         </h2>
         <p className="text-slate-400 text-base md:text-lg max-w-3xl mx-auto mb-12 text-center">
-          The honest version. No buzzwords, no fluff — just what you actually get.
+          The honest version. No buzzwords, no fluff ï¿½ just what you actually get.
         </p>
 
         {/* Code-styled comparison block */}
@@ -930,7 +930,7 @@ export default function CV() {
                 'ghosts on weekends, even when prod is down',
                 'writes code, doesn\'t read other people\'s',
                 'asks for specs before lifting a finger',
-                'never shipped a real product — only tickets',
+                'never shipped a real product ï¿½ only tickets',
               ].map((item, i) => (
                 <li key={i} className="flex items-start gap-2 text-slate-400">
                   <X size={14} className="text-red-400 flex-shrink-0 mt-0.5" />
@@ -948,9 +948,9 @@ export default function CV() {
             </div>
             <ul className="space-y-3 font-mono text-sm">
               {[
-                'full-stack: PHP / Laravel / React / Node — not just "I know JS"',
+                'full-stack: PHP / Laravel / React / Node ï¿½ not just "I know JS"',
                 'owns systems end-to-end: schema ? API ? UI ? deploy',
-                'available async across timezones — I\'ve worked US client hours for years',
+                'available async across timezones ï¿½ I\'ve worked US client hours for years',
                 'reviews PRs, mentors juniors, leaves codebases better than I found them',
                 'translates client vibes into actual specs and ships',
                 'shipped 20+ sites + a Chrome extension. proven, not theoretical',
@@ -999,7 +999,7 @@ export default function CV() {
               icon: Wrench,
               title: 'I build my own tools.',
               code: 'new SoftGlazePlugin()',
-              desc: 'Custom WordPress plugins from scratch — scrapers, comparison engines, vehicle compatibility matchers, payment routing. Not just "installed Elementor."',
+              desc: 'Custom WordPress plugins from scratch ï¿½ scrapers, comparison engines, vehicle compatibility matchers, payment routing. Not just "installed Elementor."',
               color: 'yellow'
             },
             {
@@ -1091,36 +1091,36 @@ export default function CV() {
 
           {[
             {
-              role: 'Founder & Lead Developer', company: 'SoftGlaze LLC', location: 'Remote · Colorado, USA', when: 'Jun 2022 — Present',
+              role: 'Founder & Lead Developer', company: 'SoftGlaze LLC', location: 'Remote ï¿½ Colorado, USA', when: 'Jun 2022 ï¿½ Present',
               bullets: [
                 ['Founded an indie dev studio while staying ', 'hands-on as principal engineer', ' on every client engagement'],
-                ['Architected and shipped ', '20+ production sites + a published Chrome extension', ' across legal services, e-commerce, directories, agency platforms, and tools — for clients in the US, UK, UAE, and Netherlands'],
+                ['Architected and shipped ', '20+ production sites + a published Chrome extension', ' across legal services, e-commerce, directories, agency platforms, and tools ï¿½ for clients in the US, UK, UAE, and Netherlands'],
                 ['Built ', 'custom SoftGlaze WordPress plugins from scratch', ' for price comparison engines, vehicle compatibility matching, web scrapers, and lead capture flows'],
-                ['Designed and shipped ', 'SoftGlaze Screen Recorder', ' — a published Chrome extension with sticky annotations, MP4 conversion, and 100% local processing'],
+                ['Designed and shipped ', 'SoftGlaze Screen Recorder', ' ï¿½ a published Chrome extension with sticky annotations, MP4 conversion, and 100% local processing'],
                 ['Owned the boring-but-critical stuff: schema design, query optimization, deploys, monitoring, and 2am production debugging'],
                 ['Mentored junior contractors on Laravel patterns, Git workflow, and not pushing to main on Friday'],
               ],
             },
             {
-              role: 'Senior Full-Stack Web Developer', company: 'Creative Chaos', location: 'Remote · USA Client', when: 'Jul 2018 — May 2022',
+              role: 'Senior Full-Stack Web Developer', company: 'Creative Chaos', location: 'Remote ï¿½ USA Client', when: 'Jul 2018 ï¿½ May 2022',
               bullets: [
                 ['Shipped full-stack features in ', 'PHP/Laravel + React', ' for a distributed product team'],
                 ['Owned modules end-to-end: schema ? API ? UI ? QA ? deploy'],
                 ['Killed N+1 queries, added caching, and watched p95 response times drop materially'],
-                ['Reviewed PRs and mentored juniors — left every codebase a little better than I found it'],
+                ['Reviewed PRs and mentored juniors ï¿½ left every codebase a little better than I found it'],
                 ['Worked async with US-based PMs and designers across timezones without dropping the ball'],
               ],
             },
             {
-              role: 'Back-End Web Developer', company: 'Reborn', location: 'Lahore, Pakistan', when: 'Sep 2017 — Jun 2018',
+              role: 'Back-End Web Developer', company: 'Reborn', location: 'Lahore, Pakistan', when: 'Sep 2017 ï¿½ Jun 2018',
               bullets: [
                 ['Designed MySQL schemas and built REST APIs for client-facing apps'],
                 ['Refactored legacy spaghetti-PHP into structured CodeIgniter and Laravel codebases'],
-                ['Diagnosed slow queries with EXPLAIN, added indexes, rewrote joins — measurable wins on hot endpoints'],
+                ['Diagnosed slow queries with EXPLAIN, added indexes, rewrote joins ï¿½ measurable wins on hot endpoints'],
               ],
             },
             {
-              role: 'Front-End Web Developer', company: 'Intero Digital', location: 'Islamabad, Pakistan', when: 'Aug 2014 — Aug 2017',
+              role: 'Front-End Web Developer', company: 'Intero Digital', location: 'Islamabad, Pakistan', when: 'Aug 2014 ï¿½ Aug 2017',
               bullets: [
                 ['Turned Figma/PSD designs into ', 'pixel-perfect, responsive HTML/CSS/JS'],
                 ['Made things work in IE when that still mattered (it was a dark time)'],
@@ -1136,7 +1136,7 @@ export default function CV() {
                   <div className="font-mono text-xs text-slate-400">{job.when}</div>
                 </div>
                 <div className="font-mono text-xs sm:text-sm text-cyan-400 mb-4">
-                  {job.company} <span className="text-slate-600 mx-1.5">·</span>
+                  {job.company} <span className="text-slate-600 mx-1.5">ï¿½</span>
                   <span className="text-slate-400">{job.location}</span>
                 </div>
                 <ul className="space-y-2">
@@ -1162,7 +1162,7 @@ export default function CV() {
           Production deployments built &amp; shipped. <span className="text-cyan-400">Click any card</span> to see the CMS, plugins, and custom-built modules used.
         </p>
 
-        {/* STATUS FILTERS — clickable */}
+        {/* STATUS FILTERS ï¿½ clickable */}
         <div className="flex flex-wrap justify-center gap-2 mb-4 px-2">
           {statusFilters.map((sf) => {
             const Icon = sf.icon;
@@ -1372,7 +1372,7 @@ export default function CV() {
 
         {filteredPortfolio.length === 0 && (
           <div className="text-center py-16 font-mono text-sm text-slate-500">
-            // no results — try a different filter or search
+            // no results ï¿½ try a different filter or search
           </div>
         )}
       </AnimatedSection>
@@ -1386,7 +1386,7 @@ export default function CV() {
         <div className="grid md:grid-cols-2 gap-5 max-w-6xl mx-auto text-left">
           {[
             {
-              tag: 'browser extension · solo product',
+              tag: 'browser extension ï¿½ solo product',
               title: 'SoftGlaze Screen Recorder',
               count: 'Live on Web Store',
               cms: 'Chrome Extension',
@@ -1395,16 +1395,16 @@ export default function CV() {
               desc: 'A published Chrome extension I built solo from concept to publication. Currently live on the Chrome Web Store at v14.0 with 5-star ratings.',
             },
             {
-              tag: 'directory · netherlands · multi-site',
+              tag: 'directory ï¿½ netherlands ï¿½ multi-site',
               title: 'NL Pricing Directory Suite',
               count: '3 sites',
               cms: 'WordPress',
               stack: ['Elementor Pro', 'ACF Pro', 'WPForms', 'RankMath SEO'],
               custom: ['SoftGlaze price comparison engine', 'Provider matching algorithm', 'Multi-role registration (clinic + doctor)', 'Lat/lng geo search'],
-              desc: 'Network of price comparison directories for Dutch trades — clinics, painters, handymen. Custom comparison engine with geo search and NL/Flanders localization.',
+              desc: 'Network of price comparison directories for Dutch trades ï¿½ clinics, painters, handymen. Custom comparison engine with geo search and NL/Flanders localization.',
             },
             {
-              tag: 'e-commerce · automotive',
+              tag: 'e-commerce ï¿½ automotive',
               title: 'CarPartHQ',
               count: '1 site',
               cms: 'WordPress',
@@ -1413,7 +1413,7 @@ export default function CV() {
               desc: 'Auto parts marketplace requiring complex vehicle compatibility matching. Custom-built selector flow (Make ? Model ? Part ? Year), 35+ distribution center routing.',
             },
             {
-              tag: 'legal · uae · multi-site network',
+              tag: 'legal ï¿½ uae ï¿½ multi-site network',
               title: 'Dubai Legal Services Network',
               count: '12 sites',
               cms: 'WordPress',
@@ -1470,7 +1470,7 @@ export default function CV() {
         <div className="grid md:grid-cols-2 gap-4 sm:gap-6 max-w-5xl mx-auto text-left">
           {[
             { author: 'US Client PM', handle: '@creative-chaos', text: 'Azhar doesn\'t just write code; he understands the business logic behind it. He owned the entire backend refactor while overlapping seamlessly with our US hours. Zero dropped balls.' },
-            { author: 'Agency Director', handle: '@softglaze-client', text: 'We threw an incredibly complex vehicle compatibility system at him. He didn\'t just install a plugin—he engineered a custom DB architecture that cut our load times by 70%.' }
+            { author: 'Agency Director', handle: '@softglaze-client', text: 'We threw an incredibly complex vehicle compatibility system at him. He didn\'t just install a pluginï¿½he engineered a custom DB architecture that cut our load times by 70%.' }
           ].map((r, i) => (
             <div key={i} className="glass rounded-xl p-5 sm:p-6 relative border border-slate-700/50">
               <div className="flex items-center gap-3 mb-4 border-b border-slate-800 pb-4">
@@ -1529,21 +1529,21 @@ export default function CV() {
           <div className="font-mono text-[11px] sm:text-xs text-slate-500 space-y-2 mb-8">
             <div className="flex items-center justify-center gap-2 flex-wrap px-4">
               <GraduationCap size={14} className="text-purple-400" />
-              <span className="text-center">MS Information Technology · Islamia University of Bahawalpur · 2012–2016</span>
+              <span className="text-center">MS Information Technology ï¿½ Islamia University of Bahawalpur ï¿½ 2012ï¿½2016</span>
             </div>
             <div>
-              <span className="text-purple-400">Languages</span> · English (fluent) · Urdu (native) · Punjabi (native)
+              <span className="text-purple-400">Languages</span> ï¿½ English (fluent) ï¿½ Urdu (native) ï¿½ Punjabi (native)
             </div>
           </div>
 
           <div className="inline-flex items-center gap-2 font-mono text-[10px] sm:text-xs text-slate-500 px-4 py-2 rounded-full border border-slate-800 bg-slate-900/40">
             <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse shadow-[0_0_8px_rgba(74,222,128,0.8)]" />
-            status: available · last commit: today
+            status: available ï¿½ last commit: today
           </div>
         </div>
 
         <div className="relative z-10 mt-16 font-mono text-[9px] sm:text-[10px] text-slate-700 text-center px-4">
-          built with react · tailwind · ?? by Muhammad Azhar · azhar.softglaze.com
+          built with react ï¿½ tailwind ï¿½ ?? by Muhammad Azhar ï¿½ azhar.softglaze.com
         </div>
       </section>
     </div>
