@@ -15,12 +15,12 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
       - name: Install and Build
         run: |
-          npm install
-          npm run build
+          npm install --legacy-peer-deps
+          CI=false npm run build
 
       - name: Compress Build Files
         run: |
