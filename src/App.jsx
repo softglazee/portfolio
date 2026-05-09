@@ -18,6 +18,8 @@ export default function CV() {
   const [statusFilter, setStatusFilter] = useState('all');
   const [portfolioSearch, setPortfolioSearch] = useState('');
   const [expandedSite, setExpandedSite] = useState(null);
+  const [playgroundMode, setPlaygroundMode] = useState('api');
+  const [activeFAQ, setActiveFAQ] = useState(0);
 
   // Interactive Terminal State
   const [terminalHistory, setTerminalHistory] = useState([
@@ -76,7 +78,7 @@ export default function CV() {
     return () => window.removeEventListener('mousemove', handleMouse);
   }, []);
 
-  const sectionIds = ['hero', 'extension', 'why-me', 'about', 'stack', 'experience', 'portfolio', 'projects', 'testimonials', 'contact'];
+  const sectionIds = ['hero', 'extension', 'why-me', 'about', 'stack', 'proof', 'process', 'experience', 'portfolio', 'projects', 'now', 'engagement', 'testimonials', 'contact'];
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -143,6 +145,9 @@ export default function CV() {
           '  whoami      - About me',
           '  skills      - My tech stack',
           '  experience  - Career summary',
+          '  process     - How I ship projects',
+          '  pricing     - Engagement models',
+          '  now         - What I am building now',
           '  contact     - How to reach me',
           '  clear       - Clear the terminal',
         ].join('\n'),
@@ -194,6 +199,39 @@ export default function CV() {
           'Web:      softglaze.com',
         ].join('\n'),
       });
+    } else if (trimmed === 'process') {
+      newHistory.push({
+        type: 'output',
+        content: [
+          'My shipping loop:',
+          'Discovery -> Architecture -> Sprint plan -> Daily commits -> PR review',
+          '-> Staging QA -> Production launch -> Monitoring + iteration',
+          '',
+          'The goal: no disappearing act, no vague progress, no surprise scope debt.',
+        ].join('\n'),
+      });
+    } else if (trimmed === 'pricing') {
+      newHistory.push({
+        type: 'output',
+        content: [
+          'Available engagement models:',
+          '  Part-time contract: 20 hrs/week',
+          '  Full-time senior role: 40 hrs/week',
+          '  Fixed-scope build: agreed milestones + acceptance criteria',
+          '  Retainer: ongoing product, plugins, support, and iteration',
+        ].join('\n'),
+      });
+    } else if (trimmed === 'now') {
+      newHistory.push({
+        type: 'output',
+        content: [
+          'Currently building:',
+          '  SoftGlaze Screen Recorder improvements',
+          '  WordPress plugin architecture for comparison and lead-gen platforms',
+          '  TypeScript + modern React patterns',
+          '  Better deployment and monitoring workflows',
+        ].join('\n'),
+      });
     } else if (trimmed === 'clear') {
       setTerminalHistory([]);
       setTerminalInput('');
@@ -243,9 +281,13 @@ export default function CV() {
     { id: 'why-me', label: 'why me' },
     { id: 'about', label: 'about' },
     { id: 'stack', label: 'stack' },
+    { id: 'proof', label: 'proof lab', star: true },
+    { id: 'process', label: 'process' },
     { id: 'experience', label: 'experience' },
     { id: 'portfolio', label: 'portfolio' },
     { id: 'projects', label: 'case studies' },
+    { id: 'now', label: 'now / blog' },
+    { id: 'engagement', label: 'engagement' },
     { id: 'testimonials', label: 'reviews' },
     { id: 'contact', label: 'contact' },
   ];
@@ -569,6 +611,113 @@ export default function CV() {
     },
   ];
 
+
+  const playgroundSnippets = {
+    api: {
+      label: 'REST API',
+      title: 'Laravel-style lead routing endpoint',
+      code: [
+        'POST /api/leads/route',
+        '',
+        'const payload = {',
+        "  service: 'vehicle-parts',",
+        "  location: 'Texas',",
+        "  urgency: 'same-day',",
+        '};',
+        '',
+        'return matchSuppliers(payload)',
+        '  .filter(center => center.stock > 0)',
+        '  .sort(byDistanceThenSla)',
+        '  .slice(0, 3);',
+      ].join('\n'),
+      output: ['200 OK', '3 qualified suppliers', 'Quote SLA: < 4 hours', 'Webhook queued: CRM + email'].join('\n'),
+    },
+    plugin: {
+      label: 'WP Plugin',
+      title: 'Custom WordPress matching module',
+      code: [
+        "add_action('rest_api_init', function () {",
+        "  register_rest_route('softglaze/v1', '/match', [",
+        "    'methods'  => 'POST',",
+        "    'callback' => 'sg_match_providers',",
+        "    'permission_callback' => '__return_true',",
+        '  ]);',
+        '});',
+        '',
+        'function sg_match_providers($request) {',
+        '  return sg_rank_by_service_location_budget($request);',
+        '}',
+      ].join('\n'),
+      output: ['Registered route', 'Validated payload', 'Matched providers', 'Stored lead + triggered notification'].join('\n'),
+    },
+    extension: {
+      label: 'Chrome MV3',
+      title: 'Screen recorder command flow',
+      code: [
+        'chrome.runtime.onMessage.addListener(async (msg) => {',
+        "  if (msg.type !== 'START_RECORDING') return;",
+        '  const stream = await navigator.mediaDevices.getDisplayMedia({',
+        '    video: true, audio: true',
+        '  });',
+        '  const recorder = new MediaRecorder(stream);',
+        '  recorder.start();',
+        '});',
+      ].join('\n'),
+      output: ['Permission requested', 'Stream captured', 'Recorder started', 'Annotations layer mounted'].join('\n'),
+    },
+  };
+
+  const processSteps = [
+    { step: '01', title: 'Discovery', desc: 'Clarify users, business rules, success metrics, risks, and edge cases before touching code.' },
+    { step: '02', title: 'Architecture', desc: 'Data model, API contracts, component structure, plugin boundaries, and deployment plan.' },
+    { step: '03', title: 'Sprint plan', desc: 'Break work into shippable milestones with visible progress and acceptance criteria.' },
+    { step: '04', title: 'Daily commits', desc: 'Small commits, clear branches, written updates, and no silent multi-day gaps.' },
+    { step: '05', title: 'Code review', desc: 'PR-ready code, refactors where needed, and documentation for future maintainers.' },
+    { step: '06', title: 'Staging QA', desc: 'Test flows on staging, validate forms, permissions, emails, webhooks, and mobile breakpoints.' },
+    { step: '07', title: 'Launch', desc: 'Production deployment with rollback awareness, monitoring, and post-launch fixes.' },
+    { step: '08', title: 'Iteration', desc: 'Watch real usage, fix bottlenecks, and improve conversion/performance after launch.' },
+  ];
+
+  const openSourceItems = [
+    { name: 'Chrome extension utilities', type: 'Public product code patterns', detail: 'Manifest V3, MediaRecorder, Canvas annotations, and local-first browser APIs.' },
+    { name: 'WordPress plugin architecture', type: 'Reusable internal modules', detail: 'REST routes, CPT/ACF integrations, admin tables, lead routing, and custom dashboards.' },
+    { name: 'GitHub profile', type: 'Live activity source', detail: 'Use the GitHub link to inspect public repositories, commits, and contribution history directly.' },
+  ];
+
+  const blogPosts = [
+    { title: 'How I built a vehicle compatibility plugin for CarPartHQ', tag: 'WordPress + data modeling', read: '6 min idea' },
+    { title: 'Chrome Extension Manifest V3: what they do not tell you', tag: 'Browser APIs', read: '5 min idea' },
+    { title: 'From slow dashboard to fast dashboard: killing N+1 queries', tag: 'Laravel + MySQL', read: '7 min idea' },
+  ];
+
+  const engagementModels = [
+    { title: 'Part-time senior contractor', fit: 'Best for teams needing steady output without full-time headcount.', availability: '20 hrs/week', terms: 'Weekly milestones + async updates' },
+    { title: 'Full-time senior role', fit: 'Best for product teams that need a long-term full-stack owner.', availability: '40 hrs/week', terms: 'US timezone overlap from Pakistan' },
+    { title: 'Fixed-scope build', fit: 'Best for plugins, dashboards, marketplace flows, and MVP modules.', availability: 'Milestone-based', terms: 'Defined scope + acceptance criteria' },
+    { title: 'Retainer / maintenance', fit: 'Best for existing platforms that need iteration, debugging, and support.', availability: 'Monthly capacity', terms: 'Priority queue + production support' },
+  ];
+
+  const achievements = [
+    'Published Chrome Web Store extension: SoftGlaze Screen Recorder v14.0',
+    '8+ years of production engineering experience',
+    '20+ live production sites shipped across 5 countries',
+    'Custom WordPress plugin systems for directories, e-commerce, legal services, and tools',
+    'MS Information Technology — Computer Science & Cyber Security',
+  ];
+
+  const learning = ['TypeScript depth', 'AWS Lambda', 'Next.js app architecture', 'Advanced Laravel queues', 'Observability', 'Rust basics'];
+  const books = ['Clean Code', 'The Pragmatic Programmer', 'Designing Data-Intensive Applications', 'Refactoring', 'Domain-Driven Design notes'];
+  const funFacts = ['I drink too much chai.', 'I like clean commits and boring deployments.', 'I prefer async docs over vague calls.', 'I am trying to make every product feel faster.'];
+
+  const faqItems = [
+    { q: 'Do you work fixed-price or hourly?', a: 'Both. For open-ended product work, hourly or retainer is cleaner. For well-defined plugins, landing pages, dashboards, or integrations, fixed milestones work well.' },
+    { q: 'How do you handle confidentiality and IP?', a: 'Client code, credentials, and business logic stay confidential. I can sign an NDA, and project IP can be assigned according to the contract.' },
+    { q: 'What is your availability for USA time zones?', a: 'I work from Multan, Pakistan with USA timezone overlap. Async updates, written summaries, and predictable response windows are part of the workflow.' },
+    { q: 'Can you sign an NDA?', a: 'Yes. NDA, contractor agreement, IP assignment, and standard onboarding paperwork are fine.' },
+    { q: 'Do you handle urgent issues or weekends?', a: 'For active clients and retainers, urgent production issues can be handled with clear priority and impact. Weekend work should be reserved for real launches or incidents.' },
+    { q: 'How do you prevent scope creep?', a: 'I separate bugs, agreed scope, and new feature requests. Anything new gets documented, estimated, and approved before it changes the timeline.' },
+  ];
+
   return (
     <div className="bg-slate-950 text-slate-200 min-h-screen overflow-x-hidden font-sans">
       <style>{`
@@ -634,6 +783,39 @@ export default function CV() {
 
         @keyframes blink-slow { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
         .blink-slow { animation: blink-slow 2s ease-in-out infinite; }
+
+
+        .heatmap-img {
+          filter: saturate(1.15) contrast(1.05);
+          mix-blend-mode: screen;
+        }
+        .code-window-line::before {
+          content: attr(data-line);
+          color: #475569;
+          display: inline-block;
+          width: 2rem;
+          margin-right: 0.75rem;
+          text-align: right;
+          user-select: none;
+        }
+        .slot-shine {
+          position: relative;
+          overflow: hidden;
+        }
+        .slot-shine::after {
+          content: '';
+          position: absolute;
+          inset: -120% auto auto -40%;
+          width: 40%;
+          height: 300%;
+          transform: rotate(25deg);
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.16), transparent);
+          animation: sweep 4.5s ease-in-out infinite;
+        }
+        @keyframes sweep {
+          0%, 55% { transform: translateX(-120%) rotate(25deg); }
+          100% { transform: translateX(420%) rotate(25deg); }
+        }
 
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #0f172a; }
@@ -777,6 +959,11 @@ export default function CV() {
             </div>
             <span>Sep 2012 — Apr 2016</span>
           </div>
+        </section>
+
+        <section style={{ marginBottom: '12px' }}>
+          <h2 style={{ fontSize: '10pt', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '1.5px', borderBottom: '1px solid #ccc', paddingBottom: '3px', marginBottom: '8px' }}>Availability &amp; Engagement</h2>
+          <p style={{ margin: '0' }}>Available for senior full-stack roles, part-time contracts, fixed-scope plugin builds, and retainer support. Working USA timezone overlap from Multan, Pakistan. Can sign NDA and IP assignment documents.</p>
         </section>
 
         <section>
@@ -1350,8 +1537,193 @@ export default function CV() {
           </div>
         </AnimatedSection>
 
+
+
+        {/* ============= RECRUITER PROOF LAB ============= */}
+        <AnimatedSection id="proof" tag="// proof lab" icon={<Github />} number="06">
+          <FadeIn>
+            <div className="text-center mb-3">
+              <span className="font-mono text-[10px] px-3 py-1 rounded-full bg-cyan-400/10 border border-cyan-400/40 text-cyan-400 uppercase tracking-widest">
+                click, inspect, verify
+              </span>
+            </div>
+            <h2 className="font-display text-4xl md:text-6xl font-bold leading-tight tracking-tight mb-3 text-center">
+              Proof recruiters can <span className="gradient-text">actually use.</span>
+            </h2>
+            <p className="text-slate-400 text-base md:text-lg max-w-3xl mx-auto mb-10 text-center">
+              This section turns the portfolio from a static CV into a live technical screen: code samples, GitHub activity, and concrete engineering signals.
+            </p>
+          </FadeIn>
+
+          <div className="grid lg:grid-cols-[1.2fr_0.8fr] gap-5 max-w-6xl mx-auto items-stretch">
+            <FadeIn delay={100}>
+              <div className="glass rounded-2xl overflow-hidden h-full text-left border-cyan-400/20">
+                <div className="flex flex-wrap items-center gap-2 px-4 py-3 border-b border-slate-800 bg-slate-900/80">
+                  <div className="flex items-center gap-1.5 mr-2">
+                    <span className="w-3 h-3 rounded-full bg-red-500/80" />
+                    <span className="w-3 h-3 rounded-full bg-yellow-500/80" />
+                    <span className="w-3 h-3 rounded-full bg-green-500/80" />
+                  </div>
+                  {Object.entries(playgroundSnippets).map(([key, item]) => (
+                    <button
+                      key={key}
+                      onClick={() => setPlaygroundMode(key)}
+                      className={`font-mono text-[11px] px-3 py-1.5 rounded-md border transition-all ${
+                        playgroundMode === key
+                          ? 'bg-cyan-400/10 border-cyan-400 text-cyan-400'
+                          : 'border-slate-700 text-slate-400 hover:border-slate-500 hover:text-slate-200'
+                      }`}
+                    >
+                      {item.label}
+                    </button>
+                  ))}
+                  <span className="ml-auto hidden md:inline font-mono text-[10px] text-slate-600">live-coding-playground.jsx</span>
+                </div>
+                <div className="grid md:grid-cols-[1.2fr_0.8fr]">
+                  <div className="p-5 border-b md:border-b-0 md:border-r border-slate-800">
+                    <div className="font-mono text-[10px] text-purple-400 uppercase tracking-widest mb-2">// {playgroundSnippets[playgroundMode].title}</div>
+                    <pre className="font-mono text-xs md:text-sm leading-relaxed overflow-x-auto whitespace-pre-wrap text-slate-300">
+                      {playgroundSnippets[playgroundMode].code.split('\n').map((line, i) => (
+                        <div key={i} className="code-window-line" data-line={String(i + 1).padStart(2, '0')}>{line || ' '}</div>
+                      ))}
+                    </pre>
+                  </div>
+                  <div className="p-5 bg-slate-950/50">
+                    <div className="font-mono text-[10px] text-green-400 uppercase tracking-widest mb-3">// output</div>
+                    <div className="space-y-2">
+                      {playgroundSnippets[playgroundMode].output.split('\n').map((line, i) => (
+                        <div key={i} className="flex items-center gap-2 font-mono text-xs text-slate-300 bg-slate-900/60 border border-slate-800 rounded-md px-3 py-2">
+                          <Check size={13} className="text-green-400 flex-shrink-0" />
+                          {line}
+                        </div>
+                      ))}
+                    </div>
+                    <a href="https://github.com/softglazee" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 font-mono text-xs text-cyan-400 hover:text-cyan-300 mt-5">
+                      Inspect GitHub profile <ArrowUpRight size={12} />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </FadeIn>
+
+            <div className="space-y-5">
+              <FadeIn delay={180}>
+                <a href="https://github.com/softglazee" target="_blank" rel="noopener noreferrer" className="glass rounded-2xl p-5 block group hover:-translate-y-1 text-left">
+                  <div className="flex items-center justify-between gap-3 mb-4">
+                    <div>
+                      <div className="font-mono text-[10px] text-cyan-400 uppercase tracking-widest mb-1">// github activity heatmap</div>
+                      <h3 className="text-xl font-semibold text-white">Commit consistency signal</h3>
+                    </div>
+                    <Github size={22} className="text-slate-500 group-hover:text-cyan-400 transition-colors" />
+                  </div>
+                  <div className="rounded-xl bg-slate-950/70 border border-slate-800 p-3 overflow-hidden">
+                    <img
+                      src="https://ghchart.rshah.org/22d3ee/softglazee"
+                      alt="GitHub contribution chart for softglazee"
+                      className="heatmap-img w-full min-h-[96px] object-contain opacity-90"
+                      loading="lazy"
+                    />
+                  </div>
+                  <p className="text-xs text-slate-500 mt-3 leading-relaxed">
+                    Uses a public contribution-chart image as the no-token option. For exact private contribution data, connect GitHub GraphQL with a read-only token.
+                  </p>
+                </a>
+              </FadeIn>
+
+              <FadeIn delay={260}>
+                <div className="glass rounded-2xl p-5 text-left">
+                  <div className="font-mono text-[10px] text-purple-400 uppercase tracking-widest mb-3">// open source + public signals</div>
+                  <div className="space-y-3">
+                    {openSourceItems.map((item, i) => (
+                      <div key={i} className="rounded-xl bg-slate-900/50 border border-slate-800 p-3 hover:border-purple-400/40 transition-colors">
+                        <div className="flex items-start gap-2">
+                          <GitPullRequest size={15} className="text-purple-400 mt-0.5 flex-shrink-0" />
+                          <div>
+                            <div className="text-sm font-semibold text-white">{item.name}</div>
+                            <div className="font-mono text-[10px] text-slate-500 mb-1">{item.type}</div>
+                            <p className="text-xs text-slate-400 leading-relaxed">{item.detail}</p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </FadeIn>
+            </div>
+          </div>
+        </AnimatedSection>
+
+        {/* ============= PROCESS + RESPONSE SIGNALS ============= */}
+        <AnimatedSection id="process" tag="// how i work" icon={<Clock />} number="07">
+          <FadeIn>
+            <h2 className="font-display text-4xl md:text-6xl font-bold leading-tight tracking-tight mb-3 text-center">
+              No disappearing act. <span className="gradient-text">Just shipping.</span>
+            </h2>
+            <p className="text-slate-400 text-base md:text-lg max-w-3xl mx-auto mb-10 text-center">
+              The biggest hiring risk is not skill. It is communication. This section pre-answers that objection.
+            </p>
+          </FadeIn>
+
+          <div className="grid lg:grid-cols-[1fr_360px] gap-5 max-w-6xl mx-auto items-start">
+            <FadeIn delay={100}>
+              <div className="glass rounded-2xl p-5 md:p-6 text-left">
+                <div className="grid md:grid-cols-2 gap-3">
+                  {processSteps.map((item, i) => (
+                    <div key={i} className="relative rounded-xl bg-slate-900/50 border border-slate-800 p-4 hover:border-cyan-400/40 transition-all group">
+                      <div className="font-mono text-[10px] text-cyan-400 mb-2">{item.step}</div>
+                      <h3 className="text-base font-semibold text-white mb-1 flex items-center gap-2">
+                        {item.title}
+                        {i < processSteps.length - 1 && <ChevronRight size={14} className="text-slate-600 group-hover:text-cyan-400 transition-colors" />}
+                      </h3>
+                      <p className="text-xs md:text-sm text-slate-400 leading-relaxed">{item.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </FadeIn>
+
+            <div className="space-y-5">
+              <FadeIn delay={180}>
+                <div className="slot-shine glass rounded-2xl p-5 text-left border-green-400/20">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="relative flex h-3 w-3">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-3 w-3 bg-green-400"></span>
+                    </span>
+                    <span className="font-mono text-[10px] text-green-400 uppercase tracking-widest">response time widget</span>
+                  </div>
+                  <div className="font-display text-4xl font-bold text-white mb-1">&lt; 4h</div>
+                  <p className="text-sm text-slate-400 leading-relaxed mb-4">
+                    Average response target during USA business hours for active hiring, project, and production conversations.
+                  </p>
+                  <a href="mailto:admin@softglaze.com?subject=Senior%20Full-Stack%20Role%20-%20Availability" className="inline-flex items-center gap-2 font-mono text-xs px-3 py-2 rounded-lg bg-green-400/10 border border-green-400/40 text-green-400 hover:bg-green-400/15 transition-colors">
+                    Start conversation <ArrowUpRight size={12} />
+                  </a>
+                </div>
+              </FadeIn>
+
+              <FadeIn delay={260}>
+                <div className="glass rounded-2xl p-5 text-left">
+                  <div className="font-mono text-[10px] text-cyan-400 uppercase tracking-widest mb-3">// available slots this week</div>
+                  <div className="space-y-2 mb-4">
+                    {['Mon-Wed: US morning overlap', 'Thu: architecture / technical screen', 'Fri: offer, onboarding, or sprint planning'].map((slot, i) => (
+                      <div key={i} className="flex items-center justify-between gap-3 rounded-lg bg-slate-900/60 border border-slate-800 px-3 py-2">
+                        <span className="text-xs text-slate-300">{slot}</span>
+                        <span className="font-mono text-[10px] text-green-400">open</span>
+                      </div>
+                    ))}
+                  </div>
+                  <a href="mailto:admin@softglaze.com?subject=Book%20a%20technical%20interview" className="font-mono text-xs text-cyan-400 hover:text-cyan-300 inline-flex items-center gap-1.5">
+                    Request exact meeting time <ArrowUpRight size={12} />
+                  </a>
+                </div>
+              </FadeIn>
+            </div>
+          </div>
+        </AnimatedSection>
+
         {/* ============= EXPERIENCE ============= */}
-        <AnimatedSection id="experience" tag="// git log --oneline" icon={<Briefcase />} number="06">
+        <AnimatedSection id="experience" tag="// git log --oneline" icon={<Briefcase />} number="08">
           <FadeIn>
             <h2 className="font-display text-4xl md:text-6xl font-bold leading-tight tracking-tight mb-6 text-center">
               Where I've <span className="gradient-text">shipped.</span>
@@ -1421,7 +1793,7 @@ export default function CV() {
         </AnimatedSection>
 
         {/* ============= PORTFOLIO ============= */}
-        <AnimatedSection id="portfolio" tag="// live deployments" icon={<Layers />} number="07">
+        <AnimatedSection id="portfolio" tag="// live deployments" icon={<Layers />} number="09">
           <FadeIn>
             <h2 className="font-display text-4xl md:text-6xl font-bold leading-tight tracking-tight mb-3 text-center">
               Live in <span className="gradient-text">production.</span>
@@ -1647,7 +2019,7 @@ export default function CV() {
         </AnimatedSection>
 
         {/* ============= CASE STUDIES ============= */}
-        <AnimatedSection id="projects" tag="// deeper dives" icon={<Code2 />} number="08">
+        <AnimatedSection id="projects" tag="// deeper dives" icon={<Code2 />} number="10">
           <FadeIn>
             <h2 className="font-display text-4xl md:text-6xl font-bold leading-tight tracking-tight mb-6 text-center">
               Selected <span className="gradient-text">case studies.</span>
@@ -1735,8 +2107,186 @@ export default function CV() {
           </div>
         </AnimatedSection>
 
+
+
+        {/* ============= NOW / BLOG / HUMAN SIGNALS ============= */}
+        <AnimatedSection id="now" tag="// currently building" icon={<Brain />} number="11">
+          <FadeIn>
+            <h2 className="font-display text-4xl md:text-6xl font-bold leading-tight tracking-tight mb-3 text-center">
+              Active, current, and <span className="gradient-text">still leveling up.</span>
+            </h2>
+            <p className="text-slate-400 text-base md:text-lg max-w-3xl mx-auto mb-10 text-center">
+              Recruiters should not have to guess whether a portfolio is stale. This section shows current focus, writing ideas, credentials, learning, and personality.
+            </p>
+          </FadeIn>
+
+          <div className="grid lg:grid-cols-3 gap-5 max-w-6xl mx-auto text-left">
+            <FadeIn delay={100}>
+              <div className="glass rounded-2xl p-5 h-full lg:col-span-1">
+                <div className="font-mono text-[10px] text-cyan-400 uppercase tracking-widest mb-3">// now page</div>
+                <h3 className="text-2xl font-semibold text-white mb-3">Currently building</h3>
+                <div className="space-y-3">
+                  {[
+                    'Improving SoftGlaze Screen Recorder UX and reliability',
+                    'Building comparison and lead-routing WordPress plugin systems',
+                    'Refining TypeScript + React architecture patterns',
+                    'Documenting reusable plugin and API patterns',
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-start gap-2 text-sm text-slate-300">
+                      <Rocket size={14} className="text-cyan-400 mt-0.5 flex-shrink-0" />
+                      <span>{item}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-5 rounded-xl bg-slate-900/60 border border-slate-800 p-3 font-mono text-xs text-slate-500">
+                  updated: May 2026 · cadence: weekly
+                </div>
+              </div>
+            </FadeIn>
+
+            <FadeIn delay={180}>
+              <div className="glass rounded-2xl p-5 h-full lg:col-span-2">
+                <div className="font-mono text-[10px] text-purple-400 uppercase tracking-widest mb-3">// technical writing ideas</div>
+                <div className="grid md:grid-cols-3 gap-3">
+                  {blogPosts.map((post, i) => (
+                    <div key={i} className="rounded-xl bg-slate-900/50 border border-slate-800 p-4 hover:border-purple-400/40 transition-colors">
+                      <FileText size={18} className="text-purple-400 mb-3" />
+                      <h3 className="text-sm font-semibold text-white leading-snug mb-2">{post.title}</h3>
+                      <div className="font-mono text-[10px] text-cyan-400 mb-1">{post.tag}</div>
+                      <div className="font-mono text-[10px] text-slate-500">{post.read}</div>
+                    </div>
+                  ))}
+                </div>
+                <p className="text-xs text-slate-500 mt-4 leading-relaxed">
+                  These can become Dev.to, Hashnode, Medium, or first-party blog posts. Even short technical notes help recruiters see how you think.
+                </p>
+              </div>
+            </FadeIn>
+
+            <FadeIn delay={260}>
+              <div className="glass rounded-2xl p-5 h-full">
+                <div className="font-mono text-[10px] text-yellow-400 uppercase tracking-widest mb-3">// achievements</div>
+                <div className="space-y-2">
+                  {achievements.map((item, i) => (
+                    <div key={i} className="flex items-start gap-2 text-sm text-slate-300">
+                      <Award size={14} className="text-yellow-400 mt-0.5 flex-shrink-0" />
+                      <span>{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </FadeIn>
+
+            <FadeIn delay={320}>
+              <div className="glass rounded-2xl p-5 h-full">
+                <div className="font-mono text-[10px] text-green-400 uppercase tracking-widest mb-3">// languages i am learning</div>
+                <div className="flex flex-wrap gap-2">
+                  {learning.map((item, i) => (
+                    <span key={i} className="font-mono text-xs px-2.5 py-1 rounded-md bg-green-400/10 border border-green-400/30 text-green-300">{item}</span>
+                  ))}
+                </div>
+              </div>
+            </FadeIn>
+
+            <FadeIn delay={380}>
+              <div className="glass rounded-2xl p-5 h-full">
+                <div className="font-mono text-[10px] text-pink-400 uppercase tracking-widest mb-3">// when not coding</div>
+                <div className="space-y-2 mb-4">
+                  {funFacts.map((item, i) => (
+                    <div key={i} className="flex items-start gap-2 text-sm text-slate-300">
+                      <Coffee size={14} className="text-pink-400 mt-0.5 flex-shrink-0" />
+                      <span>{item}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="rounded-xl bg-slate-950/60 border border-slate-800 p-3">
+                  <div className="font-mono text-[10px] text-slate-500 mb-1">// spotify now playing</div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-green-400/30 to-cyan-400/30 border border-green-400/30 flex items-center justify-center">
+                      <Zap size={16} className="text-green-400" />
+                    </div>
+                    <div>
+                      <div className="text-sm text-white font-semibold">Deep focus mode</div>
+                      <div className="font-mono text-[10px] text-slate-500">connect Spotify API later</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </FadeIn>
+
+            <FadeIn delay={440}>
+              <div className="glass rounded-2xl p-5 h-full lg:col-span-3">
+                <div className="font-mono text-[10px] text-cyan-400 uppercase tracking-widest mb-3">// books and courses that shaped me</div>
+                <div className="flex flex-wrap gap-2">
+                  {books.map((item, i) => (
+                    <span key={i} className="inline-flex items-center gap-1.5 font-mono text-xs px-3 py-1.5 rounded-full bg-slate-900/60 border border-slate-700 text-slate-300 hover:border-cyan-400 hover:text-cyan-400 transition-colors">
+                      <GraduationCap size={12} /> {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </FadeIn>
+          </div>
+        </AnimatedSection>
+
+        {/* ============= ENGAGEMENT MODELS + FAQ ============= */}
+        <AnimatedSection id="engagement" tag="// hire without friction" icon={<Package />} number="12">
+          <FadeIn>
+            <h2 className="font-display text-4xl md:text-6xl font-bold leading-tight tracking-tight mb-3 text-center">
+              Clear ways to <span className="gradient-text">work together.</span>
+            </h2>
+            <p className="text-slate-400 text-base md:text-lg max-w-3xl mx-auto mb-10 text-center">
+              Recruiters and founders should immediately know whether the engagement model fits before they book a call.
+            </p>
+          </FadeIn>
+
+          <div className="grid lg:grid-cols-2 gap-5 max-w-6xl mx-auto text-left">
+            <FadeIn delay={100}>
+              <div className="glass rounded-2xl p-5 md:p-6 h-full">
+                <div className="font-mono text-[10px] text-cyan-400 uppercase tracking-widest mb-4">// pricing and engagement models</div>
+                <div className="grid sm:grid-cols-2 gap-3">
+                  {engagementModels.map((model, i) => (
+                    <div key={i} className="rounded-xl bg-slate-900/50 border border-slate-800 p-4 hover:border-cyan-400/40 transition-colors">
+                      <h3 className="text-base font-semibold text-white mb-2">{model.title}</h3>
+                      <p className="text-xs text-slate-400 leading-relaxed mb-3">{model.fit}</p>
+                      <div className="space-y-1 font-mono text-[10px]">
+                        <div className="text-green-400">availability: {model.availability}</div>
+                        <div className="text-slate-500">terms: {model.terms}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </FadeIn>
+
+            <FadeIn delay={180}>
+              <div className="glass rounded-2xl p-5 md:p-6 h-full">
+                <div className="font-mono text-[10px] text-purple-400 uppercase tracking-widest mb-4">// recruiter faq</div>
+                <div className="space-y-2">
+                  {faqItems.map((item, i) => (
+                    <div key={i} className="rounded-xl border border-slate-800 bg-slate-900/50 overflow-hidden">
+                      <button
+                        onClick={() => setActiveFAQ(activeFAQ === i ? null : i)}
+                        className="w-full flex items-center justify-between gap-3 text-left px-4 py-3 hover:bg-slate-800/40 transition-colors"
+                      >
+                        <span className="text-sm font-semibold text-white">{item.q}</span>
+                        <ChevronDown size={16} className={`text-slate-500 transition-transform ${activeFAQ === i ? 'rotate-180 text-purple-400' : ''}`} />
+                      </button>
+                      {activeFAQ === i && (
+                        <div className="px-4 pb-4 text-sm text-slate-400 leading-relaxed">
+                          {item.a}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </FadeIn>
+          </div>
+        </AnimatedSection>
+
         {/* ============= TESTIMONIALS — PR STYLE CAROUSEL ============= */}
-        <AnimatedSection id="testimonials" tag="// code reviews" icon={<GitPullRequest />} number="09">
+        <AnimatedSection id="testimonials" tag="// code reviews" icon={<GitPullRequest />} number="13">
           <FadeIn>
             <h2 className="font-display text-4xl md:text-6xl font-bold leading-tight tracking-tight mb-3 text-center">
               Code <span className="gradient-text">reviews.</span>
