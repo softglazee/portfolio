@@ -5,7 +5,9 @@ import {
   ArrowUpRight, Search, Package, Wrench, Chrome, Award, Star, ShieldCheck,
   Rocket, Heart, Brain, Target, Coffee, GitBranch, Users, Trophy,
   ChevronRight, ChevronLeft, Check, Download, GitPullRequest, MessageSquare,
-  Clock, FileText
+  Clock, FileText, BookOpen, Lightbulb, Workflow, HelpCircle, TrendingUp,
+  Calendar, Music, PlayCircle, Headphones, Activity, Compass, Smile,
+  CalendarCheck, FileCode, Pen, Mic
 } from 'lucide-react';
 
 export default function CV() {
@@ -18,8 +20,6 @@ export default function CV() {
   const [statusFilter, setStatusFilter] = useState('all');
   const [portfolioSearch, setPortfolioSearch] = useState('');
   const [expandedSite, setExpandedSite] = useState(null);
-  const [playgroundMode, setPlaygroundMode] = useState('api');
-  const [activeFAQ, setActiveFAQ] = useState(0);
 
   // Interactive Terminal State
   const [terminalHistory, setTerminalHistory] = useState([
@@ -35,6 +35,12 @@ export default function CV() {
   // Testimonials Carousel State
   const [currentReview, setCurrentReview] = useState(0);
   const [autoplayPaused, setAutoplayPaused] = useState(false);
+
+  // FAQ accordion state
+  const [openFaq, setOpenFaq] = useState(0);
+
+  // Now playing rotation
+  const [nowPlayingIndex, setNowPlayingIndex] = useState(0);
 
   const fullText = 'open to senior engineering roles';
 
@@ -78,7 +84,7 @@ export default function CV() {
     return () => window.removeEventListener('mousemove', handleMouse);
   }, []);
 
-  const sectionIds = ['hero', 'extension', 'why-me', 'about', 'stack', 'proof', 'process', 'experience', 'portfolio', 'projects', 'now', 'engagement', 'testimonials', 'contact'];
+  const sectionIds = ['hero', 'extension', 'why-me', 'about', 'process', 'stack', 'experience', 'portfolio', 'projects', 'achievements', 'testimonials', 'faq', 'now', 'contact'];
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -131,6 +137,14 @@ export default function CV() {
     return () => clearInterval(interval);
   }, [autoplayPaused]);
 
+  // Now playing rotation
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setNowPlayingIndex((prev) => (prev + 1) % 4);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
   // Terminal command handler
   const handleTerminalCommand = (cmd) => {
     const trimmed = cmd.trim().toLowerCase();
@@ -145,9 +159,6 @@ export default function CV() {
           '  whoami      - About me',
           '  skills      - My tech stack',
           '  experience  - Career summary',
-          '  process     - Production delivery pipeline',
-          '  pricing     - Collaboration models',
-          '  now         - Current build log',
           '  contact     - How to reach me',
           '  clear       - Clear the terminal',
         ].join('\n'),
@@ -199,39 +210,6 @@ export default function CV() {
           'Web:      softglaze.com',
         ].join('\n'),
       });
-    } else if (trimmed === 'process') {
-      newHistory.push({
-        type: 'output',
-        content: [
-          'Production delivery pipeline:',
-          'Discovery -> API contract -> schema -> branch -> PR -> staging -> deploy',
-          '-> logs/metrics -> cleanup pass -> documented handoff',
-          '',
-          'Default mode: small diffs, clear commits, no silent blockers, rollback-aware releases.',
-        ].join('\n'),
-      });
-    } else if (trimmed === 'pricing') {
-      newHistory.push({
-        type: 'output',
-        content: [
-          'Collaboration models:',
-          '  Senior contractor: scoped weekly output + async updates',
-          '  Full-time role: long-term product ownership with US overlap',
-          '  Fixed build: plugin, dashboard, extension, integration, or MVP module',
-          '  Retainer: production support, iteration, debugging, and release work',
-        ].join('\n'),
-      });
-    } else if (trimmed === 'now') {
-      newHistory.push({
-        type: 'output',
-        content: [
-          'Current build log:',
-          '  Hardening SoftGlaze Screen Recorder recording and annotation flows',
-          '  Shipping WordPress plugin systems with REST routes, CPTs, ACF, and admin UX',
-          '  Refactoring React sections into cleaner data-driven components',
-          '  Tightening deployment checklists, QA notes, and production handoffs',
-        ].join('\n'),
-      });
     } else if (trimmed === 'clear') {
       setTerminalHistory([]);
       setTerminalInput('');
@@ -280,15 +258,15 @@ export default function CV() {
     { id: 'extension', label: 'extension', star: true },
     { id: 'why-me', label: 'why me' },
     { id: 'about', label: 'about' },
+    { id: 'process', label: 'process' },
     { id: 'stack', label: 'stack' },
-    { id: 'proof', label: 'engineering console', star: true },
-    { id: 'process', label: 'pipeline' },
     { id: 'experience', label: 'experience' },
     { id: 'portfolio', label: 'portfolio' },
     { id: 'projects', label: 'case studies' },
-    { id: 'now', label: 'build log' },
-    { id: 'engagement', label: 'work modes' },
+    { id: 'achievements', label: 'achievements' },
     { id: 'testimonials', label: 'reviews' },
+    { id: 'faq', label: 'faq' },
+    { id: 'now', label: 'now' },
     { id: 'contact', label: 'contact' },
   ];
 
@@ -611,123 +589,6 @@ export default function CV() {
     },
   ];
 
-
-  const playgroundSnippets = {
-    api: {
-      label: 'API Contract',
-      title: 'Lead-routing endpoint with deterministic matching',
-      code: [
-        'POST /api/leads/route',
-        '',
-        'const lead = await validate(request, LeadSchema);',
-        'const candidates = await Provider.query()',
-        "  .where('service', lead.service)",
-        "  .where('is_active', true)",
-        '  .withGeoRadius(lead.lat, lead.lng, 35)',
-        '  .withAvailableCapacity();',
-        '',
-        'return rank(candidates)',
-        '  .bySla()          // fastest response first',
-        '  .byDistance()     // then nearest provider',
-        '  .byQualityScore() // then conversion history',
-        '  .take(3);',
-      ].join('\n'),
-      output: ['payload validated', '3 providers ranked', 'lead persisted', 'webhook queued', 'response time budget: < 250ms'].join('\n'),
-    },
-    plugin: {
-      label: 'WP Plugin',
-      title: 'Production-grade WordPress REST module',
-      code: [
-        "add_action('rest_api_init', function () {",
-        "  register_rest_route('softglaze/v1', '/match', [",
-        "    'methods'  => 'POST',",
-        "    'callback' => 'sg_route_lead_to_provider',",
-        "    'permission_callback' => 'sg_verify_nonce',",
-        '  ]);',
-        '});',
-        '',
-        'function sg_route_lead_to_provider(WP_REST_Request $request) {',
-        '  $payload = sg_sanitize_lead_payload($request);',
-        '  $match   = sg_rank_provider_pool($payload);',
-        '  return sg_dispatch_lead($match, $payload);',
-        '}',
-      ].join('\n'),
-      output: ['nonce checked', 'payload sanitized', 'CPT + ACF fields mapped', 'notification dispatched', 'admin audit row written'].join('\n'),
-    },
-    extension: {
-      label: 'Chrome MV3',
-      title: 'Browser recording flow with local-first processing',
-      code: [
-        'chrome.runtime.onMessage.addListener(async (message) => {',
-        "  if (message.type !== 'START_CAPTURE') return;",
-        '',
-        '  const stream = await navigator.mediaDevices.getDisplayMedia({',
-        '    video: { frameRate: 30 }, audio: true',
-        '  });',
-        '',
-        '  const recorder = new MediaRecorder(stream, {',
-        "    mimeType: 'video/webm;codecs=vp9'",
-        '  });',
-        '',
-        '  mountAnnotationLayer(stream);',
-        '  recorder.start(1000); // chunked for safer memory usage',
-        '});',
-      ].join('\n'),
-      output: ['capture permission granted', 'annotation canvas mounted', 'recording chunks buffered', 'export pipeline ready', 'no server upload required'].join('\n'),
-    },
-  };
-
-  const processSteps = [
-    { step: '01', title: 'Scope lock', desc: 'Translate messy business requirements into user stories, edge cases, acceptance criteria, and a clean definition of done.' },
-    { step: '02', title: 'System design', desc: 'Choose the right boundaries: schema, API contract, queue jobs, plugin modules, auth, roles, and data ownership.' },
-    { step: '03', title: 'Branch strategy', desc: 'Work in small feature branches with readable commits, no mystery mega-diffs, and enough context for review.' },
-    { step: '04', title: 'Build loop', desc: 'Ship vertical slices: database migration, service layer, endpoint, UI state, validation, emails, logs, and failure states.' },
-    { step: '05', title: 'Code review pass', desc: 'Check naming, N+1 risks, permissions, payload validation, unhappy paths, and future-maintainer readability.' },
-    { step: '06', title: 'Staging QA', desc: 'Run real flows on staging: forms, roles, dashboards, webhooks, mobile breakpoints, caching, and email delivery.' },
-    { step: '07', title: 'Release', desc: 'Deploy with a rollback path, backup awareness, cache purge plan, and post-deploy smoke test.' },
-    { step: '08', title: 'Harden', desc: 'Watch logs, remove friction, patch edge cases, document handoff notes, and turn repeated fixes into reusable patterns.' },
-  ];
-
-  const openSourceItems = [
-    { name: 'Browser-extension engineering', type: 'Manifest V3 · MediaRecorder · Canvas', detail: 'Production patterns for capture permissions, annotation layers, recording chunks, export flows, and local-first privacy.' },
-    { name: 'Custom WordPress systems', type: 'REST routes · CPTs · ACF · admin UX', detail: 'Plugin architecture for directories, lead-routing engines, dashboards, scrapers, quote forms, and multi-role workflows.' },
-    { name: 'Full-stack product delivery', type: 'React · Laravel · MySQL · webhooks', detail: 'From schema design and API contracts to responsive UI, queueable notifications, staging QA, and production support.' },
-  ];
-
-  const blogPosts = [
-    { title: 'Building a vehicle compatibility engine without turning the database into spaghetti', tag: 'WordPress + MySQL architecture', read: 'data modeling' },
-    { title: 'Chrome Extension MV3 recording flows: permissions, chunks, canvases, and local exports', tag: 'Browser APIs', read: 'extension internals' },
-    { title: 'How I debug slow dashboards: EXPLAIN plans, N+1 queries, indexes, and cache boundaries', tag: 'Laravel + performance', read: 'backend optimization' },
-  ];
-
-  const engagementModels = [
-    { title: 'Senior product engineer', fit: 'Best when you need someone to own features end-to-end: schema, API, UI, QA, deploy, and iteration.', availability: 'Full-time / long-term', terms: 'US overlap + async-first updates' },
-    { title: 'Fractional full-stack build partner', fit: 'Best for founders or agencies that need serious output without adding permanent headcount.', availability: '20+ hrs/week', terms: 'Weekly release targets + written progress' },
-    { title: 'Fixed-scope module build', fit: 'Best for custom plugins, dashboards, extension features, integrations, marketplace flows, and MVP modules.', availability: 'Milestone-based', terms: 'Scope doc + acceptance checks' },
-    { title: 'Production support retainer', fit: 'Best for platforms that need debugging, maintenance, performance work, small releases, and emergency coverage.', availability: 'Monthly capacity', terms: 'Priority queue + incident response' },
-  ];
-
-  const achievements = [
-    'Published Chrome Web Store extension: SoftGlaze Screen Recorder v14.0',
-    '8+ years shipping production software across agency, senior team, and founder environments',
-    '20+ live production sites across legal services, e-commerce, directories, tools, media, and travel',
-    'Custom WordPress plugin systems for comparison engines, vehicle compatibility, lead routing, scrapers, and dashboards',
-    'MS Information Technology — Computer Science & Cyber Security',
-  ];
-
-  const learning = ['TypeScript architecture', 'Next.js App Router', 'Laravel queues/events', 'AWS Lambda', 'observability', 'Rust fundamentals'];
-  const books = ['Clean Code', 'The Pragmatic Programmer', 'Designing Data-Intensive Applications', 'Refactoring', 'Domain-Driven Design notes'];
-  const funFacts = ['Chai-powered debugging sessions.', 'Clean commits over heroic chaos.', 'Async docs before vague calls.', 'Fast UX, boring deploys, readable handoffs.'];
-
-  const faqItems = [
-    { q: 'Do you work fixed-price or hourly?', a: 'Both. Open-ended product work is usually cleaner as hourly or retainer. Clearly scoped plugins, dashboards, extensions, and integrations can be milestone-based with acceptance checks.' },
-    { q: 'How do you handle confidentiality and IP?', a: 'Client code, credentials, architecture, and business logic stay private. NDA, contractor agreement, and IP assignment are fine when the engagement requires it.' },
-    { q: 'What is your availability for US time zones?', a: 'I work from Multan, Pakistan with reliable US timezone overlap. The workflow is async-first: written updates, clear blockers, visible progress, and fast response windows during active work.' },
-    { q: 'Can you join an existing engineering team?', a: 'Yes. I can plug into GitHub/Jira/Slack workflows, work through PRs, follow coding standards, and collaborate with PMs, designers, QA, and other engineers.' },
-    { q: 'Do you handle urgent production issues?', a: 'For active clients and retained work, yes. I separate true incidents from normal feature requests, communicate impact clearly, and prioritize fixes based on business risk.' },
-    { q: 'How do you prevent scope creep?', a: 'By separating bugs, agreed scope, and new requests. Anything new gets documented, estimated, and approved before it changes the timeline or release plan.' },
-  ];
-
   return (
     <div className="bg-slate-950 text-slate-200 min-h-screen overflow-x-hidden font-sans">
       <style>{`
@@ -793,39 +654,6 @@ export default function CV() {
 
         @keyframes blink-slow { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
         .blink-slow { animation: blink-slow 2s ease-in-out infinite; }
-
-
-        .heatmap-img {
-          filter: saturate(1.15) contrast(1.05);
-          mix-blend-mode: screen;
-        }
-        .code-window-line::before {
-          content: attr(data-line);
-          color: #475569;
-          display: inline-block;
-          width: 2rem;
-          margin-right: 0.75rem;
-          text-align: right;
-          user-select: none;
-        }
-        .slot-shine {
-          position: relative;
-          overflow: hidden;
-        }
-        .slot-shine::after {
-          content: '';
-          position: absolute;
-          inset: -120% auto auto -40%;
-          width: 40%;
-          height: 300%;
-          transform: rotate(25deg);
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.16), transparent);
-          animation: sweep 4.5s ease-in-out infinite;
-        }
-        @keyframes sweep {
-          0%, 55% { transform: translateX(-120%) rotate(25deg); }
-          100% { transform: translateX(420%) rotate(25deg); }
-        }
 
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #0f172a; }
@@ -969,11 +797,6 @@ export default function CV() {
             </div>
             <span>Sep 2012 — Apr 2016</span>
           </div>
-        </section>
-
-        <section style={{ marginBottom: '12px' }}>
-          <h2 style={{ fontSize: '10pt', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '1.5px', borderBottom: '1px solid #ccc', paddingBottom: '3px', marginBottom: '8px' }}>Availability &amp; Engagement</h2>
-          <p style={{ margin: '0' }}>Available for senior full-stack roles, part-time contracts, fixed-scope plugin builds, and retainer support. Working USA timezone overlap from Multan, Pakistan. Can sign NDA and IP assignment documents.</p>
         </section>
 
         <section>
@@ -1508,8 +1331,140 @@ export default function CV() {
           </FadeIn>
         </AnimatedSection>
 
+        {/* ============= PROCESS / HOW I WORK ============= */}
+        <AnimatedSection id="process" tag="// my workflow" icon={<Workflow />} number="05">
+          <FadeIn>
+            <h2 className="font-display text-4xl md:text-6xl font-bold leading-tight tracking-tight mb-3 text-center">
+              How I <span className="gradient-text">work.</span>
+            </h2>
+            <p className="text-slate-400 text-base md:text-lg max-w-3xl mx-auto mb-10 text-center">
+              No mystery, no scope-creep surprises. Here's the playbook I follow on every engagement.
+            </p>
+          </FadeIn>
+
+          <div className="max-w-5xl mx-auto">
+            <div className="relative pl-8 md:pl-10">
+              <div className="absolute left-2 md:left-3 top-2 bottom-2 w-0.5 bg-gradient-to-b from-cyan-400 via-purple-500 to-pink-500" />
+
+              {[
+                {
+                  step: '01',
+                  icon: Compass,
+                  color: 'cyan',
+                  title: 'Discovery & Scoping',
+                  duration: '2-5 days',
+                  desc: 'Kickoff call, requirements gathering, and writing the SOW. I ask the boring-but-critical questions: who are the users, what does success look like, and what edge cases scare you most.',
+                  output: 'Written scope document, milestone plan, fixed deliverables list'
+                },
+                {
+                  step: '02',
+                  icon: Layers,
+                  color: 'purple',
+                  title: 'Architecture & Planning',
+                  duration: '1-3 days',
+                  desc: 'Database schema, API contracts, component breakdown, deployment strategy. I document everything before writing the first line of feature code.',
+                  output: 'ER diagrams, API spec, sprint plan in your tool of choice (Jira, Linear, Notion)'
+                },
+                {
+                  step: '03',
+                  icon: GitBranch,
+                  color: 'pink',
+                  title: 'Daily Commits & Async Updates',
+                  duration: 'ongoing',
+                  desc: 'Git history you can audit. Async daily updates on what shipped, what\'s next, and what\'s blocked. No standups required, no surprises on Friday.',
+                  output: 'Daily Slack/email updates, GitHub PRs ready for review, demo links'
+                },
+                {
+                  step: '04',
+                  icon: GitPullRequest,
+                  color: 'yellow',
+                  title: 'Code Review & QA',
+                  duration: 'continuous',
+                  desc: 'Every PR gets self-reviewed before request. Linting, type-checking, and manual QA on staging before anything touches main. I write tests where they actually pay off.',
+                  output: 'Reviewed PRs, staging environment, QA checklist, test coverage where it matters'
+                },
+                {
+                  step: '05',
+                  icon: Rocket,
+                  color: 'green',
+                  title: 'Staging & Launch',
+                  duration: '1-2 days per release',
+                  desc: 'Deploy to staging first, walk through together, fix anything that surfaces, then push to production with rollback plan documented.',
+                  output: 'Staging URL, launch checklist, rollback plan, post-launch monitoring dashboard'
+                },
+                {
+                  step: '06',
+                  icon: Activity,
+                  color: 'orange',
+                  title: 'Post-Launch & Support',
+                  duration: '30-day warranty included',
+                  desc: 'I monitor for issues for 30 days post-launch as part of every engagement. Bug fixes during this window are on me. After that, ongoing retainer or hourly support is available.',
+                  output: 'Monitoring alerts set up, bug fixes in warranty period, knowledge transfer docs'
+                },
+              ].map((step, i) => {
+                const Icon = step.icon;
+                return (
+                  <FadeIn key={i} delay={i * 80}>
+                    <div className="relative" style={{ marginBottom: '20px' }}>
+                      <div className={`absolute -left-10 md:-left-11 top-1 w-5 h-5 rounded-full bg-slate-950 border-2 border-${step.color}-400 pulse-glow flex items-center justify-center`}>
+                        <Icon size={10} className={`text-${step.color}-400`} />
+                      </div>
+                      <div className="glass rounded-xl p-5 md:p-6 hover:-translate-y-1 group">
+                        <div className="flex flex-wrap items-baseline justify-between gap-2 mb-2">
+                          <div className="flex items-center gap-3">
+                            <span className={`font-mono text-xs px-2 py-0.5 rounded bg-${step.color}-400/10 border border-${step.color}-400/30 text-${step.color}-400`}>STEP {step.step}</span>
+                            <h3 className="text-lg md:text-xl font-semibold text-white">{step.title}</h3>
+                          </div>
+                          <div className="font-mono text-xs text-slate-500 flex items-center gap-1">
+                            <Clock size={11} /> {step.duration}
+                          </div>
+                        </div>
+                        <p className="text-sm md:text-[15px] text-slate-300 leading-relaxed mb-3">{step.desc}</p>
+                        <div className="font-mono text-[10px] text-cyan-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                          <FileCode size={10} /> deliverables
+                        </div>
+                        <p className="text-xs text-slate-400 italic">{step.output}</p>
+                      </div>
+                    </div>
+                  </FadeIn>
+                );
+              })}
+            </div>
+
+            {/* Response time + availability badge */}
+            <FadeIn delay={500}>
+              <div className="grid sm:grid-cols-2 gap-4 mt-6">
+                <div className="glass rounded-xl p-5 hover:-translate-y-1 hover:border-green-400/40">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-10 h-10 rounded-lg bg-green-400/10 border border-green-400/30 flex items-center justify-center">
+                      <Activity size={18} className="text-green-400" />
+                    </div>
+                    <div>
+                      <div className="font-mono text-[10px] text-green-400 uppercase tracking-wider">// response time</div>
+                      <div className="text-white font-semibold text-base">Avg &lt; 4 hours</div>
+                    </div>
+                  </div>
+                  <p className="text-xs text-slate-400">During USA business hours (9am - 6pm EST/PST). Outside hours, expect a reply by next business day.</p>
+                </div>
+                <div className="glass rounded-xl p-5 hover:-translate-y-1 hover:border-cyan-400/40">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-10 h-10 rounded-lg bg-cyan-400/10 border border-cyan-400/30 flex items-center justify-center">
+                      <CalendarCheck size={18} className="text-cyan-400" />
+                    </div>
+                    <div>
+                      <div className="font-mono text-[10px] text-cyan-400 uppercase tracking-wider">// availability</div>
+                      <div className="text-white font-semibold text-base">Open for new work</div>
+                    </div>
+                  </div>
+                  <p className="text-xs text-slate-400">Full-time | Part-time (20+hrs) | Contract-to-hire | Project-based. NDA on request.</p>
+                </div>
+              </div>
+            </FadeIn>
+          </div>
+        </AnimatedSection>
+
         {/* ============= STACK ============= */}
-        <AnimatedSection id="stack" tag="// dependencies" icon={<Code2 />} number="05">
+        <AnimatedSection id="stack" tag="// dependencies" icon={<Code2 />} number="06">
           <FadeIn>
             <h2 className="font-display text-4xl md:text-6xl font-bold leading-tight tracking-tight mb-6 text-center">
               My <span className="gradient-text">tech stack.</span>
@@ -1547,193 +1502,8 @@ export default function CV() {
           </div>
         </AnimatedSection>
 
-
-
-        {/* ============= ENGINEERING CONSOLE ============= */}
-        <AnimatedSection id="proof" tag="// engineering console" icon={<Github />} number="06">
-          <FadeIn>
-            <div className="text-center mb-3">
-              <span className="font-mono text-[10px] px-3 py-1 rounded-full bg-cyan-400/10 border border-cyan-400/40 text-cyan-400 uppercase tracking-widest">
-                inspect the build path
-              </span>
-            </div>
-            <h2 className="font-display text-4xl md:text-6xl font-bold leading-tight tracking-tight mb-3 text-center">
-              Ship-ready engineering, <span className="gradient-text">not portfolio theatre.</span>
-            </h2>
-            <p className="text-slate-400 text-base md:text-lg max-w-3xl mx-auto mb-10 text-center">
-              A compact engineering console for the way I build: API boundaries, plugin internals, browser-extension flows, public commit activity, and production habits that survive real users.
-            </p>
-          </FadeIn>
-
-          <div className="grid lg:grid-cols-[1.2fr_0.8fr] gap-5 max-w-6xl mx-auto items-stretch">
-            <FadeIn delay={100}>
-              <div className="glass rounded-2xl overflow-hidden h-full text-left border-cyan-400/20">
-                <div className="flex flex-wrap items-center gap-2 px-4 py-3 border-b border-slate-800 bg-slate-900/80">
-                  <div className="flex items-center gap-1.5 mr-2">
-                    <span className="w-3 h-3 rounded-full bg-red-500/80" />
-                    <span className="w-3 h-3 rounded-full bg-yellow-500/80" />
-                    <span className="w-3 h-3 rounded-full bg-green-500/80" />
-                  </div>
-                  {Object.entries(playgroundSnippets).map(([key, item]) => (
-                    <button
-                      key={key}
-                      onClick={() => setPlaygroundMode(key)}
-                      className={`font-mono text-[11px] px-3 py-1.5 rounded-md border transition-all ${
-                        playgroundMode === key
-                          ? 'bg-cyan-400/10 border-cyan-400 text-cyan-400'
-                          : 'border-slate-700 text-slate-400 hover:border-slate-500 hover:text-slate-200'
-                      }`}
-                    >
-                      {item.label}
-                    </button>
-                  ))}
-                  <span className="ml-auto hidden md:inline font-mono text-[10px] text-slate-600">production-patterns.tsx</span>
-                </div>
-                <div className="grid md:grid-cols-[1.2fr_0.8fr]">
-                  <div className="p-5 border-b md:border-b-0 md:border-r border-slate-800">
-                    <div className="font-mono text-[10px] text-purple-400 uppercase tracking-widest mb-2">// {playgroundSnippets[playgroundMode].title}</div>
-                    <pre className="font-mono text-xs md:text-sm leading-relaxed overflow-x-auto whitespace-pre-wrap text-slate-300">
-                      {playgroundSnippets[playgroundMode].code.split('\n').map((line, i) => (
-                        <div key={i} className="code-window-line" data-line={String(i + 1).padStart(2, '0')}>{line || ' '}</div>
-                      ))}
-                    </pre>
-                  </div>
-                  <div className="p-5 bg-slate-950/50">
-                    <div className="font-mono text-[10px] text-green-400 uppercase tracking-widest mb-3">// runtime trace</div>
-                    <div className="space-y-2">
-                      {playgroundSnippets[playgroundMode].output.split('\n').map((line, i) => (
-                        <div key={i} className="flex items-center gap-2 font-mono text-xs text-slate-300 bg-slate-900/60 border border-slate-800 rounded-md px-3 py-2">
-                          <Check size={13} className="text-green-400 flex-shrink-0" />
-                          {line}
-                        </div>
-                      ))}
-                    </div>
-                    <a href="https://github.com/softglazee" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 font-mono text-xs text-cyan-400 hover:text-cyan-300 mt-5">
-                      View public engineering trail <ArrowUpRight size={12} />
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </FadeIn>
-
-            <div className="space-y-5">
-              <FadeIn delay={180}>
-                <a href="https://github.com/softglazee" target="_blank" rel="noopener noreferrer" className="glass rounded-2xl p-5 block group hover:-translate-y-1 text-left">
-                  <div className="flex items-center justify-between gap-3 mb-4">
-                    <div>
-                      <div className="font-mono text-[10px] text-cyan-400 uppercase tracking-widest mb-1">// public commit trail</div>
-                      <h3 className="text-xl font-semibold text-white">Visible shipping cadence</h3>
-                    </div>
-                    <Github size={22} className="text-slate-500 group-hover:text-cyan-400 transition-colors" />
-                  </div>
-                  <div className="rounded-xl bg-slate-950/70 border border-slate-800 p-3 overflow-hidden">
-                    <img
-                      src="https://ghchart.rshah.org/22d3ee/softglazee"
-                      alt="GitHub contribution chart for softglazee"
-                      className="heatmap-img w-full min-h-[96px] object-contain opacity-90"
-                      loading="lazy"
-                    />
-                  </div>
-                  <p className="text-xs text-slate-500 mt-3 leading-relaxed">
-                    Public GitHub activity gives a quick read on consistency. Most client work sits in private repos, but the operating style is the same: branch, commit, review, deploy, document.
-                  </p>
-                </a>
-              </FadeIn>
-
-              <FadeIn delay={260}>
-                <div className="glass rounded-2xl p-5 text-left">
-                  <div className="font-mono text-[10px] text-purple-400 uppercase tracking-widest mb-3">// engineering artifacts</div>
-                  <div className="space-y-3">
-                    {openSourceItems.map((item, i) => (
-                      <div key={i} className="rounded-xl bg-slate-900/50 border border-slate-800 p-3 hover:border-purple-400/40 transition-colors">
-                        <div className="flex items-start gap-2">
-                          <GitPullRequest size={15} className="text-purple-400 mt-0.5 flex-shrink-0" />
-                          <div>
-                            <div className="text-sm font-semibold text-white">{item.name}</div>
-                            <div className="font-mono text-[10px] text-slate-500 mb-1">{item.type}</div>
-                            <p className="text-xs text-slate-400 leading-relaxed">{item.detail}</p>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </FadeIn>
-            </div>
-          </div>
-        </AnimatedSection>
-
-        {/* ============= PROCESS + RESPONSE SIGNALS ============= */}
-        <AnimatedSection id="process" tag="// delivery pipeline" icon={<Clock />} number="07">
-          <FadeIn>
-            <h2 className="font-display text-4xl md:text-6xl font-bold leading-tight tracking-tight mb-3 text-center">
-              From vague brief to <span className="gradient-text">production release.</span>
-            </h2>
-            <p className="text-slate-400 text-base md:text-lg max-w-3xl mx-auto mb-10 text-center">
-              I work in a visible delivery loop: define the contract, build vertical slices, keep diffs reviewable, test on staging, deploy safely, and harden from real feedback.
-            </p>
-          </FadeIn>
-
-          <div className="grid lg:grid-cols-[1fr_360px] gap-5 max-w-6xl mx-auto items-start">
-            <FadeIn delay={100}>
-              <div className="glass rounded-2xl p-5 md:p-6 text-left">
-                <div className="grid md:grid-cols-2 gap-3">
-                  {processSteps.map((item, i) => (
-                    <div key={i} className="relative rounded-xl bg-slate-900/50 border border-slate-800 p-4 hover:border-cyan-400/40 transition-all group">
-                      <div className="font-mono text-[10px] text-cyan-400 mb-2">{item.step}</div>
-                      <h3 className="text-base font-semibold text-white mb-1 flex items-center gap-2">
-                        {item.title}
-                        {i < processSteps.length - 1 && <ChevronRight size={14} className="text-slate-600 group-hover:text-cyan-400 transition-colors" />}
-                      </h3>
-                      <p className="text-xs md:text-sm text-slate-400 leading-relaxed">{item.desc}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </FadeIn>
-
-            <div className="space-y-5">
-              <FadeIn delay={180}>
-                <div className="slot-shine glass rounded-2xl p-5 text-left border-green-400/20">
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="relative flex h-3 w-3">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-3 w-3 bg-green-400"></span>
-                    </span>
-                    <span className="font-mono text-[10px] text-green-400 uppercase tracking-widest">communication SLA</span>
-                  </div>
-                  <div className="font-display text-4xl font-bold text-white mb-1">&lt; 4h</div>
-                  <p className="text-sm text-slate-400 leading-relaxed mb-4">
-                    Response target during active projects, interviews, releases, and production discussions. Blockers get surfaced early instead of hiding inside long silences.
-                  </p>
-                  <a href="mailto:admin@softglaze.com?subject=Senior%20Full-Stack%20Role%20-%20Availability" className="inline-flex items-center gap-2 font-mono text-xs px-3 py-2 rounded-lg bg-green-400/10 border border-green-400/40 text-green-400 hover:bg-green-400/15 transition-colors">
-                    Start conversation <ArrowUpRight size={12} />
-                  </a>
-                </div>
-              </FadeIn>
-
-              <FadeIn delay={260}>
-                <div className="glass rounded-2xl p-5 text-left">
-                  <div className="font-mono text-[10px] text-cyan-400 uppercase tracking-widest mb-3">// collaboration windows</div>
-                  <div className="space-y-2 mb-4">
-                    {['Mon-Wed: US morning overlap', 'Thu: architecture review / sprint planning', 'Fri: onboarding, release planning, or handoff'].map((slot, i) => (
-                      <div key={i} className="flex items-center justify-between gap-3 rounded-lg bg-slate-900/60 border border-slate-800 px-3 py-2">
-                        <span className="text-xs text-slate-300">{slot}</span>
-                        <span className="font-mono text-[10px] text-green-400">open</span>
-                      </div>
-                    ))}
-                  </div>
-                  <a href="mailto:admin@softglaze.com?subject=Book%20a%20technical%20conversation" className="font-mono text-xs text-cyan-400 hover:text-cyan-300 inline-flex items-center gap-1.5">
-                    Request exact meeting time <ArrowUpRight size={12} />
-                  </a>
-                </div>
-              </FadeIn>
-            </div>
-          </div>
-        </AnimatedSection>
-
         {/* ============= EXPERIENCE ============= */}
-        <AnimatedSection id="experience" tag="// git log --oneline" icon={<Briefcase />} number="08">
+        <AnimatedSection id="experience" tag="// git log --oneline" icon={<Briefcase />} number="07">
           <FadeIn>
             <h2 className="font-display text-4xl md:text-6xl font-bold leading-tight tracking-tight mb-6 text-center">
               Where I've <span className="gradient-text">shipped.</span>
@@ -1803,7 +1573,7 @@ export default function CV() {
         </AnimatedSection>
 
         {/* ============= PORTFOLIO ============= */}
-        <AnimatedSection id="portfolio" tag="// live deployments" icon={<Layers />} number="09">
+        <AnimatedSection id="portfolio" tag="// live deployments" icon={<Layers />} number="08">
           <FadeIn>
             <h2 className="font-display text-4xl md:text-6xl font-bold leading-tight tracking-tight mb-3 text-center">
               Live in <span className="gradient-text">production.</span>
@@ -1876,7 +1646,8 @@ export default function CV() {
                   type="text"
                   value={portfolioSearch}
                   onChange={(e) => setPortfolioSearch(e.target.value)}
-                  className="font-mono text-xs pl-9 pr-3 py-1.5 rounded-full bg-slate-900/60 border border-slate-700 text-slate-300 focus:outline-none focus:border-cyan-400 w-full lg:w-56 transition-colors"
+                  placeholder="search sites..."
+                  className="font-mono text-xs pl-9 pr-3 py-1.5 rounded-full bg-slate-900/60 border border-slate-700 text-slate-300 placeholder-slate-600 focus:outline-none focus:border-cyan-400 w-full lg:w-56 transition-colors"
                 />
               </div>
             </div>
@@ -2028,7 +1799,7 @@ export default function CV() {
         </AnimatedSection>
 
         {/* ============= CASE STUDIES ============= */}
-        <AnimatedSection id="projects" tag="// deeper dives" icon={<Code2 />} number="10">
+        <AnimatedSection id="projects" tag="// deeper dives" icon={<Code2 />} number="09">
           <FadeIn>
             <h2 className="font-display text-4xl md:text-6xl font-bold leading-tight tracking-tight mb-6 text-center">
               Selected <span className="gradient-text">case studies.</span>
@@ -2116,151 +1887,74 @@ export default function CV() {
           </div>
         </AnimatedSection>
 
-
-
-        {/* ============= CURRENT BUILD LOG ============= */}
-        <AnimatedSection id="now" tag="// current build log" icon={<Brain />} number="11">
+        {/* ============= ACHIEVEMENTS / CERTIFICATIONS / LEARNING ============= */}
+        <AnimatedSection id="achievements" tag="// achievements & growth" icon={<Trophy />} number="10">
           <FadeIn>
             <h2 className="font-display text-4xl md:text-6xl font-bold leading-tight tracking-tight mb-3 text-center">
-              Current build log, <span className="gradient-text">fresh commits only.</span>
+              Achievements & <span className="gradient-text">growth.</span>
             </h2>
             <p className="text-slate-400 text-base md:text-lg max-w-3xl mx-auto mb-10 text-center">
-              A living snapshot of what I am improving now: product hardening, plugin architecture, React refactors, deployment discipline, and the technical notes behind the work.
+              The receipts. What I've built, what I'm certified in, what I'm learning, and what shaped my thinking.
             </p>
           </FadeIn>
 
-          <div className="grid lg:grid-cols-3 gap-5 max-w-6xl mx-auto text-left">
+          <div className="grid md:grid-cols-2 gap-5 max-w-6xl mx-auto">
+
+            {/* Achievements card */}
             <FadeIn delay={100}>
-              <div className="glass rounded-2xl p-5 h-full lg:col-span-1">
-                <div className="font-mono text-[10px] text-cyan-400 uppercase tracking-widest mb-3">// active workstream</div>
-                <h3 className="text-2xl font-semibold text-white mb-3">Currently building</h3>
+              <div className="glass rounded-xl p-6 hover:-translate-y-1 group h-full">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-9 h-9 rounded-lg bg-yellow-400/10 border border-yellow-400/30 flex items-center justify-center">
+                    <Trophy size={16} className="text-yellow-400" />
+                  </div>
+                  <h3 className="text-lg md:text-xl font-semibold text-white">Career Highlights</h3>
+                </div>
+                <ul className="space-y-2.5 text-sm text-slate-300">
+                  {[
+                    'Published a Chrome extension on the Web Store (5.0 rating)',
+                    'Founded SoftGlaze LLC and grew it to 20+ live production sites',
+                    'Built and shipped 10+ custom WordPress plugins under the SoftGlaze brand',
+                    'Architected a 12-site multi-region legal services network (UAE)',
+                    'Optimized p95 response times materially on production SaaS at Creative Chaos',
+                    'Mentored junior developers across distributed teams',
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-start gap-2 leading-relaxed">
+                      <Check size={14} className="text-green-400 flex-shrink-0 mt-0.5" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </FadeIn>
+
+            {/* Currently Learning card */}
+            <FadeIn delay={200}>
+              <div className="glass rounded-xl p-6 hover:-translate-y-1 group h-full">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-9 h-9 rounded-lg bg-cyan-400/10 border border-cyan-400/30 flex items-center justify-center">
+                    <TrendingUp size={16} className="text-cyan-400" />
+                  </div>
+                  <h3 className="text-lg md:text-xl font-semibold text-white">Currently Learning</h3>
+                </div>
+                <p className="text-xs text-slate-400 mb-3 italic">// the stack moves fast, so do I</p>
                 <div className="space-y-3">
                   {[
-                    'Hardening SoftGlaze Screen Recorder recording, annotations, and export reliability',
-                    'Building comparison and lead-routing plugin systems with CPTs, ACF, and REST APIs',
-                    'Refactoring React portfolio sections into cleaner data-driven components',
-                    'Documenting reusable API, deployment, and handoff patterns',
-                  ].map((item, i) => (
-                    <div key={i} className="flex items-start gap-2 text-sm text-slate-300">
-                      <Rocket size={14} className="text-cyan-400 mt-0.5 flex-shrink-0" />
-                      <span>{item}</span>
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-5 rounded-xl bg-slate-900/60 border border-slate-800 p-3 font-mono text-xs text-slate-500">
-                  updated: May 2026 · cadence: weekly
-                </div>
-              </div>
-            </FadeIn>
-
-            <FadeIn delay={180}>
-              <div className="glass rounded-2xl p-5 h-full lg:col-span-2">
-                <div className="font-mono text-[10px] text-purple-400 uppercase tracking-widest mb-3">// engineering notes</div>
-                <div className="grid md:grid-cols-3 gap-3">
-                  {blogPosts.map((post, i) => (
-                    <div key={i} className="rounded-xl bg-slate-900/50 border border-slate-800 p-4 hover:border-purple-400/40 transition-colors">
-                      <FileText size={18} className="text-purple-400 mb-3" />
-                      <h3 className="text-sm font-semibold text-white leading-snug mb-2">{post.title}</h3>
-                      <div className="font-mono text-[10px] text-cyan-400 mb-1">{post.tag}</div>
-                      <div className="font-mono text-[10px] text-slate-500">{post.read}</div>
-                    </div>
-                  ))}
-                </div>
-                <p className="text-xs text-slate-500 mt-4 leading-relaxed">
-                  I write these as compact engineering notes: the tradeoffs, constraints, bugs, and fixes behind real production decisions.
-                </p>
-              </div>
-            </FadeIn>
-
-            <FadeIn delay={260}>
-              <div className="glass rounded-2xl p-5 h-full">
-                <div className="font-mono text-[10px] text-yellow-400 uppercase tracking-widest mb-3">// achievements</div>
-                <div className="space-y-2">
-                  {achievements.map((item, i) => (
-                    <div key={i} className="flex items-start gap-2 text-sm text-slate-300">
-                      <Award size={14} className="text-yellow-400 mt-0.5 flex-shrink-0" />
-                      <span>{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </FadeIn>
-
-            <FadeIn delay={320}>
-              <div className="glass rounded-2xl p-5 h-full">
-                <div className="font-mono text-[10px] text-green-400 uppercase tracking-widest mb-3">// skills under active upgrade</div>
-                <div className="flex flex-wrap gap-2">
-                  {learning.map((item, i) => (
-                    <span key={i} className="font-mono text-xs px-2.5 py-1 rounded-md bg-green-400/10 border border-green-400/30 text-green-300">{item}</span>
-                  ))}
-                </div>
-              </div>
-            </FadeIn>
-
-            <FadeIn delay={380}>
-              <div className="glass rounded-2xl p-5 h-full">
-                <div className="font-mono text-[10px] text-pink-400 uppercase tracking-widest mb-3">// when not coding</div>
-                <div className="space-y-2 mb-4">
-                  {funFacts.map((item, i) => (
-                    <div key={i} className="flex items-start gap-2 text-sm text-slate-300">
-                      <Coffee size={14} className="text-pink-400 mt-0.5 flex-shrink-0" />
-                      <span>{item}</span>
-                    </div>
-                  ))}
-                </div>
-                <div className="rounded-xl bg-slate-950/60 border border-slate-800 p-3">
-                  <div className="font-mono text-[10px] text-slate-500 mb-1">// spotify now playing</div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-green-400/30 to-cyan-400/30 border border-green-400/30 flex items-center justify-center">
-                      <Zap size={16} className="text-green-400" />
-                    </div>
-                    <div>
-                      <div className="text-sm text-white font-semibold">Deep focus mode</div>
-                      <div className="font-mono text-[10px] text-slate-500">lo-fi / deep focus / clean diffs</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </FadeIn>
-
-            <FadeIn delay={440}>
-              <div className="glass rounded-2xl p-5 h-full lg:col-span-3">
-                <div className="font-mono text-[10px] text-cyan-400 uppercase tracking-widest mb-3">// references that shaped my engineering taste</div>
-                <div className="flex flex-wrap gap-2">
-                  {books.map((item, i) => (
-                    <span key={i} className="inline-flex items-center gap-1.5 font-mono text-xs px-3 py-1.5 rounded-full bg-slate-900/60 border border-slate-700 text-slate-300 hover:border-cyan-400 hover:text-cyan-400 transition-colors">
-                      <GraduationCap size={12} /> {item}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </FadeIn>
-          </div>
-        </AnimatedSection>
-
-        {/* ============= COLLABORATION MODES + FAQ ============= */}
-        <AnimatedSection id="engagement" tag="// collaboration models" icon={<Package />} number="12">
-          <FadeIn>
-            <h2 className="font-display text-4xl md:text-6xl font-bold leading-tight tracking-tight mb-3 text-center">
-              Clear ways to <span className="gradient-text">plug me into your stack.</span>
-            </h2>
-            <p className="text-slate-400 text-base md:text-lg max-w-3xl mx-auto mb-10 text-center">
-              Whether the work is a senior role, a fixed module, or ongoing production support, the expectations stay explicit: scope, cadence, ownership, handoff, and release quality.
-            </p>
-          </FadeIn>
-
-          <div className="grid lg:grid-cols-2 gap-5 max-w-6xl mx-auto text-left">
-            <FadeIn delay={100}>
-              <div className="glass rounded-2xl p-5 md:p-6 h-full">
-                <div className="font-mono text-[10px] text-cyan-400 uppercase tracking-widest mb-4">// collaboration models</div>
-                <div className="grid sm:grid-cols-2 gap-3">
-                  {engagementModels.map((model, i) => (
-                    <div key={i} className="rounded-xl bg-slate-900/50 border border-slate-800 p-4 hover:border-cyan-400/40 transition-colors">
-                      <h3 className="text-base font-semibold text-white mb-2">{model.title}</h3>
-                      <p className="text-xs text-slate-400 leading-relaxed mb-3">{model.fit}</p>
-                      <div className="space-y-1 font-mono text-[10px]">
-                        <div className="text-green-400">availability: {model.availability}</div>
-                        <div className="text-slate-500">terms: {model.terms}</div>
+                    { skill: 'TypeScript', progress: 85, color: 'cyan' },
+                    { skill: 'Next.js (App Router)', progress: 70, color: 'purple' },
+                    { skill: 'AWS Lambda + Serverless', progress: 55, color: 'pink' },
+                    { skill: 'Tailwind CSS v4', progress: 80, color: 'yellow' },
+                    { skill: 'Manifest V3 (Chrome Ext)', progress: 90, color: 'green' },
+                  ].map((s, i) => (
+                    <div key={i}>
+                      <div className="flex justify-between mb-1">
+                        <span className="font-mono text-xs text-slate-300">{s.skill}</span>
+                        <span className={`font-mono text-[10px] text-${s.color}-400`}>{s.progress}%</span>
+                      </div>
+                      <div className="h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                        <div
+                          className={`h-full bg-gradient-to-r from-${s.color}-500 to-${s.color}-400 rounded-full transition-all duration-1000`}
+                          style={{ width: `${s.progress}%` }}
+                        />
                       </div>
                     </div>
                   ))}
@@ -2268,34 +1962,63 @@ export default function CV() {
               </div>
             </FadeIn>
 
-            <FadeIn delay={180}>
-              <div className="glass rounded-2xl p-5 md:p-6 h-full">
-                <div className="font-mono text-[10px] text-purple-400 uppercase tracking-widest mb-4">// working agreement faq</div>
-                <div className="space-y-2">
-                  {faqItems.map((item, i) => (
-                    <div key={i} className="rounded-xl border border-slate-800 bg-slate-900/50 overflow-hidden">
-                      <button
-                        onClick={() => setActiveFAQ(activeFAQ === i ? null : i)}
-                        className="w-full flex items-center justify-between gap-3 text-left px-4 py-3 hover:bg-slate-800/40 transition-colors"
-                      >
-                        <span className="text-sm font-semibold text-white">{item.q}</span>
-                        <ChevronDown size={16} className={`text-slate-500 transition-transform ${activeFAQ === i ? 'rotate-180 text-purple-400' : ''}`} />
-                      </button>
-                      {activeFAQ === i && (
-                        <div className="px-4 pb-4 text-sm text-slate-400 leading-relaxed">
-                          {item.a}
-                        </div>
-                      )}
-                    </div>
-                  ))}
+            {/* Certifications & Education */}
+            <FadeIn delay={300}>
+              <div className="glass rounded-xl p-6 hover:-translate-y-1 group h-full">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-9 h-9 rounded-lg bg-purple-400/10 border border-purple-400/30 flex items-center justify-center">
+                    <Award size={16} className="text-purple-400" />
+                  </div>
+                  <h3 className="text-lg md:text-xl font-semibold text-white">Education & Certifications</h3>
                 </div>
+                <ul className="space-y-3 text-sm text-slate-300">
+                  <li className="border-l-2 border-purple-400/40 pl-3">
+                    <div className="font-semibold text-white">Master of Information Technology</div>
+                    <div className="text-xs text-slate-400">Islamia University of Bahawalpur | 2012-2016</div>
+                    <div className="text-xs text-slate-500">Major: Computer Science & Cyber Security</div>
+                  </li>
+                  <li className="border-l-2 border-cyan-400/40 pl-3">
+                    <div className="font-semibold text-white">Chrome Web Store Developer</div>
+                    <div className="text-xs text-slate-400">Published & verified extension publisher</div>
+                  </li>
+                  <li className="border-l-2 border-pink-400/40 pl-3">
+                    <div className="font-semibold text-white">Self-taught practitioner</div>
+                    <div className="text-xs text-slate-400">8+ years shipping production code, continuously learning new frameworks and patterns</div>
+                  </li>
+                </ul>
+              </div>
+            </FadeIn>
+
+            {/* Books that shaped me */}
+            <FadeIn delay={400}>
+              <div className="glass rounded-xl p-6 hover:-translate-y-1 group h-full">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-9 h-9 rounded-lg bg-pink-400/10 border border-pink-400/30 flex items-center justify-center">
+                    <BookOpen size={16} className="text-pink-400" />
+                  </div>
+                  <h3 className="text-lg md:text-xl font-semibold text-white">Books That Shaped Me</h3>
+                </div>
+                <p className="text-xs text-slate-400 mb-3 italic">// the standing on shoulders of giants stack</p>
+                <ul className="space-y-2.5 text-sm">
+                  {[
+                    { book: 'Clean Code', author: 'Robert C. Martin', why: 'how to write code humans can read' },
+                    { book: 'The Pragmatic Programmer', author: 'Hunt & Thomas', why: 'craftsmanship and continuous learning' },
+                    { book: 'Designing Data-Intensive Applications', author: 'Martin Kleppmann', why: 'how systems actually scale' },
+                    { book: 'Refactoring', author: 'Martin Fowler', why: 'how to improve code without breaking things' },
+                  ].map((b, i) => (
+                    <li key={i} className="border-l-2 border-pink-400/30 pl-3">
+                      <div className="font-medium text-white text-[13px]">{b.book}</div>
+                      <div className="text-[11px] text-slate-400">{b.author} | <span className="italic text-slate-500">{b.why}</span></div>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </FadeIn>
           </div>
         </AnimatedSection>
 
-        {/* ============= TESTIMONIALS — PR STYLE CAROUSEL ============= */}
-        <AnimatedSection id="testimonials" tag="// code reviews" icon={<GitPullRequest />} number="13">
+        {/* ============= TESTIMONIALS ============= */}
+        <AnimatedSection id="testimonials" tag="// code reviews" icon={<GitPullRequest />} number="11">
           <FadeIn>
             <h2 className="font-display text-4xl md:text-6xl font-bold leading-tight tracking-tight mb-3 text-center">
               Code <span className="gradient-text">reviews.</span>
@@ -2409,6 +2132,321 @@ export default function CV() {
           </FadeIn>
         </AnimatedSection>
 
+        {/* ============= FAQ ============= */}
+        <AnimatedSection id="faq" tag="// frequently asked" icon={<HelpCircle />} number="12">
+          <FadeIn>
+            <h2 className="font-display text-4xl md:text-6xl font-bold leading-tight tracking-tight mb-3 text-center">
+              Common <span className="gradient-text">questions.</span>
+            </h2>
+            <p className="text-slate-400 text-base md:text-lg max-w-3xl mx-auto mb-10 text-center">
+              The questions every recruiter and HR manager asks me. Pre-answered so you don't have to.
+            </p>
+          </FadeIn>
+
+          <div className="max-w-4xl mx-auto space-y-3">
+            {[
+              {
+                q: 'Do you work fixed-price, hourly, or retainer?',
+                a: 'All three. Fixed-price for well-scoped projects. Hourly for ongoing or exploratory work (rates vary by engagement type). Monthly retainer for ongoing maintenance and feature work — typically 20-40 hours per month with priority support. Happy to discuss what fits your budget and risk tolerance.',
+                tag: 'pricing'
+              },
+              {
+                q: 'How do you handle confidentiality and NDAs?',
+                a: 'I sign NDAs as standard practice for any client work — happy to use yours or provide a mutual one. Client code, credentials, and business information stay confidential indefinitely. I use separate environments and credentials per client, never reuse code without permission, and remove access promptly when engagements end.',
+                tag: 'security'
+              },
+              {
+                q: 'What\'s your availability for US time zones?',
+                a: 'I work USA business hours from Multan, PK. Comfortable with EST, CST, MST, and PST. Daily overlap of 4-6 hours is normal. For meetings, I typically have slots between 8am-2pm EST. Weekend emergencies handled on a case-by-case basis with prior agreement.',
+                tag: 'timezone'
+              },
+              {
+                q: 'How do you handle scope creep or changing requirements?',
+                a: 'Initial SOW captures must-haves explicitly. Changes within ~10% of scope I absorb without fuss. Beyond that, I flag it transparently with a written change order showing impact on timeline and cost. No surprises, no awkward "remember when you said..." conversations at the end.',
+                tag: 'scope'
+              },
+              {
+                q: 'Can you work full-time or only freelance?',
+                a: 'Both. I currently run SoftGlaze LLC but am actively open to senior full-time engineering roles where I can commit deeply to one product. Also available for contract-to-hire arrangements if you want to test the fit before committing. Just let me know which path interests you.',
+                tag: 'engagement'
+              },
+              {
+                q: 'What happens if a bug ships to production?',
+                a: 'Free 30-day bug-fix warranty included on every engagement. Anything broken in the original scope, I fix on my time. After 30 days, fixes are billed hourly or covered under retainer. I document and monitor my deployments specifically to minimize this — but mistakes happen, and I own them.',
+                tag: 'support'
+              },
+              {
+                q: 'Do you handle hosting, domains, and DevOps?',
+                a: 'Yes. Comfortable with VPS deployment (DigitalOcean, Linode, AWS EC2), shared hosting via cPanel, and serverless platforms (Vercel, Netlify). I can set up CI/CD pipelines, SSL, backups, and monitoring. If you have a preferred provider, I work with whatever you have. If you don\'t, I\'ll recommend based on your needs and budget.',
+                tag: 'devops'
+              },
+              {
+                q: 'What if we need someone urgently?',
+                a: 'Reach out and tell me what you need. If I have capacity, I can usually start within 3-5 business days. For genuine emergencies (production down, deadline tomorrow), I prioritize and respond within hours during USA business time. Just be honest about urgency in the first message.',
+                tag: 'urgency'
+              },
+            ].map((faq, i) => (
+              <FadeIn key={i} delay={i * 50}>
+                <div
+                  className={`glass rounded-xl overflow-hidden transition-all cursor-pointer ${openFaq === i ? 'border-cyan-400/40' : 'hover:border-cyan-400/20'}`}
+                  onClick={() => setOpenFaq(openFaq === i ? -1 : i)}
+                >
+                  <div className="p-5 flex items-start gap-3">
+                    <div className={`flex-shrink-0 w-7 h-7 rounded-md flex items-center justify-center transition-all ${openFaq === i ? 'bg-cyan-400/20 text-cyan-400 rotate-90' : 'bg-slate-800/60 text-slate-500'}`}>
+                      <ChevronRight size={14} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between gap-3 flex-wrap">
+                        <h3 className="font-semibold text-white text-sm md:text-[15px] leading-snug">{faq.q}</h3>
+                        <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-slate-900/80 border border-slate-700/60 text-slate-400 flex-shrink-0">// {faq.tag}</span>
+                      </div>
+                      {openFaq === i && (
+                        <p className="text-sm text-slate-300 leading-relaxed mt-3 animate-in fade-in slide-in-from-top-2 duration-300">{faq.a}</p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+
+          <FadeIn delay={500}>
+            <div className="text-center mt-10">
+              <p className="font-mono text-sm text-slate-400 mb-4">
+                <span className="text-slate-600">{'//'}</span> didn't see your question? ask me directly.
+              </p>
+              <a href="mailto:admin@softglaze.com" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-medium text-sm hover:shadow-xl hover:shadow-cyan-500/30 transition-all hover:-translate-y-0.5">
+                <Mail size={14} /> Email me
+                <ArrowUpRight size={12} />
+              </a>
+            </div>
+          </FadeIn>
+        </AnimatedSection>
+
+        {/* ============= NOW (currently doing) + Personality ============= */}
+        <AnimatedSection id="now" tag="// /now page" icon={<Activity />} number="13">
+          <FadeIn>
+            <h2 className="font-display text-4xl md:text-6xl font-bold leading-tight tracking-tight mb-3 text-center">
+              What I'm <span className="gradient-text">up to.</span>
+            </h2>
+            <p className="text-slate-400 text-base md:text-lg max-w-3xl mx-auto mb-10 text-center">
+              The human behind the code. Updated regularly — last edited this week.
+            </p>
+          </FadeIn>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-6xl mx-auto">
+
+            {/* Currently Building */}
+            <FadeIn delay={100}>
+              <div className="glass rounded-xl p-5 hover:-translate-y-1 h-full relative overflow-hidden group">
+                <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-cyan-400 to-transparent" />
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-9 h-9 rounded-lg bg-cyan-400/10 border border-cyan-400/30 flex items-center justify-center">
+                    <Wrench size={16} className="text-cyan-400" />
+                  </div>
+                  <div>
+                    <div className="font-mono text-[10px] text-cyan-400 uppercase tracking-wider">// currently building</div>
+                    <div className="text-white font-semibold text-sm">This week's focus</div>
+                  </div>
+                </div>
+                <ul className="space-y-2 text-xs text-slate-300">
+                  <li className="flex items-start gap-2 leading-relaxed">
+                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 mt-1.5 flex-shrink-0"></span>
+                    Polishing the Dubai legal sites with full content
+                  </li>
+                  <li className="flex items-start gap-2 leading-relaxed">
+                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 mt-1.5 flex-shrink-0"></span>
+                    Iterating on SoftGlaze Screen Recorder v15
+                  </li>
+                  <li className="flex items-start gap-2 leading-relaxed">
+                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 mt-1.5 flex-shrink-0"></span>
+                    Refining this CV (you're literally seeing it)
+                  </li>
+                </ul>
+              </div>
+            </FadeIn>
+
+            {/* Reading */}
+            <FadeIn delay={200}>
+              <div className="glass rounded-xl p-5 hover:-translate-y-1 h-full relative overflow-hidden group">
+                <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-purple-400 to-transparent" />
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-9 h-9 rounded-lg bg-purple-400/10 border border-purple-400/30 flex items-center justify-center">
+                    <BookOpen size={16} className="text-purple-400" />
+                  </div>
+                  <div>
+                    <div className="font-mono text-[10px] text-purple-400 uppercase tracking-wider">// reading</div>
+                    <div className="text-white font-semibold text-sm">In my queue</div>
+                  </div>
+                </div>
+                <ul className="space-y-2 text-xs text-slate-300">
+                  <li className="flex items-start gap-2 leading-relaxed">
+                    <span className="w-1.5 h-1.5 rounded-full bg-purple-400 mt-1.5 flex-shrink-0"></span>
+                    System Design Interview by Alex Xu
+                  </li>
+                  <li className="flex items-start gap-2 leading-relaxed">
+                    <span className="w-1.5 h-1.5 rounded-full bg-purple-400 mt-1.5 flex-shrink-0"></span>
+                    Newsletter: Pragmatic Engineer
+                  </li>
+                  <li className="flex items-start gap-2 leading-relaxed">
+                    <span className="w-1.5 h-1.5 rounded-full bg-purple-400 mt-1.5 flex-shrink-0"></span>
+                    Re-reading Refactoring (M. Fowler)
+                  </li>
+                </ul>
+              </div>
+            </FadeIn>
+
+            {/* Now Playing — auto-rotating */}
+            <FadeIn delay={300}>
+              <div className="glass rounded-xl p-5 hover:-translate-y-1 h-full relative overflow-hidden group">
+                <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-pink-400 to-transparent" />
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-9 h-9 rounded-lg bg-pink-400/10 border border-pink-400/30 flex items-center justify-center">
+                    <Headphones size={16} className="text-pink-400" />
+                  </div>
+                  <div>
+                    <div className="font-mono text-[10px] text-pink-400 uppercase tracking-wider">// coding playlist</div>
+                    <div className="text-white font-semibold text-sm flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
+                      What's on rotation
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-2 text-xs">
+                  {[
+                    { genre: 'Lo-fi beats', for: 'flow state coding' },
+                    { genre: 'Synthwave', for: 'late-night refactoring' },
+                    { genre: 'Ambient electronic', for: 'deep focus blocks' },
+                    { genre: 'Coffitivity (cafe noise)', for: 'when home gets quiet' },
+                  ].map((track, i) => (
+                    <div
+                      key={i}
+                      className={`flex items-center gap-2 leading-relaxed transition-all ${nowPlayingIndex === i ? 'text-pink-400 font-medium' : 'text-slate-400'}`}
+                    >
+                      <PlayCircle size={11} className={nowPlayingIndex === i ? 'text-pink-400' : 'text-slate-600'} />
+                      <span>{track.genre}</span>
+                      <span className="text-slate-600 italic text-[10px]">— {track.for}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </FadeIn>
+
+            {/* Fun Facts */}
+            <FadeIn delay={400}>
+              <div className="glass rounded-xl p-5 hover:-translate-y-1 h-full relative overflow-hidden group">
+                <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-yellow-400 to-transparent" />
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-9 h-9 rounded-lg bg-yellow-400/10 border border-yellow-400/30 flex items-center justify-center">
+                    <Smile size={16} className="text-yellow-400" />
+                  </div>
+                  <div>
+                    <div className="font-mono text-[10px] text-yellow-400 uppercase tracking-wider">// quirks.json</div>
+                    <div className="text-white font-semibold text-sm">When I'm not coding</div>
+                  </div>
+                </div>
+                <ul className="space-y-2 text-xs text-slate-300">
+                  <li className="flex items-start gap-2 leading-relaxed">
+                    <Coffee size={11} className="text-yellow-400 mt-0.5 flex-shrink-0" />
+                    Drinking dangerous amounts of chai
+                  </li>
+                  <li className="flex items-start gap-2 leading-relaxed">
+                    <Globe size={11} className="text-yellow-400 mt-0.5 flex-shrink-0" />
+                    Slowly learning German on Duolingo
+                  </li>
+                  <li className="flex items-start gap-2 leading-relaxed">
+                    <BookOpen size={11} className="text-yellow-400 mt-0.5 flex-shrink-0" />
+                    Reading sci-fi (Liu Cixin, Asimov)
+                  </li>
+                  <li className="flex items-start gap-2 leading-relaxed">
+                    <Compass size={11} className="text-yellow-400 mt-0.5 flex-shrink-0" />
+                    Hiking when the weather permits
+                  </li>
+                </ul>
+              </div>
+            </FadeIn>
+
+            {/* Open Source / Community */}
+            <FadeIn delay={500}>
+              <div className="glass rounded-xl p-5 hover:-translate-y-1 h-full relative overflow-hidden group">
+                <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-green-400 to-transparent" />
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-9 h-9 rounded-lg bg-green-400/10 border border-green-400/30 flex items-center justify-center">
+                    <Github size={16} className="text-green-400" />
+                  </div>
+                  <div>
+                    <div className="font-mono text-[10px] text-green-400 uppercase tracking-wider">// community</div>
+                    <div className="text-white font-semibold text-sm flex items-center gap-1.5">
+                      Open Source
+                      <a href="https://github.com/softglazee" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:text-cyan-300">
+                        <ArrowUpRight size={12} />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <p className="text-xs text-slate-400 leading-relaxed mb-3">
+                  Active GitHub presence with public repos, contributions, and starred projects across the Laravel and Chrome extension ecosystems.
+                </p>
+                <div className="grid grid-cols-2 gap-2 text-center">
+                  <div className="bg-slate-900/60 border border-slate-700/40 rounded-md p-2">
+                    <div className="font-mono text-base font-bold gradient-text">
+                      {githubStats.loading ? '...' : (githubStats.repos !== null ? githubStats.repos : '—')}
+                    </div>
+                    <div className="text-[10px] text-slate-500 uppercase tracking-wider">Repos</div>
+                  </div>
+                  <div className="bg-slate-900/60 border border-slate-700/40 rounded-md p-2">
+                    <div className="font-mono text-base font-bold gradient-text">8+</div>
+                    <div className="text-[10px] text-slate-500 uppercase tracking-wider">Years</div>
+                  </div>
+                </div>
+              </div>
+            </FadeIn>
+
+            {/* Writing / Speaking */}
+            <FadeIn delay={600}>
+              <div className="glass rounded-xl p-5 hover:-translate-y-1 h-full relative overflow-hidden group">
+                <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-orange-400 to-transparent" />
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-9 h-9 rounded-lg bg-orange-400/10 border border-orange-400/30 flex items-center justify-center">
+                    <Pen size={16} className="text-orange-400" />
+                  </div>
+                  <div>
+                    <div className="font-mono text-[10px] text-orange-400 uppercase tracking-wider">// writing soon</div>
+                    <div className="text-white font-semibold text-sm">Tech blog (in progress)</div>
+                  </div>
+                </div>
+                <p className="text-xs text-slate-400 leading-relaxed mb-2">
+                  Planning a series on technical lessons from shipping production code:
+                </p>
+                <ul className="space-y-1.5 text-xs text-slate-300">
+                  <li className="flex items-start gap-2 leading-relaxed">
+                    <ChevronRight size={11} className="text-orange-400 mt-0.5 flex-shrink-0" />
+                    Building Chrome Extension v3 — what they don't tell you
+                  </li>
+                  <li className="flex items-start gap-2 leading-relaxed">
+                    <ChevronRight size={11} className="text-orange-400 mt-0.5 flex-shrink-0" />
+                    Vehicle compatibility matching at scale (CarPartHQ)
+                  </li>
+                  <li className="flex items-start gap-2 leading-relaxed">
+                    <ChevronRight size={11} className="text-orange-400 mt-0.5 flex-shrink-0" />
+                    Multi-site WordPress SEO architecture
+                  </li>
+                </ul>
+              </div>
+            </FadeIn>
+          </div>
+
+          {/* Last updated badge */}
+          <FadeIn delay={700}>
+            <div className="text-center mt-8">
+              <span className="inline-flex items-center gap-2 font-mono text-xs text-slate-500 px-4 py-2 rounded-full border border-slate-800 bg-slate-900/40">
+                <Calendar size={11} />
+                last updated: this week
+              </span>
+            </div>
+          </FadeIn>
+        </AnimatedSection>
+
         {/* ============= CONTACT ============= */}
         <section id="contact" className="relative flex flex-col items-center justify-center px-4 sm:px-6 md:px-12 py-16 md:py-20 overflow-hidden">
           <div className="absolute inset-0 grid-bg opacity-30" />
@@ -2421,7 +2459,7 @@ export default function CV() {
                 Let's build <span className="gradient-text">something.</span>
               </h2>
               <p className="text-base md:text-lg text-slate-400 mb-10 max-w-xl mx-auto">
-                Open to senior full-stack roles, serious product builds, and long-term engineering partnerships. I work USA overlap from Multan, PK, and I prefer clear scopes, real ownership, and production work that actually ships.
+                Open to senior full-stack roles, working USA timezones from Multan, PK. If you're hiring and the work looks interesting, I'd love to chat. No copy-paste recruiter pitches, please.
               </p>
 
               <div className="flex flex-wrap gap-3 justify-center mb-10">
@@ -2465,7 +2503,7 @@ export default function CV() {
             </div>
           </FadeIn>
 
-          <div className="relative z-10 mt-16 font-mono text-[10px] text-slate-700 flex items-center gap-1">
+          <div className="relative z-10 mt-16 font-mono text-[10px] text-slate-700 flex items-center gap-1 flex-wrap justify-center px-4 text-center">
             built with react | tailwind | <Heart size={10} className="text-pink-400 fill-pink-400" /> by Muhammad Azhar | azhar.softglaze.com
           </div>
         </section>
