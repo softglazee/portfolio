@@ -38,8 +38,10 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT }}
-          source: upload.zip
-          target: ~
+          source: "upload.zip"
+          # Quoted deliberately: a bare ~ is YAML null, which the action reads
+          # as an empty path and then tries to mkdir "".
+          target: "~"
 
       # Extract to a staging directory and swap only once it is known good, so a
       # failed unzip can never leave the live site emptied.
