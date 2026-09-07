@@ -47,11 +47,20 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           script: |
             set -e
-            TARGET="$HOME/domains/azhar.softglaze.com/public_html"
-            if [ ! -d "$TARGET" ]; then
-              echo "ERROR: $TARGET does not exist on $(hostname) as $(whoami)."
-              echo "This account does not host azhar.softglaze.com. Available domains:"
-              ls "$HOME/domains/" 2>/dev/null || echo "  (no ~/domains directory)"
+            TARGET=""
+            for c in               "$HOME/domains/azhar.softglaze.com/public_html"               "$HOME/domains/softglaze.com/public_html/azhar"               "$HOME/public_html/azhar"               "$HOME/domains/softglaze.com/public_html/azhar.softglaze.com"
+            do
+              if [ -d "$c" ]; then TARGET="$c"; echo "Found web root: $TARGET"; break; fi
+            done
+            if [ -z "$TARGET" ]; then
+              echo "ERROR: could not locate the web root for azhar.softglaze.com"
+              echo "host: $(hostname)  user: $(whoami)"
+              echo "--- ~/domains ---"
+              ls "$HOME/domains/" 2>/dev/null
+              echo "--- ~/domains/softglaze.com/public_html ---"
+              ls "$HOME/domains/softglaze.com/public_html/" 2>/dev/null | head -40
+              echo "--- anything named azhar ---"
+              find "$HOME" -maxdepth 4 -iname "*azhar*" -not -path "*/node_modules/*" 2>/dev/null | head -20
               exit 1
             fi
             find "$TARGET" -mindepth 1 -delete
