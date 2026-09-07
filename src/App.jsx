@@ -84,7 +84,7 @@ export default function CV() {
     return () => window.removeEventListener('mousemove', handleMouse);
   }, []);
 
-  const sectionIds = ['hero', 'extension', 'why-me', 'about', 'process', 'stack', 'experience', 'portfolio', 'projects', 'achievements', 'testimonials', 'faq', 'now', 'contact'];
+  const sectionIds = ['hero', 'extension', 'why-me', 'about', 'process', 'stack', 'experience', 'wporg', 'portfolio', 'projects', 'achievements', 'testimonials', 'faq', 'now', 'contact'];
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -261,6 +261,7 @@ export default function CV() {
     { id: 'process', label: 'process' },
     { id: 'stack', label: 'stack' },
     { id: 'experience', label: 'experience' },
+    { id: 'wporg', label: 'wordpress.org' },
     { id: 'portfolio', label: 'portfolio' },
     { id: 'projects', label: 'case studies' },
     { id: 'achievements', label: 'achievements' },
@@ -592,20 +593,20 @@ export default function CV() {
   return (
     <div className="bg-slate-950 text-slate-200 min-h-screen overflow-x-hidden font-sans">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-        .font-mono { font-family: 'JetBrains Mono', monospace; }
-        .font-display { font-family: 'Space Grotesk', sans-serif; }
+        @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+        body { font-family: 'Inter', system-ui, sans-serif; background: #0E1013; -webkit-font-smoothing: antialiased; }
+        .font-mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+        .font-display { font-family: 'Fraunces', Georgia, serif; font-variation-settings: 'opsz' 96; letter-spacing: -0.02em; }
         .grid-bg {
           background-image:
-            linear-gradient(rgba(34, 211, 238, 0.04) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(34, 211, 238, 0.04) 1px, transparent 1px);
+            linear-gradient(rgba(224, 165, 66, 0.035) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(224, 165, 66, 0.035) 1px, transparent 1px);
           background-size: 50px 50px;
         }
         .grid-bg-fine {
           background-image:
-            linear-gradient(rgba(34, 211, 238, 0.025) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(34, 211, 238, 0.025) 1px, transparent 1px);
+            linear-gradient(rgba(224, 165, 66, 0.02) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(224, 165, 66, 0.02) 1px, transparent 1px);
           background-size: 24px 24px;
         }
         @keyframes blob {
@@ -622,23 +623,27 @@ export default function CV() {
         }
         .float-slow { animation: float-slow 6s ease-in-out infinite; }
         @keyframes pulse-glow {
-          0%, 100% { box-shadow: 0 0 30px rgba(34, 211, 238, 0.4); }
-          50% { box-shadow: 0 0 60px rgba(168, 85, 247, 0.6); }
+          0%, 100% { box-shadow: 0 0 0 1px rgba(224, 165, 66, 0.25), 0 0 34px rgba(224, 165, 66, 0.16); }
+          50% { box-shadow: 0 0 0 1px rgba(224, 165, 66, 0.4), 0 0 52px rgba(224, 165, 66, 0.26); }
         }
         .pulse-glow { animation: pulse-glow 4s ease-in-out infinite; }
         .gradient-text {
-          background: linear-gradient(135deg, #22d3ee 0%, #a855f7 50%, #ec4899 100%);
+          background: linear-gradient(100deg, #EBBE74 0%, #E0A542 55%, #CE8C2A 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
         }
         .glass {
-          background: rgba(30, 41, 59, 0.4);
-          backdrop-filter: blur(12px);
-          border: 1px solid rgba(148, 163, 184, 0.1);
-          transition: all 0.3s ease;
+          background: linear-gradient(180deg, rgba(30, 33, 40, 0.72) 0%, rgba(22, 25, 30, 0.72) 100%);
+          backdrop-filter: blur(8px);
+          border: 1px solid rgba(237, 234, 228, 0.08);
+          box-shadow: inset 0 1px 0 0 rgba(237, 234, 228, 0.04);
+          transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
         }
-        .glass:hover { border-color: rgba(34, 211, 238, 0.3); }
+        .glass:hover {
+          border-color: rgba(224, 165, 66, 0.34);
+          box-shadow: inset 0 1px 0 0 rgba(237, 234, 228, 0.06), 0 10px 30px -12px rgba(0, 0, 0, 0.6);
+        }
         @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .spin-slow { animation: spin-slow 20s linear infinite; }
         @keyframes orbit {
@@ -656,8 +661,11 @@ export default function CV() {
         .blink-slow { animation: blink-slow 2s ease-in-out infinite; }
 
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0f172a; }
-        ::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, #22d3ee, #a855f7); border-radius: 4px; }
+        ::-webkit-scrollbar-track { background: #16191E; }
+        ::-webkit-scrollbar-thumb { background: #4A4740; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #E0A542; }
+        ::selection { background: rgba(224, 165, 66, 0.28); color: #F6F5F2; }
+        a:focus-visible, button:focus-visible { outline: 2px solid #E0A542; outline-offset: 2px; border-radius: 4px; }
 
         /* ===== PRINT STYLES — ATS-Friendly Resume ===== */
         @media screen {
@@ -799,19 +807,19 @@ export default function CV() {
       <div className="screen-only">
 
         <div
-          className="fixed top-0 left-0 h-1 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 z-50 transition-all duration-100"
+          className="fixed top-0 left-0 h-1 bg-gradient-to-r from-cyan-300 to-cyan-600 z-50 transition-all duration-100"
           style={{ width: `${scrollProgress}%`, boxShadow: '0 0 12px rgba(34, 211, 238, 0.6)' }}
         />
 
-        <nav className="fixed right-3 md:right-6 top-1/2 -translate-y-1/2 z-40 flex flex-col gap-3">
+        <nav aria-label="Section navigation" className="hidden lg:flex fixed right-6 top-1/2 -translate-y-1/2 z-40 flex-col gap-3">
           {navItems.map((item) => (
             <button
               key={item.id}
               onClick={() => document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' })}
               className="group relative w-3 h-3 rounded-full transition-all duration-300"
               style={{
-                background: activeSection === item.id ? '#22d3ee' : item.star ? 'rgba(168, 85, 247, 0.4)' : 'rgba(148, 163, 184, 0.3)',
-                border: `1.5px solid ${activeSection === item.id ? '#22d3ee' : item.star ? 'rgba(168, 85, 247, 0.6)' : 'rgba(148, 163, 184, 0.5)'}`,
+                background: activeSection === item.id ? '#E0A542' : item.star ? 'rgba(168, 85, 247, 0.4)' : 'rgba(148, 163, 184, 0.3)',
+                border: `1.5px solid ${activeSection === item.id ? '#E0A542' : item.star ? 'rgba(168, 85, 247, 0.6)' : 'rgba(148, 163, 184, 0.5)'}`,
                 transform: activeSection === item.id ? 'scale(1.4)' : 'scale(1)',
                 boxShadow: activeSection === item.id ? '0 0 12px rgba(34, 211, 238, 0.7)' : item.star ? '0 0 8px rgba(168, 85, 247, 0.4)' : 'none',
               }}
@@ -871,8 +879,8 @@ export default function CV() {
                 </div>
 
                 <div className="relative float-slow">
-                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-purple-500 to-pink-500 rounded-full blur-2xl opacity-50"></div>
-                  <div className="relative w-44 h-44 md:w-52 md:h-52 rounded-full p-[3px] bg-gradient-to-br from-cyan-400 via-purple-500 to-pink-500 pulse-glow">
+                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-300 to-cyan-600 rounded-full blur-2xl opacity-50"></div>
+                  <div className="relative w-44 h-44 md:w-52 md:h-52 rounded-full p-[3px] bg-gradient-to-br from-cyan-300 to-cyan-600 pulse-glow">
                     <div className="w-full h-full rounded-full bg-slate-900 overflow-hidden flex items-center justify-center">
                       {!imageError ? (
                         <img src="/profile.jpg" alt="Azhar Ali" className="w-full h-full object-cover" onError={() => setImageError(true)} />
@@ -896,7 +904,7 @@ export default function CV() {
                 <span className="text-slate-400">whoami</span>
               </div>
 
-              <h1 className="font-mono font-bold leading-none tracking-tight mb-6 flex flex-wrap items-center justify-center gap-x-2 md:gap-x-3 text-2xl sm:text-3xl md:text-5xl lg:text-6xl">
+              <h1 className="font-display font-bold leading-none tracking-tightest mb-6 flex flex-wrap items-center justify-center gap-x-2 md:gap-x-3 text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
                 <span className="text-slate-600">{'<'}</span>
                 <span className="bg-gradient-to-br from-white via-slate-200 to-slate-300 bg-clip-text text-transparent">Azhar</span>
                 <span className="text-cyan-400">/</span>
@@ -976,7 +984,7 @@ export default function CV() {
             <FadeIn delay={500}>
               <div className="flex flex-wrap gap-3 mb-10 justify-center">
                 <a href="#extension" onClick={(e) => { e.preventDefault(); document.getElementById('extension')?.scrollIntoView({ behavior: 'smooth' }); }}
-                  className="group px-6 py-3 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-medium text-sm flex items-center gap-2 hover:shadow-xl hover:shadow-cyan-500/30 transition-all hover:-translate-y-0.5">
+                  className="group px-6 py-3 rounded-lg bg-gradient-to-r from-cyan-400 to-cyan-600 text-white font-medium text-sm flex items-center gap-2 hover:shadow-xl hover:shadow-cyan-500/30 transition-all hover:-translate-y-0.5">
                   <Rocket size={16} /> See my work
                   <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                 </a>
@@ -1034,13 +1042,13 @@ export default function CV() {
 
           <FadeIn delay={200}>
             <div className="glass rounded-2xl p-6 md:p-10 max-w-5xl mx-auto text-left relative overflow-hidden">
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500" />
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-300 to-cyan-600" />
 
               <div className="grid md:grid-cols-[auto_1fr] gap-6 md:gap-10 items-start">
                 <div className="flex justify-center md:justify-start">
                   <div className="relative">
-                    <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-purple-500 to-pink-500 rounded-3xl blur-xl opacity-40"></div>
-                    <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-3xl bg-gradient-to-br from-cyan-500 via-purple-600 to-pink-600 flex items-center justify-center shadow-2xl pulse-glow">
+                    <div className="absolute inset-0 bg-gradient-to-br from-cyan-300 to-cyan-600 rounded-3xl blur-xl opacity-40"></div>
+                    <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-3xl bg-gradient-to-br from-cyan-400 to-cyan-700 flex items-center justify-center shadow-2xl pulse-glow">
                       <Chrome size={64} className="text-white" />
                     </div>
                     <div className="absolute -bottom-2 -right-2 bg-slate-900 border-2 border-cyan-400 rounded-xl px-2 py-1 font-mono text-[10px] text-cyan-400">v14.0</div>
@@ -1107,7 +1115,7 @@ export default function CV() {
                   </div>
 
                   <a href="https://chromewebstore.google.com/detail/softglaze-screen-recorder/ofjommapkklakbolagajoiklgfldhlmp" target="_blank" rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-medium text-sm hover:shadow-xl hover:shadow-cyan-500/30 transition-all hover:-translate-y-0.5">
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-cyan-400 to-cyan-600 text-white font-medium text-sm hover:shadow-xl hover:shadow-cyan-500/30 transition-all hover:-translate-y-0.5">
                     <Chrome size={16} /> View on Chrome Web Store
                     <ArrowUpRight size={14} />
                   </a>
@@ -1248,7 +1256,7 @@ export default function CV() {
               <p className="font-mono text-sm text-slate-400 mb-4">
                 <span className="text-slate-600">{'//'}</span> tldr: I'm the senior engineer you wish you'd hired six months ago.
               </p>
-              <a href="mailto:admin@softglaze.com" className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 text-white font-medium text-sm hover:shadow-xl hover:shadow-purple-500/30 transition-all hover:-translate-y-0.5">
+              <a href="mailto:admin@softglaze.com" className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-gradient-to-r from-cyan-400 to-cyan-600 text-white font-medium text-sm hover:shadow-xl hover:shadow-purple-500/30 transition-all hover:-translate-y-0.5">
                 <Mail size={16} /> Let's talk
                 <ArrowUpRight size={14} />
               </a>
@@ -1330,7 +1338,7 @@ export default function CV() {
 
           <div className="max-w-5xl mx-auto">
             <div className="relative pl-8 md:pl-10">
-              <div className="absolute left-2 md:left-3 top-2 bottom-2 w-0.5 bg-gradient-to-b from-cyan-400 via-purple-500 to-pink-500" />
+              <div className="absolute left-2 md:left-3 top-2 bottom-2 w-0.5 bg-gradient-to-b from-cyan-300 to-cyan-600" />
 
               {[
                 {
@@ -1497,7 +1505,7 @@ export default function CV() {
           </FadeIn>
 
           <div className="relative max-w-5xl mx-auto pl-8 md:pl-10">
-            <div className="absolute left-2 md:left-3 top-2 bottom-2 w-0.5 bg-gradient-to-b from-cyan-400 via-purple-500 to-slate-700" />
+            <div className="absolute left-2 md:left-3 top-2 bottom-2 w-0.5 bg-gradient-to-b from-cyan-400 to-slate-800" />
 
             {[
               {
@@ -1554,7 +1562,193 @@ export default function CV() {
         </AnimatedSection>
 
         {/* ============= PORTFOLIO ============= */}
-        <AnimatedSection id="portfolio" tag="// live deployments" icon={<Layers />} number="08">
+        <AnimatedSection id="wporg" tag="// wordpress.org" icon={<Package />} number="08">
+          <FadeIn>
+            <div className="text-center mb-3">
+              <span className="font-mono text-[10px] px-2 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/40 text-cyan-400 uppercase tracking-widest inline-flex items-center gap-1.5">
+                <ShieldCheck size={10} /> Every one through manual code review
+              </span>
+            </div>
+            <h2 className="font-display text-4xl md:text-6xl font-bold leading-tight tracking-tightest mb-3 text-center">
+              Published on <span className="gradient-text">WordPress.org.</span>
+            </h2>
+            <p className="text-slate-400 text-base md:text-lg max-w-3xl mx-auto mb-10 text-center">
+              Nine things carrying my name in the directory. The plugin and theme review teams read every line before any of it went live, which is a harder bar than shipping to a client.
+            </p>
+          </FadeIn>
+
+          <FadeIn delay={100}>
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-3 max-w-4xl mx-auto mb-12">
+              {[
+                { n: '8', l: 'Plugins' },
+                { n: '1', l: 'Block theme' },
+                { n: '14', l: 'Patterns' },
+                { n: '6', l: 'Core credits' },
+                { n: '8', l: 'Badges' },
+              ].map((s, i) => (
+                <div key={i} className="glass rounded-lg px-3 py-4 text-center">
+                  <div className="font-mono text-2xl md:text-3xl font-bold gradient-text">{s.n}</div>
+                  <div className="text-[10px] text-slate-500 uppercase tracking-wider mt-1">{s.l}</div>
+                </div>
+              ))}
+            </div>
+          </FadeIn>
+
+          <FadeIn delay={150}>
+            <div className="flex items-center gap-3 max-w-6xl mx-auto mb-5">
+              <Package size={15} className="text-cyan-400 flex-shrink-0" />
+              <h3 className="font-mono text-xs uppercase tracking-widest text-slate-400">Plugins</h3>
+              <div className="h-px flex-1 bg-slate-800" />
+            </div>
+          </FadeIn>
+
+          <div className="grid md:grid-cols-2 gap-4 max-w-6xl mx-auto mb-14">
+            {[
+              {
+                name: 'PDF Invoices for WooCommerce', slug: 'softglaze-pdf-invoices', v: '2.28.3',
+                desc: 'Invoices, credit notes and packing slips for WooCommerce, with partial payments, deposits and client e-signature. Around 7,800 lines of PHP, with the PDF engine vendored so nothing leaves the server.',
+                tags: ['WooCommerce', 'dompdf', 'PHP'],
+              },
+              {
+                name: 'Invoices Gulf', slug: 'softglaze-invoices-gulf', v: '0.4.1',
+                desc: 'ZATCA generation-phase tax invoices for Saudi Arabia and the UAE. A TLV QR payload that has to be byte exact, a bilingual Arabic and English layout, UBL 2.1 XML and a PINT AE payload.',
+                tags: ['ZATCA', 'UBL 2.1', 'e-invoicing'],
+              },
+              {
+                name: 'AI Crawler Monitor', slug: 'softglaze-ai-crawler-monitor', v: '0.7.0',
+                desc: 'Records every request from a known AI crawler, which pages it asked for and what the site told it at the time, then reports whether the rule you set was actually honoured. Most plugins stop at writing the rule.',
+                tags: ['robots.txt', 'Logging'],
+              },
+              {
+                name: 'Maintenance Mode & Coming Soon', slug: 'softglaze-maintenance-mode-coming-soon', v: '1.6.0',
+                desc: 'Three response modes and ten templates, with scheduled switching and access control by role, user, IP range, bypass link or password.',
+                tags: ['Scheduling', 'Access control'],
+              },
+              {
+                name: 'Click to Chat', slug: 'softglaze-click-to-chat', v: '1.0.0',
+                desc: 'A WhatsApp button with multiple agents, working-hour schedules and display rules. Its own REST namespace, per-submitter rate limiting, and GDPR export and erase handlers.',
+                tags: ['WhatsApp', 'REST API', 'GDPR'],
+              },
+              {
+                name: 'Driveline Core', slug: 'driveline-core', v: '0.1.0',
+                desc: 'Content types and booking logic for vehicle rental sites. Availability counts against unit stock across a half-open date window, so a rental ending exactly as another starts is not a conflict.',
+                tags: ['Booking', 'WooCommerce'],
+              },
+              {
+                name: 'Driveline for Elementor', slug: 'driveline-for-elementor', v: '0.1.1',
+                desc: 'Fourteen widgets and four dynamic tags that read from Driveline Core rather than reimplementing it, so a price on the page and a price at checkout come from one code path.',
+                tags: ['Elementor', '14 widgets'],
+              },
+              {
+                name: 'Driveline for WPBakery', slug: 'driveline-for-wpbakery', v: '0.1.0',
+                desc: 'The same fourteen placements as the Elementor pack, built for the WPBakery editor and reading from the same core.',
+                tags: ['WPBakery', '14 elements'],
+              },
+            ].map((p, i) => (
+              <FadeIn key={i} delay={i * 60}>
+                <a
+                  href={`https://wordpress.org/plugins/${p.slug}/`}
+                  target="_blank" rel="noopener noreferrer"
+                  className="glass rounded-xl p-5 h-full flex flex-col hover:-translate-y-1 group"
+                >
+                  <div className="flex items-start justify-between gap-3 mb-2">
+                    <h4 className="font-display text-lg font-semibold text-slate-100 leading-snug group-hover:text-cyan-300 transition-colors">
+                      {p.name}
+                    </h4>
+                    <span className="font-mono text-[10px] text-slate-500 border border-slate-700 rounded px-1.5 py-0.5 flex-shrink-0 mt-0.5">
+                      v{p.v}
+                    </span>
+                  </div>
+                  <p className="text-sm text-slate-400 leading-relaxed flex-1">{p.desc}</p>
+                  <div className="flex flex-wrap items-center gap-1.5 mt-4">
+                    {p.tags.map((t, j) => (
+                      <span key={j} className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-slate-800/70 text-slate-400">{t}</span>
+                    ))}
+                  </div>
+                  <div className="flex items-center gap-1.5 mt-3 pt-3 border-t border-slate-800 font-mono text-[11px] text-cyan-400">
+                    <span className="w-1.5 h-1.5 rounded-full bg-green-400 blink-slow" />
+                    Live on WordPress.org
+                    <ArrowUpRight size={12} className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </div>
+                </a>
+              </FadeIn>
+            ))}
+          </div>
+
+          <FadeIn delay={150}>
+            <div className="flex items-center gap-3 max-w-6xl mx-auto mb-5">
+              <Layers size={15} className="text-cyan-400 flex-shrink-0" />
+              <h3 className="font-mono text-xs uppercase tracking-widest text-slate-400">Themes</h3>
+              <div className="h-px flex-1 bg-slate-800" />
+            </div>
+          </FadeIn>
+
+          <div className="grid md:grid-cols-2 gap-4 max-w-6xl mx-auto">
+            <FadeIn>
+              <a
+                href="https://wordpress.org/themes/warqa/"
+                target="_blank" rel="noopener noreferrer"
+                className="glass rounded-xl p-5 h-full flex flex-col hover:-translate-y-1 group"
+              >
+                <div className="flex items-start justify-between gap-3 mb-2">
+                  <h4 className="font-display text-lg font-semibold text-slate-100 leading-snug group-hover:text-cyan-300 transition-colors">
+                    Warqa
+                  </h4>
+                  <span className="font-mono text-[10px] text-slate-500 border border-slate-700 rounded px-1.5 py-0.5 flex-shrink-0 mt-0.5">v1.1.0</span>
+                </div>
+                <p className="text-sm text-slate-400 leading-relaxed flex-1">
+                  A block theme for writers and publishers. theme.json v3, nine templates, 36 insertable patterns, light and dark variations, and fonts bundled locally so it makes no remote requests. The review team set it live with no required changes and no revision round.
+                </p>
+                <div className="flex flex-wrap items-center gap-1.5 mt-4">
+                  {['Full site editing', 'theme.json v3', '36 patterns'].map((t, j) => (
+                    <span key={j} className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-slate-800/70 text-slate-400">{t}</span>
+                  ))}
+                </div>
+                <div className="flex items-center gap-1.5 mt-3 pt-3 border-t border-slate-800 font-mono text-[11px] text-cyan-400">
+                  <span className="w-1.5 h-1.5 rounded-full bg-green-400 blink-slow" />
+                  Live on WordPress.org
+                  <ArrowUpRight size={12} className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
+                </div>
+              </a>
+            </FadeIn>
+
+            <FadeIn delay={80}>
+              <div className="glass rounded-xl p-5 h-full flex flex-col border-dashed opacity-90">
+                <div className="flex items-start justify-between gap-3 mb-2">
+                  <h4 className="font-display text-lg font-semibold text-slate-300 leading-snug">Driveline</h4>
+                  <span className="font-mono text-[10px] text-slate-500 border border-slate-700 rounded px-1.5 py-0.5 flex-shrink-0 mt-0.5">v1.0.1</span>
+                </div>
+                <p className="text-sm text-slate-400 leading-relaxed flex-1">
+                  A theme for vehicle rental and fleet sites, built to sit on top of Driveline Core. Fourteen block patterns, four page templates, a live-preview Customizer panel, WooCommerce styling and no remote requests.
+                </p>
+                <div className="flex flex-wrap items-center gap-1.5 mt-4">
+                  {['Vehicle rental', 'WooCommerce', 'Accessible'].map((t, j) => (
+                    <span key={j} className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-slate-800/70 text-slate-500">{t}</span>
+                  ))}
+                </div>
+                <div className="flex items-center gap-1.5 mt-3 pt-3 border-t border-slate-800 font-mono text-[11px] text-slate-500">
+                  <Clock size={11} />
+                  Coming soon, in the theme review queue
+                </div>
+              </div>
+            </FadeIn>
+          </div>
+
+          <FadeIn delay={200}>
+            <div className="text-center mt-10">
+              <a
+                href="https://profiles.wordpress.org/softglaze/"
+                target="_blank" rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 font-mono text-sm text-cyan-400 hover:text-cyan-300 transition-colors"
+              >
+                See the full profile on WordPress.org
+                <ArrowUpRight size={14} />
+              </a>
+            </div>
+          </FadeIn>
+        </AnimatedSection>
+
+        <AnimatedSection id="portfolio" tag="// live deployments" icon={<Layers />} number="09">
           <FadeIn>
             <h2 className="font-display text-4xl md:text-6xl font-bold leading-tight tracking-tight mb-3 text-center">
               Live in <span className="gradient-text">production.</span>
@@ -1652,7 +1846,7 @@ export default function CV() {
 
                     <div className="flex items-start gap-3 mb-3">
                       <div className="relative flex-shrink-0">
-                        <div className={`w-12 h-12 rounded-full p-[2px] ${site.featured ? 'bg-gradient-to-br from-yellow-400 via-cyan-400 to-purple-500' : site.verified ? 'bg-gradient-to-br from-green-500/60 to-cyan-500/60' : 'bg-gradient-to-br from-orange-500/40 to-pink-500/40'}`}>
+                        <div className={`w-12 h-12 rounded-full p-[2px] ${site.featured ? 'bg-gradient-to-br from-yellow-400 via-cyan-400 to-purple-500' : site.verified ? 'bg-gradient-to-br from-cyan-400/60 to-cyan-600/60' : 'bg-gradient-to-br from-cyan-500/40 to-cyan-700/40'}`}>
                           <div className="w-full h-full rounded-full bg-slate-900 flex items-center justify-center overflow-hidden">
                             <img
                               src={getFavicon(site.url)}
@@ -1780,7 +1974,7 @@ export default function CV() {
         </AnimatedSection>
 
         {/* ============= CASE STUDIES ============= */}
-        <AnimatedSection id="projects" tag="// deeper dives" icon={<Code2 />} number="09">
+        <AnimatedSection id="projects" tag="// deeper dives" icon={<Code2 />} number="10">
           <FadeIn>
             <h2 className="font-display text-4xl md:text-6xl font-bold leading-tight tracking-tight mb-6 text-center">
               Selected <span className="gradient-text">case studies.</span>
@@ -1828,7 +2022,7 @@ export default function CV() {
             ].map((p, i) => (
               <FadeIn key={i} delay={i * 100}>
                 <div className="glass rounded-xl p-6 relative overflow-hidden group hover:-translate-y-1 h-full">
-                  <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
+                  <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-cyan-300 to-cyan-600 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
                   <div className="flex items-start justify-between gap-3 mb-3">
                     <div className="font-mono text-[10px] text-purple-400 uppercase tracking-widest">// {p.tag}</div>
                     <div className="font-mono text-[10px] px-2 py-0.5 rounded bg-cyan-400/10 border border-cyan-400/30 text-cyan-400">{p.count}</div>
@@ -1869,7 +2063,7 @@ export default function CV() {
         </AnimatedSection>
 
         {/* ============= ACHIEVEMENTS / CERTIFICATIONS / LEARNING ============= */}
-        <AnimatedSection id="achievements" tag="// achievements & growth" icon={<Trophy />} number="10">
+        <AnimatedSection id="achievements" tag="// achievements & growth" icon={<Trophy />} number="11">
           <FadeIn>
             <h2 className="font-display text-4xl md:text-6xl font-bold leading-tight tracking-tight mb-3 text-center">
               Achievements & <span className="gradient-text">growth.</span>
@@ -2003,7 +2197,7 @@ export default function CV() {
         </AnimatedSection>
 
         {/* ============= TESTIMONIALS ============= */}
-        <AnimatedSection id="testimonials" tag="// code reviews" icon={<GitPullRequest />} number="11">
+        <AnimatedSection id="testimonials" tag="// code reviews" icon={<GitPullRequest />} number="12">
           <FadeIn>
             <h2 className="font-display text-4xl md:text-6xl font-bold leading-tight tracking-tight mb-3 text-center">
               Code <span className="gradient-text">reviews.</span>
@@ -2047,7 +2241,7 @@ export default function CV() {
                   {/* Review body */}
                   <div className="p-4 md:p-6">
                     <div className="flex items-start gap-3 mb-4">
-                      <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-cyan-400 via-purple-500 to-pink-500 p-[2px] flex-shrink-0">
+                      <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-cyan-300 to-cyan-600 p-[2px] flex-shrink-0">
                         <div className="w-full h-full rounded-full bg-slate-900 flex items-center justify-center font-bold text-sm md:text-base text-white">
                           {testimonials[currentReview].author.charAt(0)}
                         </div>
@@ -2118,7 +2312,7 @@ export default function CV() {
         </AnimatedSection>
 
         {/* ============= FAQ ============= */}
-        <AnimatedSection id="faq" tag="// frequently asked" icon={<HelpCircle />} number="12">
+        <AnimatedSection id="faq" tag="// frequently asked" icon={<HelpCircle />} number="13">
           <FadeIn>
             <h2 className="font-display text-4xl md:text-6xl font-bold leading-tight tracking-tight mb-3 text-center">
               Common <span className="gradient-text">questions.</span>
@@ -2200,7 +2394,7 @@ export default function CV() {
               <p className="font-mono text-sm text-slate-400 mb-4">
                 <span className="text-slate-600">{'//'}</span> didn't see your question? ask me directly.
               </p>
-              <a href="mailto:admin@softglaze.com" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-medium text-sm hover:shadow-xl hover:shadow-cyan-500/30 transition-all hover:-translate-y-0.5">
+              <a href="mailto:admin@softglaze.com" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-cyan-400 to-cyan-600 text-white font-medium text-sm hover:shadow-xl hover:shadow-cyan-500/30 transition-all hover:-translate-y-0.5">
                 <Mail size={14} /> Email me
                 <ArrowUpRight size={12} />
               </a>
@@ -2209,7 +2403,7 @@ export default function CV() {
         </AnimatedSection>
 
         {/* ============= NOW (currently doing) + Personality ============= */}
-        <AnimatedSection id="now" tag="// /now page" icon={<Activity />} number="13">
+        <AnimatedSection id="now" tag="// /now page" icon={<Activity />} number="14">
           <FadeIn>
             <h2 className="font-display text-4xl md:text-6xl font-bold leading-tight tracking-tight mb-3 text-center">
               What I'm <span className="gradient-text">up to.</span>
@@ -2435,7 +2629,7 @@ export default function CV() {
         {/* ============= CONTACT ============= */}
         <section id="contact" className="relative flex flex-col items-center justify-center px-4 sm:px-6 md:px-12 py-16 md:py-20 overflow-hidden">
           <div className="absolute inset-0 grid-bg opacity-30" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-cyan-500/10 via-purple-500/10 to-pink-500/10 rounded-full blur-3xl" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-cyan-500/10 to-cyan-700/10 rounded-full blur-3xl" />
 
           <FadeIn>
             <div className="relative z-10 text-center max-w-3xl">
@@ -2448,7 +2642,7 @@ export default function CV() {
               </p>
 
               <div className="flex flex-wrap gap-3 justify-center mb-10">
-                <a href="mailto:admin@softglaze.com" className="font-mono text-sm px-6 py-3 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-500 text-white hover:shadow-lg hover:shadow-cyan-500/40 transition-all hover:-translate-y-0.5 flex items-center gap-2">
+                <a href="mailto:admin@softglaze.com" className="font-mono text-sm px-6 py-3 rounded-lg bg-gradient-to-r from-cyan-400 to-cyan-600 text-white hover:shadow-lg hover:shadow-cyan-500/40 transition-all hover:-translate-y-0.5 flex items-center gap-2">
                   <Send size={14} /> admin@softglaze.com
                 </a>
                 <button onClick={handlePrint} className="font-mono text-sm px-6 py-3 rounded-lg border border-cyan-400/40 text-cyan-400 hover:bg-cyan-400/10 transition-all hover:-translate-y-0.5 flex items-center gap-2">
