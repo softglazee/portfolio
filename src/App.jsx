@@ -995,12 +995,12 @@ export default function CV() {
             <FadeIn delay={600}>
               <div className="grid grid-cols-3 gap-6 md:gap-12 pt-6 border-t border-slate-800 w-full max-w-md">
                 <div>
-                  <div className="font-mono text-3xl md:text-4xl font-bold gradient-text">8+</div>
+                  <div className="font-mono text-3xl md:text-4xl font-bold gradient-text">7</div>
                   <div className="text-xs text-slate-500 uppercase tracking-wider mt-0.5">Years</div>
                 </div>
                 <div>
-                  <div className="font-mono text-3xl md:text-4xl font-bold gradient-text">20+</div>
-                  <div className="text-xs text-slate-500 uppercase tracking-wider mt-0.5">Live Sites</div>
+                  <div className="font-mono text-3xl md:text-4xl font-bold gradient-text">9</div>
+                  <div className="text-xs text-slate-500 uppercase tracking-wider mt-0.5">On WP.org</div>
                 </div>
                 <div>
                   <div className="font-mono text-3xl md:text-4xl font-bold gradient-text">1</div>
@@ -1189,22 +1189,22 @@ export default function CV() {
               {
                 icon: GitBranch, color: 'pink', tag: '// scope.understands(client)',
                 title: 'I translate vibes into specs',
-                desc: 'Eight years of working directly with non-technical clients taught me how to turn "make it pop" into actual technical requirements. I scope, plan, and ship without 47 clarification meetings.'
+                desc: 'Seven years of working directly with non-technical clients taught me how to turn "make it pop" into actual technical requirements. I scope, plan, and ship without 47 clarification meetings.'
               },
               {
                 icon: Rocket, color: 'yellow', tag: '// startUp.compatible',
                 title: 'I work like a founder',
-                desc: 'I ran my own dev studio for 4 years. I know what missed deadlines cost, why clean code matters at 2am, and why "good enough that ships" beats "perfect that doesn\'t". I move fast, own outcomes.'
+                desc: 'I have run my own studio since 2022. I know what missed deadlines cost, why clean code matters at 2am, and why "good enough that ships" beats "perfect that doesn\'t". I move fast, own outcomes.'
               },
               {
                 icon: Users, color: 'green', tag: '// mentorship === enabled',
                 title: 'I lift the team up',
-                desc: 'Reviewed PRs at Creative Chaos. Mentored juniors at SoftGlaze. I leave codebases — and teammates — better than I found them. Senior is a behavior, not a title.'
+                desc: 'I review theme submissions for the WordPress.org Themes Team against the team published requirements, and write the findings up for the author. Reading other people code carefully is its own skill.'
               },
               {
                 icon: Coffee, color: 'orange', tag: '// async.firstClass',
                 title: 'I work async, across timezones',
-                desc: 'Worked remote with US clients for 4+ years from Pakistan. I know how to communicate in writing, document decisions, and not need standups to ship features.'
+                desc: 'Seven years working remote from Pakistan with clients in the UK, the Netherlands and Spain. I know how to communicate in writing, document decisions, and not need standups to ship features.'
               },
               {
                 icon: Target, color: 'rose', tag: '// boring.solved',
@@ -1267,7 +1267,7 @@ export default function CV() {
           <FadeIn delay={150}>
             <div className="glass rounded-2xl p-6 md:p-8 max-w-4xl mx-auto space-y-4 text-center">
               <p className="text-base md:text-lg leading-relaxed text-slate-300">
-                Eight years writing production code across <span className="text-cyan-400 font-medium">PHP, Laravel, Node, React, and MySQL</span>. Started front-end at a Pakistani agency, leveled up to senior full-stack for a US client at Creative Chaos, then spent four years running my own dev shop shipping for international clients.
+                Seven years writing production code across <span className="text-cyan-400 font-medium">PHP, WordPress, WooCommerce, Laravel, React and MySQL</span>. Started as an intern at Creative Chaos and was retained as a developer, spent two years building and maintaining agency sites at REBORN, and have run my own studio since 2022.
               </p>
               <p className="text-base md:text-lg leading-relaxed text-slate-300">
                 <span className="text-white font-semibold">60+ live WordPress sites</span> across the UK, UAE, Netherlands, Spain and Pakistan, plus a <span className="text-white font-semibold">published Chrome extension</span> with several custom WordPress plugins built under the SoftGlaze brand.
@@ -1281,12 +1281,12 @@ export default function CV() {
           <FadeIn delay={300}>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mt-8 max-w-4xl mx-auto">
               <div className="glass rounded-xl p-4 text-center hover:border-cyan-400/40 transition-all hover:-translate-y-1">
-                <div className="font-mono text-3xl md:text-4xl font-bold gradient-text">8+</div>
+                <div className="font-mono text-3xl md:text-4xl font-bold gradient-text">7</div>
                 <div className="text-xs text-slate-400 uppercase tracking-wider mt-1">Years Shipping</div>
               </div>
               <div className="glass rounded-xl p-4 text-center hover:border-cyan-400/40 transition-all hover:-translate-y-1">
-                <div className="font-mono text-3xl md:text-4xl font-bold gradient-text">20+</div>
-                <div className="text-xs text-slate-400 uppercase tracking-wider mt-1">Live Sites</div>
+                <div className="font-mono text-3xl md:text-4xl font-bold gradient-text">60+</div>
+                <div className="text-xs text-slate-400 uppercase tracking-wider mt-1">WordPress Sites</div>
               </div>
               {/* GITHUB LIVE STATS */}
               <a
@@ -2380,7 +2380,7 @@ export default function CV() {
                     <div className="text-[10px] text-slate-500 uppercase tracking-wider">Repos</div>
                   </div>
                   <div className="bg-slate-900/60 border border-slate-700/40 rounded-md p-2">
-                    <div className="font-mono text-base font-bold gradient-text">8+</div>
+                    <div className="font-mono text-base font-bold gradient-text">7</div>
                     <div className="text-[10px] text-slate-500 uppercase tracking-wider">Years</div>
                   </div>
                 </div>
