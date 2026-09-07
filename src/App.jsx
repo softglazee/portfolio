@@ -167,11 +167,11 @@ export default function CV() {
       newHistory.push({
         type: 'output',
         content: [
-          'Muhammad Azhar',
-          'Senior Full-Stack Engineer based in Multan, PK',
-          'Working USA timezones | 8+ years shipping production code',
-          '20+ live sites + a published Chrome extension on the Web Store',
-          'Specializes in PHP/Laravel, React, Node.js, MySQL, and custom WordPress plugins',
+          'Azhar Ali',
+          'WordPress and PHP engineer based in Multan, PK',
+          'Working USA and EU hours | seven years shipping production code',
+          '8 plugins and a block theme live on WordPress.org, plus a Chrome extension',
+          'Credited in WordPress 7.1 core. Specializes in WordPress, PHP, WooCommerce, Laravel and React',
         ].join('\n'),
       });
     } else if (trimmed === 'skills') {
@@ -191,12 +191,12 @@ export default function CV() {
       newHistory.push({
         type: 'output',
         content: [
-          '2022 - Present  | Founder & Lead Developer @ SoftGlaze LLC (USA)',
-          '2018 - 2022     | Senior Full-Stack Web Developer @ Creative Chaos (USA)',
-          '2017 - 2018     | Back-End Web Developer @ Reborn (Lahore, PK)',
-          '2014 - 2017     | Front-End Web Developer @ Intero Digital (Islamabad, PK)',
+          'Mar 2022 - Present  | Founder & Lead Full-Stack Developer @ SoftGlaze (self-employed)',
+          'Jan 2022 - Dec 2023 | WordPress Developer @ REBORN (remote)',
+          'Aug 2019 - Jul 2021 | Web Developer @ Creative Chaos (remote)',
           '',
-          'Total: 8+ years across agency, in-house senior, and indie founder roles.',
+          'Total: seven years of client work. Part-time at SoftGlaze alongside',
+          'REBORN until Dec 2023, full-time since.',
         ].join('\n'),
       });
     } else if (trimmed === 'contact') {
@@ -674,7 +674,7 @@ export default function CV() {
       {/* ============= PRINT-ONLY ATS-FRIENDLY RESUME ============= */}
       <div className="print-only" style={{ display: 'none', color: 'black', background: 'white', padding: '0', fontFamily: 'Helvetica, Arial, sans-serif', fontSize: '10.5pt', lineHeight: '1.5' }}>
         <div style={{ borderBottom: '2px solid black', paddingBottom: '12px', marginBottom: '14px' }}>
-          <h1 style={{ fontSize: '24pt', fontWeight: 'bold', margin: '0 0 4px 0', letterSpacing: '-0.5px' }}>Muhammad Azhar</h1>
+          <h1 style={{ fontSize: '24pt', fontWeight: 'bold', margin: '0 0 4px 0', letterSpacing: '-0.5px' }}>Azhar Ali</h1>
           <div style={{ fontSize: '12pt', color: '#333', marginBottom: '8px' }}>Senior Full-Stack Engineer</div>
           <div style={{ fontSize: '9.5pt', color: '#444' }}>
             admin@softglaze.com | +92 300 7484750 | Multan, PK (Working USA Timezones) | softglaze.com<br/>
@@ -685,7 +685,7 @@ export default function CV() {
         <section style={{ marginBottom: '14px' }}>
           <h2 style={{ fontSize: '10pt', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '1.5px', borderBottom: '1px solid #ccc', paddingBottom: '3px', marginBottom: '8px' }}>Profile</h2>
           <p style={{ margin: '0', textAlign: 'justify' }}>
-            Senior full-stack engineer with 8+ years of experience shipping production web applications across PHP/Laravel, Node.js, React, and MySQL. Career spans front-end roles at Pakistani agencies, senior full-stack engineering for a US client (Creative Chaos), and four years running an independent development studio serving international clients. Track record of owning features end-to-end from database schema through to shipped UI. Published a Chrome extension on the Web Store. Available for senior engineering roles, working USA timezones from Pakistan.
+            WordPress and PHP engineer with seven years of client work across PHP, WordPress, WooCommerce, Laravel, React and MySQL. Eight plugins and a block theme published on WordPress.org, every one through the plugin and theme teams manual code review. Credited on six changesets in the WordPress 7.1 cycle, and reported core defect #65802, a function that had been assigning to an undeclared variable since 2024, which a core committer took and milestoned for 7.2. Assigned reviewer for the WordPress.org Themes Team. 150+ projects delivered, including 60+ WordPress sites and 20+ WooCommerce and Shopify stores, for clients in the UK, the Netherlands, Spain and Pakistan. Available for remote roles, working USA and EU hours from Pakistan.
           </p>
         </section>
 
@@ -719,12 +719,12 @@ export default function CV() {
           <div style={{ marginBottom: '10px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px' }}>
               <strong>Founder &amp; Lead Developer</strong>
-              <span>Jun 2022 — Present</span>
+              <span>Mar 2022 — Present</span>
             </div>
-            <div style={{ fontStyle: 'italic', color: '#444', marginBottom: '4px' }}>SoftGlaze LLC — Remote, Colorado, USA</div>
+            <div style={{ fontStyle: 'italic', color: '#444', marginBottom: '4px' }}>SoftGlaze — Self-employed, Remote</div>
             <ul style={{ margin: '0', paddingLeft: '20px' }}>
               <li>Founded an indie dev studio while staying hands-on as principal engineer on every client engagement</li>
-              <li>Architected and shipped 20+ production sites and a published Chrome extension across legal services, e-commerce, directories, agency platforms, and tools</li>
+              <li>Delivered 150+ projects including 60+ WordPress sites and 20+ WooCommerce and Shopify stores, plus a published Chrome extension, across legal services, e-commerce, directories and tools</li>
               <li>Built custom SoftGlaze WordPress plugins from scratch for price comparison engines, vehicle compatibility matching, web scrapers, and lead capture flows</li>
               <li>Designed and shipped SoftGlaze Screen Recorder, a published Chrome extension with sticky annotations, MP4 conversion, and 100% local processing</li>
               <li>Owned schema design, query optimization, deploys, monitoring, and production debugging</li>
@@ -734,10 +734,10 @@ export default function CV() {
 
           <div style={{ marginBottom: '10px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px' }}>
-              <strong>Senior Full-Stack Web Developer</strong>
-              <span>Jul 2018 — May 2022</span>
+              <strong>Web Developer</strong>
+              <span>Aug 2019 — Jul 2021</span>
             </div>
-            <div style={{ fontStyle: 'italic', color: '#444', marginBottom: '4px' }}>Creative Chaos — Remote, USA Client</div>
+            <div style={{ fontStyle: 'italic', color: '#444', marginBottom: '4px' }}>Creative Chaos — Started as intern, retained as developer, Remote</div>
             <ul style={{ margin: '0', paddingLeft: '20px' }}>
               <li>Shipped full-stack features in PHP/Laravel and React for a distributed product team</li>
               <li>Owned modules end-to-end: schema, API, UI, QA, and deployment</li>
@@ -747,36 +747,22 @@ export default function CV() {
             </ul>
           </div>
 
-          <div style={{ marginBottom: '10px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px' }}>
-              <strong>Back-End Web Developer</strong>
-              <span>Sep 2017 — Jun 2018</span>
-            </div>
-            <div style={{ fontStyle: 'italic', color: '#444', marginBottom: '4px' }}>Reborn — Lahore, Pakistan</div>
-            <ul style={{ margin: '0', paddingLeft: '20px' }}>
-              <li>Designed MySQL schemas and built RESTful APIs for client-facing applications</li>
-              <li>Refactored legacy PHP code into structured CodeIgniter and Laravel codebases</li>
-              <li>Diagnosed slow queries with EXPLAIN, added indexes, rewrote joins for measurable performance wins</li>
-            </ul>
-          </div>
-
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px' }}>
-              <strong>Front-End Web Developer</strong>
-              <span>Aug 2014 — Aug 2017</span>
+              <strong>WordPress Developer</strong>
+              <span>Jan 2022 — Dec 2023</span>
             </div>
-            <div style={{ fontStyle: 'italic', color: '#444', marginBottom: '4px' }}>Intero Digital — Islamabad, Pakistan</div>
+            <div style={{ fontStyle: 'italic', color: '#444', marginBottom: '4px' }}>REBORN — Full-time, Remote</div>
             <ul style={{ margin: '0', paddingLeft: '20px' }}>
-              <li>Translated UI/UX designs into pixel-perfect, responsive HTML5, CSS3, JavaScript, and Bootstrap pages</li>
-              <li>Resolved cross-browser compatibility issues and optimized front-end performance</li>
-              <li>Shipped mobile-responsive layouts ensuring consistent experience across desktop, tablet, and mobile</li>
+              <li>Built and maintained WordPress sites for the agency and its clients: custom theme work, plugin configuration and conflict resolution, and page speed</li>
+              <li>Handled support and fixes on live sites carrying real traffic, where changes had to be made without downtime</li>
             </ul>
           </div>
         </section>
 
         <section style={{ marginBottom: '14px' }}>
           <h2 style={{ fontSize: '10pt', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '1.5px', borderBottom: '1px solid #ccc', paddingBottom: '3px', marginBottom: '8px' }}>Selected Portfolio</h2>
-          <p style={{ margin: '0 0 6px 0', fontSize: '9.5pt', color: '#444' }}>20+ live production sites. Featured selections:</p>
+          <p style={{ margin: '0 0 6px 0', fontSize: '9.5pt', color: '#444' }}>60+ live WordPress sites. Featured selections:</p>
           <ul style={{ margin: '0', paddingLeft: '20px' }}>
             <li><strong>Kliniektarieven.nl</strong> — NL clinic price comparison platform with multi-role registration and geo search (WordPress + custom SoftGlaze plugins)</li>
             <li><strong>CarPartHQ.com</strong> — Auto parts marketplace with vehicle compatibility across 56+ brands, 35+ distribution centers (WordPress + custom plugin suite)</li>
@@ -784,7 +770,7 @@ export default function CV() {
             <li><strong>Klustarief.nl</strong> &amp; <strong>Schildertarief.nl</strong> — Dutch trade pricing directories with custom comparison engines</li>
             <li><strong>Silkosoft.com</strong> — Software agency platform with rich service architecture</li>
             <li><strong>CapCutTemplatesX.com, CPCClue.com, TheWherevers.com, PicsartHub.com</strong> — Custom scraper-driven content platforms</li>
-            <li>Full portfolio with 30+ sites and live links: <strong>azhar.softglaze.com</strong></li>
+            <li>Full portfolio with live links: <strong>azhar.softglaze.com</strong> &nbsp;|&nbsp; WordPress.org: <strong>profiles.wordpress.org/softglaze</strong></li>
           </ul>
         </section>
 
@@ -792,8 +778,8 @@ export default function CV() {
           <h2 style={{ fontSize: '10pt', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '1.5px', borderBottom: '1px solid #ccc', paddingBottom: '3px', marginBottom: '8px' }}>Education</h2>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <div>
-              <strong>Master of Information Technology</strong>
-              <div style={{ fontStyle: 'italic', color: '#444' }}>Islamia University of Bahawalpur — Major: Computer Science &amp; Cyber Security</div>
+              <strong>BS Information Technology</strong>
+              <div style={{ fontStyle: 'italic', color: '#444' }}>The Islamia University of Bahawalpur — Grade A+</div>
             </div>
             <span>Sep 2012 — Apr 2016</span>
           </div>
@@ -889,7 +875,7 @@ export default function CV() {
                   <div className="relative w-44 h-44 md:w-52 md:h-52 rounded-full p-[3px] bg-gradient-to-br from-cyan-400 via-purple-500 to-pink-500 pulse-glow">
                     <div className="w-full h-full rounded-full bg-slate-900 overflow-hidden flex items-center justify-center">
                       {!imageError ? (
-                        <img src="/profile.jpg" alt="Muhammad Azhar" className="w-full h-full object-cover" onError={() => setImageError(true)} />
+                        <img src="/profile.jpg" alt="Azhar Ali" className="w-full h-full object-cover" onError={() => setImageError(true)} />
                       ) : (
                         <div className="text-6xl md:text-7xl font-black gradient-text font-display">MA</div>
                       )}
@@ -1154,7 +1140,7 @@ export default function CV() {
                 <span className="text-slate-600 text-xs ml-2">why-hire-azhar.ts</span>
               </div>
               <pre className="overflow-x-auto whitespace-pre-wrap break-words">
-                <span className="text-slate-600">{'// Why you should choose Muhammad Azhar'}</span>{'\n'}
+                <span className="text-slate-600">{'// Why you should choose Azhar Ali'}</span>{'\n'}
                 <span className="text-purple-400">function</span>{' '}
                 <span className="text-yellow-300">whyHireAzhar</span>
                 <span className="text-slate-400">() </span>
@@ -1163,11 +1149,11 @@ export default function CV() {
                 <span className="text-slate-500">{'{'}</span>{'\n'}
                 {'    '}<span className="text-cyan-300">experience</span>
                 <span className="text-slate-500">:</span>{' '}
-                <span className="text-yellow-300">"8+ years"</span>
+                <span className="text-yellow-300">"7 years"</span>
                 <span className="text-slate-500">,</span>{'\n'}
                 {'    '}<span className="text-cyan-300">shipped</span>
                 <span className="text-slate-500">:</span>{' '}
-                <span className="text-yellow-300">"20+ sites + Chrome ext"</span>
+                <span className="text-yellow-300">"8 plugins + theme on .org"</span>
                 <span className="text-slate-500">,</span>{'\n'}
                 {'    '}<span className="text-cyan-300">ownership</span>
                 <span className="text-slate-500">:</span>{' '}
@@ -1193,7 +1179,7 @@ export default function CV() {
               {
                 icon: Trophy, color: 'cyan', tag: '// proof.exists',
                 title: 'I ship real products',
-                desc: 'A published Chrome extension. 20+ live sites. Custom WordPress plugins running in production. Not just resume words — every claim is one click away on the web.'
+                desc: 'Eight plugins and a block theme on WordPress.org. Six credits in the WordPress 7.1 core cycle. A published Chrome extension. Not just resume words, every claim is one click away on wordpress.org.'
               },
               {
                 icon: Brain, color: 'purple', tag: '// fullStack === true',
@@ -1284,7 +1270,7 @@ export default function CV() {
                 Eight years writing production code across <span className="text-cyan-400 font-medium">PHP, Laravel, Node, React, and MySQL</span>. Started front-end at a Pakistani agency, leveled up to senior full-stack for a US client at Creative Chaos, then spent four years running my own dev shop shipping for international clients.
               </p>
               <p className="text-base md:text-lg leading-relaxed text-slate-300">
-                <span className="text-white font-semibold">20+ live production sites</span> across the US, UK, UAE, Netherlands, and Pakistan, plus a <span className="text-white font-semibold">published Chrome extension</span> with several custom WordPress plugins built under the SoftGlaze brand.
+                <span className="text-white font-semibold">60+ live WordPress sites</span> across the UK, UAE, Netherlands, Spain and Pakistan, plus a <span className="text-white font-semibold">published Chrome extension</span> with several custom WordPress plugins built under the SoftGlaze brand.
               </p>
               <p className="text-base md:text-lg leading-relaxed text-slate-300">
                 Now ready to <span className="font-mono text-cyan-400">git checkout</span> a focused product team where I can commit deeply (pun intended) instead of context-switching across client projects.
@@ -1515,33 +1501,28 @@ export default function CV() {
 
             {[
               {
-                role: 'Founder & Lead Developer', company: 'SoftGlaze LLC', location: 'Remote | Colorado, USA', when: 'Jun 2022 — Present',
+                role: 'Founder & Lead Full-Stack Developer', company: 'SoftGlaze', location: 'Self-employed | Remote', when: 'Mar 2022 — Present',
                 bullets: [
-                  ['Founded an indie dev studio while staying ', 'hands-on as principal engineer', ' on every client engagement'],
-                  ['Architected and shipped ', '20+ production sites + a published Chrome extension', ' across legal services, e-commerce, directories, agency platforms, and tools'],
-                  ['Built ', 'custom SoftGlaze WordPress plugins from scratch', ' for price comparison engines, vehicle compatibility matching, web scrapers, and lead capture flows'],
+                  ['Author and maintain ', 'eight plugins and a block theme', ' on the WordPress.org directory, every one through the plugin and theme teams manual code review'],
+                  ['Review theme submissions for the ', 'WordPress.org Themes Team', ' as an assigned reviewer, applying the team published requirements and writing the findings up for the author'],
+                  ['Build and maintain WordPress and WooCommerce sites, Shopify stores and custom applications in ', 'PHP, Laravel and React', ' for clients across the UK, the Netherlands, Spain and Pakistan'],
                   ['Designed and shipped ', 'SoftGlaze Screen Recorder', ', a published Chrome extension with sticky annotations, MP4 conversion, and 100% local processing'],
-                  ['Owned the boring-but-critical stuff: schema design, query optimization, deploys, monitoring, and 2am production debugging'],
-                  ['Mentored junior contractors on Laravel patterns, Git workflow, and engineering standards'],
+                  ['Owned the boring-but-critical stuff: schema design, query optimization, deploys, monitoring, and production debugging'],
                 ],
               },
               {
-                role: 'Senior Full-Stack Web Developer', company: 'Creative Chaos', location: 'Remote | USA Client', when: 'Jul 2018 — May 2022',
+                role: 'Web Developer', company: 'Creative Chaos', location: 'Started as intern, retained as developer | Remote', when: 'Aug 2019 — Jul 2021',
                 bullets: [
-                  ['Shipped full-stack features in ', 'PHP/Laravel + React', ' for a distributed product team'],
-                  ['Owned modules end-to-end: schema, API, UI, QA, deploy'],
-                  ['Killed N+1 queries, added caching, and watched p95 response times drop materially'],
-                  ['Reviewed PRs and mentored juniors, leaving every codebase a little better than I found it'],
-                  ['Worked async with US-based PMs and designers across timezones without dropping the ball'],
+                  ['Built pages from designs and wrote ', 'PHP and JavaScript', ' for site features on client websites and web applications'],
+                  ['Fixed defects raised in testing and by clients, and learned project delivery from brief through to launch'],
+                  ['Worked async with US-based product managers and designers across timezones'],
                 ],
               },
               {
-                role: 'Full-Stack Web Developer', company: 'NextLogixs', location: 'Pakistan', when: 'Sep 2017 — Jun 2018',
+                role: 'WordPress Developer', company: 'REBORN', location: 'Full-time | Remote', when: 'Jan 2022 — Dec 2023',
                 bullets: [
-                  ['Designed MySQL schemas and built ', 'REST APIs', ' for client-facing applications'],
-                  ['Refactored legacy spaghetti-PHP into structured CodeIgniter and Laravel codebases'],
-                  ['Diagnosed slow queries with EXPLAIN, added indexes, and rewrote joins for measurable performance wins'],
-                  ['Worked across the stack on full client builds — from database design to deployed UI'],
+                  ['Built and maintained WordPress sites for the agency and its clients: ', 'custom theme work, plugin configuration and conflict resolution', ', and page speed'],
+                  ['Handled support and fixes on ', 'live sites carrying real traffic', ', where changes had to be made without downtime'],
                 ],
               },
             ].map((job, i) => (
@@ -1911,12 +1892,16 @@ export default function CV() {
                 </div>
                 <ul className="space-y-2.5 text-sm text-slate-300">
                   {[
-                    'Published a Chrome extension on the Web Store (5.0 rating)',
-                    'Founded SoftGlaze LLC and grew it to 20+ live production sites',
-                    'Built and shipped 10+ custom WordPress plugins under the SoftGlaze brand',
-                    'Architected a 12-site multi-region legal services network (UAE)',
-                    'Optimized p95 response times materially on production SaaS at Creative Chaos',
-                    'Mentored junior developers across distributed teams',
+                    'Credited in the WordPress 7.1 release on six changesets, mostly patch testing and verification',
+                    'Reported core defect #65802 and wrote the fix and its unit tests. A core committer took ownership and milestoned it for 7.2',
+                    'Eight plugins and the Warqa block theme published on WordPress.org, every one through manual code review',
+                    'Fourteen block patterns published to the WordPress Pattern Directory',
+                    'Eight WordPress.org contributor badges, including Core Contributor and Test Contributor',
+                    'Assigned reviewer for the WordPress.org Themes Team',
+                    'Project Translation Editor for Urdu. 1,040 strings translated, 1,037 reviewed',
+                    'Published SoftGlaze Screen Recorder on the Chrome Web Store',
+                    'Malware cleanup, vulnerability patching and recovery across roughly 90 client sites',
+                    'Built a network of eight WordPress sites for a single Dubai legal services client',
                   ].map((item, i) => (
                     <li key={i} className="flex items-start gap-2 leading-relaxed">
                       <Check size={14} className="text-green-400 flex-shrink-0 mt-0.5" />
@@ -1941,7 +1926,7 @@ export default function CV() {
                   {[
                     { skill: 'TypeScript', progress: 85, color: 'cyan' },
                     { skill: 'Next.js (App Router)', progress: 70, color: 'purple' },
-                    { skill: 'AWS Lambda + Serverless', progress: 55, color: 'pink' },
+                    { skill: 'WordPress block themes (theme.json v3)', progress: 90, color: 'pink' },
                     { skill: 'Tailwind CSS v4', progress: 80, color: 'yellow' },
                     { skill: 'Manifest V3 (Chrome Ext)', progress: 90, color: 'green' },
                   ].map((s, i) => (
@@ -1973,9 +1958,9 @@ export default function CV() {
                 </div>
                 <ul className="space-y-3 text-sm text-slate-300">
                   <li className="border-l-2 border-purple-400/40 pl-3">
-                    <div className="font-semibold text-white">Master of Information Technology</div>
-                    <div className="text-xs text-slate-400">Islamia University of Bahawalpur | 2012-2016</div>
-                    <div className="text-xs text-slate-500">Major: Computer Science & Cyber Security</div>
+                    <div className="font-semibold text-white">BS Information Technology</div>
+                    <div className="text-xs text-slate-400">The Islamia University of Bahawalpur | 2012-2016</div>
+                    <div className="text-xs text-slate-500">Grade A+</div>
                   </li>
                   <li className="border-l-2 border-cyan-400/40 pl-3">
                     <div className="font-semibold text-white">Chrome Web Store Developer</div>
@@ -1983,7 +1968,7 @@ export default function CV() {
                   </li>
                   <li className="border-l-2 border-pink-400/40 pl-3">
                     <div className="font-semibold text-white">Self-taught practitioner</div>
-                    <div className="text-xs text-slate-400">8+ years shipping production code, continuously learning new frameworks and patterns</div>
+                    <div className="text-xs text-slate-400">Seven years shipping production code, continuously learning new frameworks and patterns</div>
                   </li>
                 </ul>
               </div>
@@ -2489,7 +2474,7 @@ export default function CV() {
               <div className="font-mono text-xs text-slate-500 space-y-1.5 mb-8">
                 <div className="flex items-center justify-center gap-2 flex-wrap">
                   <GraduationCap size={14} className="text-purple-400" />
-                  <span>MS Information Technology | Islamia University of Bahawalpur | 2012-2016</span>
+                  <span>BS Information Technology | The Islamia University of Bahawalpur | 2012-2016</span>
                 </div>
                 <div>
                   <span className="text-purple-400">Languages</span> | English (fluent) | Urdu (native) | Punjabi (native)
@@ -2504,7 +2489,7 @@ export default function CV() {
           </FadeIn>
 
           <div className="relative z-10 mt-16 font-mono text-[10px] text-slate-700 flex items-center gap-1 flex-wrap justify-center px-4 text-center">
-            built with react | tailwind | <Heart size={10} className="text-pink-400 fill-pink-400" /> by Muhammad Azhar | azhar.softglaze.com
+            built with react | tailwind | <Heart size={10} className="text-pink-400 fill-pink-400" /> by Azhar Ali | azhar.softglaze.com
           </div>
         </section>
       </div>

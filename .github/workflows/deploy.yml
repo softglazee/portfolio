@@ -1,15 +1,16 @@
-name: Deploy React CV to AWS
+name: Deploy portfolio to azhar.softglaze.com
 
 on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Setup Node.js
@@ -17,33 +18,39 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Install and Build
+      - name: Install and build
         run: |
           npm install --legacy-peer-deps
           CI=false npm run build
 
-      - name: Compress Build Files
+      - name: Compress build output
         run: |
           cd dist
           zip -r ../upload.zip .
 
-      - name: Upload to AWS Server
+      - name: Upload to server
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SERVER_PORT }}
           source: "upload.zip"
           target: "~"
 
-      - name: Extract on Server
+      - name: Extract on server
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SERVER_PORT }}
           script: |
-            sudo rm -rf /home/azhar.softglaze.com/public_html/*
-            sudo unzip -o ~/upload.zip -d /home/azhar.softglaze.com/public_html/
-            sudo chown -R nobody:nobody /home/azhar.softglaze.com/public_html/
-            rm ~/upload.zip
+            set -e
+            TARGET="$HOME/domains/azhar.softglaze.com/public_html"
+            mkdir -p "$TARGET"
+            find "$TARGET" -mindepth 1 -delete
+            unzip -o ~/upload.zip -d "$TARGET"
+            rm -f ~/upload.zip
+            echo "Deployed to $TARGET"
+            ls -la "$TARGET"
