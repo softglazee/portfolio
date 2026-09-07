@@ -645,13 +645,27 @@ export default function CV() {
         }
         @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .spin-slow { animation: spin-slow 20s linear infinite; }
+        /* The avatar is 176px wide (208px from md), so its radius is 88px
+           and 104px. At a 120px orbit radius a ~60px label pill overlapped
+           the photograph for part of every rotation and its text was clipped
+           behind it. Radius is now set per breakpoint to clear the avatar
+           with room for the pill. */
         @keyframes orbit {
-          from { transform: rotate(0deg) translateX(120px) rotate(0deg); }
-          to { transform: rotate(360deg) translateX(120px) rotate(-360deg); }
+          from { transform: rotate(0deg) translateX(var(--orbit-r, 150px)) rotate(0deg); }
+          to { transform: rotate(360deg) translateX(var(--orbit-r, 150px)) rotate(-360deg); }
         }
         @keyframes orbit-reverse {
-          from { transform: rotate(0deg) translateX(160px) rotate(0deg); }
-          to { transform: rotate(-360deg) translateX(160px) rotate(360deg); }
+          from { transform: rotate(0deg) translateX(var(--orbit-r2, 195px)) rotate(0deg); }
+          to { transform: rotate(-360deg) translateX(var(--orbit-r2, 195px)) rotate(360deg); }
+        }
+        @media (min-width: 768px) {
+          .orbit { --orbit-r: 172px; }
+          .orbit-reverse { --orbit-r2: 218px; }
+        }
+        /* Below 420px the wider ring would push labels off screen. */
+        @media (max-width: 420px) {
+          .orbit { --orbit-r: 128px; }
+          .orbit-reverse { --orbit-r2: 158px; }
         }
         .orbit { animation: orbit 14s linear infinite; }
         .orbit-reverse { animation: orbit-reverse 20s linear infinite; }
