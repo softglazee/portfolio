@@ -675,7 +675,7 @@ export default function CV() {
       <div className="print-only" style={{ display: 'none', color: 'black', background: 'white', padding: '0', fontFamily: 'Helvetica, Arial, sans-serif', fontSize: '10.5pt', lineHeight: '1.5' }}>
         <div style={{ borderBottom: '2px solid black', paddingBottom: '12px', marginBottom: '14px' }}>
           <h1 style={{ fontSize: '24pt', fontWeight: 'bold', margin: '0 0 4px 0', letterSpacing: '-0.5px' }}>Azhar Ali</h1>
-          <div style={{ fontSize: '12pt', color: '#333', marginBottom: '8px' }}>Senior Full-Stack Engineer</div>
+          <div style={{ fontSize: '12pt', color: '#333', marginBottom: '8px' }}>WordPress and PHP Engineer</div>
           <div style={{ fontSize: '9.5pt', color: '#444' }}>
             admin@softglaze.com | +92 300 7484750 | Multan, PK (Working USA Timezones) | softglaze.com<br/>
             github.com/softglazee | linkedin.com/in/azharalidev | azhar.softglaze.com
@@ -898,16 +898,16 @@ export default function CV() {
 
               <h1 className="font-mono font-bold leading-none tracking-tight mb-6 flex flex-wrap items-center justify-center gap-x-2 md:gap-x-3 text-2xl sm:text-3xl md:text-5xl lg:text-6xl">
                 <span className="text-slate-600">{'<'}</span>
-                <span className="bg-gradient-to-br from-white via-slate-200 to-slate-300 bg-clip-text text-transparent">Muhammad</span>
+                <span className="bg-gradient-to-br from-white via-slate-200 to-slate-300 bg-clip-text text-transparent">Azhar</span>
                 <span className="text-cyan-400">/</span>
-                <span className="gradient-text">Azhar</span>
+                <span className="gradient-text">Ali</span>
                 <span className="text-slate-600">{'>'}</span>
               </h1>
             </FadeIn>
 
             <FadeIn delay={300}>
               <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-base md:text-lg text-slate-300 mb-2">
-                <span>Senior Full-Stack Engineer</span>
+                <span>WordPress and PHP Engineer</span>
                 <span className="text-slate-600">|</span>
                 <span className="text-slate-400 flex items-center gap-1"><MapPin size={14} /> Multan, PK (Working USA Timezones)</span>
               </div>
