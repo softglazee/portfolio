@@ -48,9 +48,27 @@ jobs:
           script: |
             set -e
             TARGET="$HOME/domains/azhar.softglaze.com/public_html"
-            mkdir -p "$TARGET"
+            if [ ! -d "$TARGET" ]; then
+              echo "ERROR: $TARGET does not exist on $(hostname) as $(whoami)."
+              echo "This account does not host azhar.softglaze.com. Available domains:"
+              ls "$HOME/domains/" 2>/dev/null || echo "  (no ~/domains directory)"
+              exit 1
+            fi
             find "$TARGET" -mindepth 1 -delete
             unzip -o ~/upload.zip -d "$TARGET"
             rm -f ~/upload.zip
+            test -f "$TARGET/index.html" || { echo "ERROR: index.html missing after extract"; exit 1; }
             echo "Deployed to $TARGET"
             ls -la "$TARGET"
+
+      - name: Verify the site is actually serving the build
+        run: |
+          sleep 5
+          BODY=$(curl -sL --max-time 30 https://azhar.softglaze.com/)
+          if echo "$BODY" | grep -q "Default page"; then
+            echo "ERROR: azhar.softglaze.com is still showing the Hostinger default page."
+            echo "The files uploaded, but this host is not what the domain resolves to."
+            exit 1
+          fi
+          echo "$BODY" | grep -o '<title>[^<]*</title>' || true
+          echo "Site is live and serving the build."
