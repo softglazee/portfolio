@@ -23,7 +23,7 @@ export default function App() {
 
       <header className="border-b border-ink-800">
         <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-6 px-5 py-4 md:px-8">
-          <a href="#hero" className="font-display text-base font-semibold text-ink-100">
+          <a href="#hero" className="whitespace-nowrap font-display text-base font-semibold text-ink-100">
             Azhar Ali
           </a>
           <nav aria-label="Sections">
