@@ -2,8 +2,7 @@ name: Deploy portfolio to azhar.softglaze.com
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   workflow_dispatch:
 
 jobs:
@@ -11,73 +10,69 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: '22'
 
-      - name: Install and build
-        run: |
-          npm install --legacy-peer-deps
-          CI=false npm run build
+      - name: Install
+        run: npm install --legacy-peer-deps
+
+      # Required. Lint failures must not reach the site.
+      - name: Lint
+        run: npm run lint
+
+      # No CI=false. A warning that would fail CI should fail CI.
+      - name: Build
+        run: npm run build
 
       - name: Compress build output
-        run: |
-          cd dist
-          zip -r ../upload.zip .
+        run: cd dist && zip -r ../upload.zip .
 
       - name: Upload to server
-        uses: appleboy/scp-action@v0.1.7
+        uses: appleboy/scp-action@v1
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT }}
-          source: "upload.zip"
-          target: "~"
+          source: upload.zip
+          target: ~
 
-      - name: Extract on server
-        uses: appleboy/ssh-action@v1.0.3
+      # Extract to a staging directory and swap only once it is known good, so a
+      # failed unzip can never leave the live site emptied.
+      - name: Extract and swap
+        uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            set -e
-            TARGET=""
-            for c in               "$HOME/domains/azhar.softglaze.com/public_html"               "$HOME/domains/softglaze.com/public_html/azhar"               "$HOME/public_html/azhar"               "$HOME/domains/softglaze.com/public_html/azhar.softglaze.com"
-            do
-              if [ -d "$c" ]; then TARGET="$c"; echo "Found web root: $TARGET"; break; fi
-            done
-            if [ -z "$TARGET" ]; then
-              echo "ERROR: could not locate the web root for azhar.softglaze.com"
-              echo "host: $(hostname)  user: $(whoami)"
-              echo "--- ~/domains ---"
-              ls "$HOME/domains/" 2>/dev/null
-              echo "--- ~/domains/softglaze.com/public_html ---"
-              ls "$HOME/domains/softglaze.com/public_html/" 2>/dev/null | head -40
-              echo "--- anything named azhar ---"
-              find "$HOME" -maxdepth 4 -iname "*azhar*" -not -path "*/node_modules/*" 2>/dev/null | head -20
+            set -euo pipefail
+            TARGET="$HOME/domains/softglaze.com/public_html/azhar"
+            if [ ! -d "$TARGET" ]; then
+              echo "ERROR: $TARGET does not exist on $(hostname) as $(whoami)."
+              ls "$HOME/domains/" 2>/dev/null || true
               exit 1
             fi
+            STAGE="$HOME/.deploy-stage-$$"
+            rm -rf "$STAGE" && mkdir -p "$STAGE"
+            unzip -q -o ~/upload.zip -d "$STAGE"
+            test -f "$STAGE/index.html"
+            # Only now is the live directory touched.
             find "$TARGET" -mindepth 1 -delete
-            unzip -o ~/upload.zip -d "$TARGET"
-            rm -f ~/upload.zip
-            test -f "$TARGET/index.html" || { echo "ERROR: index.html missing after extract"; exit 1; }
+            cp -a "$STAGE"/. "$TARGET"/
+            rm -rf "$STAGE" ~/upload.zip
+            test -f "$TARGET/index.html"
             echo "Deployed to $TARGET"
-            ls -la "$TARGET"
 
-      - name: Verify the site is actually serving the build
+      - name: Verify the site is serving the build
         run: |
           sleep 5
           BODY=$(curl -sL --max-time 30 https://azhar.softglaze.com/)
-          if echo "$BODY" | grep -q "Default page"; then
-            echo "ERROR: azhar.softglaze.com is still showing the Hostinger default page."
-            echo "The files uploaded, but this host is not what the domain resolves to."
-            exit 1
-          fi
-          echo "$BODY" | grep -o '<title>[^<]*</title>' || true
-          echo "Site is live and serving the build."
+          echo "$BODY" | grep -q "Default page" && { echo "ERROR: still the Hostinger default page"; exit 1; }
+          echo "$BODY" | grep -o '<title>[^<]*</title>'
+          echo "Live."
