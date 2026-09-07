@@ -593,7 +593,6 @@ export default function CV() {
   return (
     <div className="bg-slate-950 text-slate-200 min-h-screen overflow-x-hidden font-sans">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
         body { font-family: 'Inter', system-ui, sans-serif; background: #0E1013; -webkit-font-smoothing: antialiased; }
         .font-mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
         .font-display { font-family: 'Fraunces', Georgia, serif; font-variation-settings: 'opsz' 96; letter-spacing: -0.02em; }
@@ -659,6 +658,40 @@ export default function CV() {
 
         @keyframes blink-slow { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
         .blink-slow { animation: blink-slow 2s ease-in-out infinite; }
+
+        /* opsz was pinned at 96 for every .font-display, so a 16px label
+           inherited hero-scale optical contrast and looked fragile. Bind it to
+           the size it is actually rendered at. Negative tracking is right at
+           hero scale and wrong below 20px. */
+        .font-display { font-variation-settings: 'opsz' 28; letter-spacing: -0.005em; }
+        h1.font-display { font-variation-settings: 'opsz' 120; letter-spacing: -0.022em; }
+        h2.font-display { font-variation-settings: 'opsz' 72; letter-spacing: -0.014em; }
+        h3.font-display { font-variation-settings: 'opsz' 40; letter-spacing: -0.008em; }
+
+        /* Dark grounds need more leading than light ones. */
+        p { line-height: 1.68; }
+
+        /* The decorative blobs are sized in fixed px and were painting 600px
+           wide inside a 367px viewport. */
+        @media (max-width: 640px) {
+          .blob { max-width: 70vw; max-height: 70vw; }
+        }
+
+        /* Touch targets. On a coarse pointer every discrete control gets a
+           44px hit area, which is the WCAG 2.5.8 minimum. Applied to buttons
+           only, so inline links inside prose are not stretched. */
+        @media (pointer: coarse) {
+          button { min-height: 44px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+          }
+        }
 
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #16191E; }
@@ -807,7 +840,7 @@ export default function CV() {
       <div className="screen-only">
 
         <div
-          className="fixed top-0 left-0 h-1 bg-gradient-to-r from-cyan-300 to-cyan-600 z-50 transition-all duration-100"
+          className="fixed top-0 left-0 h-1 bg-gradient-to-r from-cyan-300 to-cyan-600 z-50 transition-colors duration-100"
           style={{ width: `${scrollProgress}%`, boxShadow: '0 0 12px rgba(34, 211, 238, 0.6)' }}
         />
 
@@ -816,7 +849,7 @@ export default function CV() {
             <button
               key={item.id}
               onClick={() => document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' })}
-              className="group relative w-3 h-3 rounded-full transition-all duration-300"
+              className="group relative w-3 h-3 rounded-full transition-colors duration-300"
               style={{
                 background: activeSection === item.id ? '#E0A542' : item.star ? 'rgba(168, 85, 247, 0.4)' : 'rgba(148, 163, 184, 0.3)',
                 border: `1.5px solid ${activeSection === item.id ? '#E0A542' : item.star ? 'rgba(168, 85, 247, 0.6)' : 'rgba(148, 163, 184, 0.5)'}`,
@@ -859,22 +892,22 @@ export default function CV() {
                 </div>
                 <div className="absolute inset-0 hidden md:block">
                   <div className="absolute top-1/2 left-1/2 w-3 h-3 -ml-1.5 -mt-1.5 orbit">
-                    <div className="px-2 py-1 rounded-md bg-slate-900/90 border border-cyan-500/40 text-cyan-400 font-mono text-[10px] whitespace-nowrap shadow-lg">Laravel</div>
+                    <div className="px-2 py-1 rounded-md bg-slate-900/90 border border-cyan-500/40 text-cyan-400 font-mono text-xs whitespace-nowrap shadow-lg">Laravel</div>
                   </div>
                   <div className="absolute top-1/2 left-1/2 w-3 h-3 -ml-1.5 -mt-1.5 orbit" style={{ animationDelay: '-3.5s' }}>
-                    <div className="px-2 py-1 rounded-md bg-slate-900/90 border border-purple-500/40 text-purple-400 font-mono text-[10px] whitespace-nowrap shadow-lg">React</div>
+                    <div className="px-2 py-1 rounded-md bg-slate-900/90 border border-purple-500/40 text-purple-400 font-mono text-xs whitespace-nowrap shadow-lg">React</div>
                   </div>
                   <div className="absolute top-1/2 left-1/2 w-3 h-3 -ml-1.5 -mt-1.5 orbit" style={{ animationDelay: '-7s' }}>
-                    <div className="px-2 py-1 rounded-md bg-slate-900/90 border border-pink-500/40 text-pink-400 font-mono text-[10px] whitespace-nowrap shadow-lg">Node</div>
+                    <div className="px-2 py-1 rounded-md bg-slate-900/90 border border-pink-500/40 text-pink-400 font-mono text-xs whitespace-nowrap shadow-lg">Node</div>
                   </div>
                   <div className="absolute top-1/2 left-1/2 w-3 h-3 -ml-1.5 -mt-1.5 orbit" style={{ animationDelay: '-10.5s' }}>
-                    <div className="px-2 py-1 rounded-md bg-slate-900/90 border border-yellow-500/40 text-yellow-400 font-mono text-[10px] whitespace-nowrap shadow-lg">MySQL</div>
+                    <div className="px-2 py-1 rounded-md bg-slate-900/90 border border-yellow-500/40 text-yellow-400 font-mono text-xs whitespace-nowrap shadow-lg">MySQL</div>
                   </div>
                   <div className="absolute top-1/2 left-1/2 w-3 h-3 -ml-1.5 -mt-1.5 orbit-reverse">
-                    <div className="px-2 py-1 rounded-md bg-slate-900/90 border border-green-500/40 text-green-400 font-mono text-[10px] whitespace-nowrap shadow-lg">WordPress</div>
+                    <div className="px-2 py-1 rounded-md bg-slate-900/90 border border-green-500/40 text-green-400 font-mono text-xs whitespace-nowrap shadow-lg">WordPress</div>
                   </div>
                   <div className="absolute top-1/2 left-1/2 w-3 h-3 -ml-1.5 -mt-1.5 orbit-reverse" style={{ animationDelay: '-10s' }}>
-                    <div className="px-2 py-1 rounded-md bg-slate-900/90 border border-orange-500/40 text-orange-400 font-mono text-[10px] whitespace-nowrap shadow-lg">PHP</div>
+                    <div className="px-2 py-1 rounded-md bg-slate-900/90 border border-orange-500/40 text-orange-400 font-mono text-xs whitespace-nowrap shadow-lg">PHP</div>
                   </div>
                 </div>
 
@@ -900,31 +933,31 @@ export default function CV() {
               <div className="font-mono text-cyan-400 text-xs md:text-sm mb-3 flex items-center gap-2 justify-center flex-wrap">
                 <Terminal size={14} />
                 <span className="text-purple-400">~/azhar</span>
-                <span className="text-slate-600">$</span>
+                <span className="text-slate-400">$</span>
                 <span className="text-slate-400">whoami</span>
               </div>
 
               <h1 className="font-display font-bold leading-none tracking-tightest mb-6 flex flex-wrap items-center justify-center gap-x-2 md:gap-x-3 text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
-                <span className="text-slate-600">{'<'}</span>
+                <span className="text-slate-400">{'<'}</span>
                 <span className="bg-gradient-to-br from-white via-slate-200 to-slate-300 bg-clip-text text-transparent">Azhar</span>
                 <span className="text-cyan-400">/</span>
                 <span className="gradient-text">Ali</span>
-                <span className="text-slate-600">{'>'}</span>
+                <span className="text-slate-400">{'>'}</span>
               </h1>
             </FadeIn>
 
             <FadeIn delay={300}>
               <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-base md:text-lg text-slate-300 mb-2">
                 <span>WordPress and PHP Engineer</span>
-                <span className="text-slate-600">|</span>
+                <span className="text-slate-400">|</span>
                 <span className="text-slate-400 flex items-center gap-1"><MapPin size={14} /> Multan, PK (Working USA Timezones)</span>
               </div>
 
               <p className="font-mono text-xs md:text-sm text-slate-500 mb-8 flex flex-wrap gap-x-2 justify-center">
-                <span className="text-purple-400">PHP</span><span className="text-slate-700">/</span>
-                <span className="text-cyan-400">Laravel</span><span className="text-slate-700">/</span>
-                <span className="text-yellow-400">React</span><span className="text-slate-700">/</span>
-                <span className="text-green-400">Node</span><span className="text-slate-700">/</span>
+                <span className="text-purple-400">PHP</span><span className="text-slate-400">/</span>
+                <span className="text-cyan-400">Laravel</span><span className="text-slate-400">/</span>
+                <span className="text-yellow-400">React</span><span className="text-slate-400">/</span>
+                <span className="text-green-400">Node</span><span className="text-slate-400">/</span>
                 <span className="text-pink-400">MySQL</span>
               </p>
             </FadeIn>
@@ -939,8 +972,8 @@ export default function CV() {
                   <span className="w-3 h-3 rounded-full bg-red-500/80"></span>
                   <span className="w-3 h-3 rounded-full bg-yellow-500/80"></span>
                   <span className="w-3 h-3 rounded-full bg-green-500/80"></span>
-                  <span className="text-slate-600 text-xs ml-2">azhar@dev — interactive terminal</span>
-                  <span className="ml-auto text-[10px] text-slate-600">type "help"</span>
+                  <span className="text-slate-400 text-xs ml-2">azhar@dev — interactive terminal</span>
+                  <span className="ml-auto text-xs text-slate-400">type "help"</span>
                 </div>
 
                 <div ref={terminalRef} className="p-4 max-h-72 overflow-y-auto" style={{ scrollBehavior: 'smooth' }}>
@@ -949,7 +982,7 @@ export default function CV() {
                       {entry.type === 'input' && (
                         <div className="flex items-start gap-1.5">
                           <span className="text-purple-400 flex-shrink-0">~/azhar</span>
-                          <span className="text-slate-600 flex-shrink-0">$</span>
+                          <span className="text-slate-400 flex-shrink-0">$</span>
                           <span className="text-slate-200">{entry.content}</span>
                         </div>
                       )}
@@ -964,7 +997,7 @@ export default function CV() {
 
                   <div className="flex items-start gap-1.5 mt-1">
                     <span className="text-purple-400 flex-shrink-0">~/azhar</span>
-                    <span className="text-slate-600 flex-shrink-0">$</span>
+                    <span className="text-slate-400 flex-shrink-0">$</span>
                     <input
                       ref={terminalInputRef}
                       type="text"
@@ -984,17 +1017,17 @@ export default function CV() {
             <FadeIn delay={500}>
               <div className="flex flex-wrap gap-3 mb-10 justify-center">
                 <a href="#extension" onClick={(e) => { e.preventDefault(); document.getElementById('extension')?.scrollIntoView({ behavior: 'smooth' }); }}
-                  className="group px-6 py-3 rounded-lg bg-gradient-to-r from-cyan-400 to-cyan-600 text-white font-medium text-sm flex items-center gap-2 hover:shadow-xl hover:shadow-cyan-500/30 transition-all hover:-translate-y-0.5">
+                  className="group px-6 py-3 rounded-lg bg-gradient-to-r from-cyan-400 to-cyan-600 text-white font-medium text-sm flex items-center gap-2 hover:shadow-xl hover:shadow-cyan-500/30 transition-colors hover:-translate-y-0.5">
                   <Rocket size={16} /> See my work
                   <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                 </a>
-                <button onClick={handlePrint} className="px-6 py-3 rounded-lg border border-cyan-400/40 hover:border-cyan-400 hover:bg-cyan-400/10 text-cyan-400 font-medium text-sm flex items-center gap-2 transition-all hover:-translate-y-0.5">
+                <button onClick={handlePrint} className="px-6 py-3 rounded-lg border border-cyan-400/40 hover:border-cyan-400 hover:bg-cyan-400/10 text-cyan-400 font-medium text-sm flex items-center gap-2 transition-colors hover:-translate-y-0.5">
                   <Download size={16} /> Download Resume
                 </button>
-                <a href="https://github.com/softglazee" target="_blank" rel="noopener noreferrer" className="px-6 py-3 rounded-lg border border-slate-700 hover:border-cyan-400 hover:text-cyan-400 text-slate-300 font-medium text-sm flex items-center gap-2 transition-all hover:-translate-y-0.5">
+                <a href="https://github.com/softglazee" target="_blank" rel="noopener noreferrer" className="px-6 py-3 rounded-lg border border-slate-700 hover:border-cyan-400 hover:text-cyan-400 text-slate-300 font-medium text-sm flex items-center gap-2 transition-colors hover:-translate-y-0.5">
                   <Github size={16} /> GitHub
                 </a>
-                <a href="mailto:admin@softglaze.com" className="px-6 py-3 rounded-lg border border-slate-700 hover:border-cyan-400 hover:text-cyan-400 text-slate-300 font-medium text-sm flex items-center gap-2 transition-all hover:-translate-y-0.5">
+                <a href="mailto:admin@softglaze.com" className="px-6 py-3 rounded-lg border border-slate-700 hover:border-cyan-400 hover:text-cyan-400 text-slate-300 font-medium text-sm flex items-center gap-2 transition-colors hover:-translate-y-0.5">
                   <Mail size={16} /> Get in touch
                 </a>
               </div>
@@ -1018,7 +1051,7 @@ export default function CV() {
             </FadeIn>
           </div>
 
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 font-mono text-xs text-slate-600 flex flex-col items-center gap-1">
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 font-mono text-xs text-slate-400 flex flex-col items-center gap-1">
             <span>scroll | or use down/right keys</span>
             <ChevronDown size={18} className="animate-bounce" />
           </div>
@@ -1028,7 +1061,7 @@ export default function CV() {
         <AnimatedSection id="extension" tag="// flagship product" icon={<Award />} number="02">
           <FadeIn>
             <div className="text-center mb-3">
-              <span className="font-mono text-[10px] px-2 py-0.5 rounded-full bg-yellow-500/10 border border-yellow-500/40 text-yellow-400 uppercase tracking-widest inline-flex items-center gap-1">
+              <span className="font-mono text-xs px-2 py-0.5 rounded-full bg-yellow-500/10 border border-yellow-500/40 text-yellow-400 uppercase tracking-widest inline-flex items-center gap-1">
                 <Star size={10} className="fill-yellow-400" /> Featured Product
               </span>
             </div>
@@ -1051,17 +1084,17 @@ export default function CV() {
                     <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-3xl bg-gradient-to-br from-cyan-400 to-cyan-700 flex items-center justify-center shadow-2xl pulse-glow">
                       <Chrome size={64} className="text-white" />
                     </div>
-                    <div className="absolute -bottom-2 -right-2 bg-slate-900 border-2 border-cyan-400 rounded-xl px-2 py-1 font-mono text-[10px] text-cyan-400">v14.0</div>
+                    <div className="absolute -bottom-2 -right-2 bg-slate-900 border-2 border-cyan-400 rounded-xl px-2 py-1 font-mono text-xs text-cyan-400">v14.0</div>
                   </div>
                 </div>
 
                 <div>
                   <div className="flex items-center gap-2 mb-2 flex-wrap">
-                    <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-green-500/10 border border-green-500/30 text-green-400 uppercase tracking-wider flex items-center gap-1">
+                    <span className="font-mono text-xs px-2 py-0.5 rounded bg-green-500/10 border border-green-500/30 text-green-400 uppercase tracking-wider flex items-center gap-1">
                       <ShieldCheck size={10} /> Verified Live
                     </span>
-                    <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-cyan-400/10 border border-cyan-400/30 text-cyan-400">Chrome Web Store</span>
-                    <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-purple-500/10 border border-purple-500/30 text-purple-400">Published</span>
+                    <span className="font-mono text-xs px-2 py-0.5 rounded bg-cyan-400/10 border border-cyan-400/30 text-cyan-400">Chrome Web Store</span>
+                    <span className="font-mono text-xs px-2 py-0.5 rounded bg-purple-500/10 border border-purple-500/30 text-purple-400">Published</span>
                   </div>
 
                   <h3 className="font-display text-2xl md:text-3xl font-bold text-white mb-2">SoftGlaze Screen Recorder</h3>
@@ -1094,16 +1127,16 @@ export default function CV() {
                   </div>
 
                   <div className="mb-5">
-                    <div className="font-mono text-[10px] text-cyan-400 uppercase tracking-wider mb-2">// built with</div>
+                    <div className="font-mono text-xs text-cyan-400 uppercase tracking-wider mb-2">// built with</div>
                     <div className="flex flex-wrap gap-1.5">
                       {['JavaScript', 'Chrome Extension API', 'MediaRecorder API', 'Canvas API', 'WebRTC', 'MP4 Conversion', 'Manifest V3'].map((t, i) => (
-                        <span key={i} className="font-mono text-[11px] px-2.5 py-1 rounded-md bg-slate-900/60 border border-slate-700/60 text-slate-300 hover:border-cyan-400 hover:text-cyan-400 transition-colors">{t}</span>
+                        <span key={i} className="font-mono text-xs px-2.5 py-1 rounded-md bg-slate-900/60 border border-slate-700/60 text-slate-300 hover:border-cyan-400 hover:text-cyan-400 transition-colors">{t}</span>
                       ))}
                     </div>
                   </div>
 
                   <div className="mb-5">
-                    <div className="font-mono text-[10px] text-pink-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                    <div className="font-mono text-xs text-pink-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                       <Wrench size={10} /> what I engineered
                     </div>
                     <ul className="space-y-1.5 text-sm text-slate-300">
@@ -1115,7 +1148,7 @@ export default function CV() {
                   </div>
 
                   <a href="https://chromewebstore.google.com/detail/softglaze-screen-recorder/ofjommapkklakbolagajoiklgfldhlmp" target="_blank" rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-cyan-400 to-cyan-600 text-white font-medium text-sm hover:shadow-xl hover:shadow-cyan-500/30 transition-all hover:-translate-y-0.5">
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-cyan-400 to-cyan-600 text-white font-medium text-sm hover:shadow-xl hover:shadow-cyan-500/30 transition-colors hover:-translate-y-0.5">
                     <Chrome size={16} /> View on Chrome Web Store
                     <ArrowUpRight size={14} />
                   </a>
@@ -1129,7 +1162,7 @@ export default function CV() {
         <AnimatedSection id="why-me" tag="// the pitch" icon={<Heart />} number="03">
           <FadeIn>
             <div className="text-center mb-3">
-              <span className="font-mono text-[10px] px-3 py-1 rounded-full bg-pink-500/10 border border-pink-500/40 text-pink-400 uppercase tracking-widest font-mono">if (hiring) {'{ hireMe() }'}</span>
+              <span className="font-mono text-xs px-3 py-1 rounded-full bg-pink-500/10 border border-pink-500/40 text-pink-400 uppercase tracking-widest font-mono">if (hiring) {'{ hireMe() }'}</span>
             </div>
             <h2 className="font-display text-4xl md:text-6xl font-bold leading-tight tracking-tight mb-3 text-center">
               Why <span className="gradient-text">me?</span>
@@ -1145,10 +1178,10 @@ export default function CV() {
                 <span className="w-3 h-3 rounded-full bg-red-500/80"></span>
                 <span className="w-3 h-3 rounded-full bg-yellow-500/80"></span>
                 <span className="w-3 h-3 rounded-full bg-green-500/80"></span>
-                <span className="text-slate-600 text-xs ml-2">why-hire-azhar.ts</span>
+                <span className="text-slate-400 text-xs ml-2">why-hire-azhar.ts</span>
               </div>
               <pre className="overflow-x-auto whitespace-pre-wrap break-words">
-                <span className="text-slate-600">{'// Why you should choose Azhar Ali'}</span>{'\n'}
+                <span className="text-slate-400">{'// Why you should choose Azhar Ali'}</span>{'\n'}
                 <span className="text-purple-400">function</span>{' '}
                 <span className="text-yellow-300">whyHireAzhar</span>
                 <span className="text-slate-400">() </span>
@@ -1240,7 +1273,7 @@ export default function CV() {
                         <Icon size={18} className={`text-${reason.color}-400`} />
                       </div>
                       <div className="flex-1">
-                        <div className={`font-mono text-[10px] text-${reason.color}-400 uppercase tracking-widest mb-1`}>{reason.tag}</div>
+                        <div className={`font-mono text-xs text-${reason.color}-400 uppercase tracking-widest mb-1`}>{reason.tag}</div>
                         <h3 className="text-base md:text-lg font-semibold text-white leading-tight">{reason.title}</h3>
                       </div>
                     </div>
@@ -1254,9 +1287,9 @@ export default function CV() {
           <FadeIn delay={400}>
             <div className="text-center mt-12">
               <p className="font-mono text-sm text-slate-400 mb-4">
-                <span className="text-slate-600">{'//'}</span> tldr: I'm the senior engineer you wish you'd hired six months ago.
+                <span className="text-slate-400">{'//'}</span> tldr: I'm the senior engineer you wish you'd hired six months ago.
               </p>
-              <a href="mailto:admin@softglaze.com" className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-gradient-to-r from-cyan-400 to-cyan-600 text-white font-medium text-sm hover:shadow-xl hover:shadow-purple-500/30 transition-all hover:-translate-y-0.5">
+              <a href="mailto:admin@softglaze.com" className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-gradient-to-r from-cyan-400 to-cyan-600 text-white font-medium text-sm hover:shadow-xl hover:shadow-purple-500/30 transition-colors hover:-translate-y-0.5">
                 <Mail size={16} /> Let's talk
                 <ArrowUpRight size={14} />
               </a>
@@ -1288,11 +1321,11 @@ export default function CV() {
 
           <FadeIn delay={300}>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mt-8 max-w-4xl mx-auto">
-              <div className="glass rounded-xl p-4 text-center hover:border-cyan-400/40 transition-all hover:-translate-y-1">
+              <div className="glass rounded-xl p-4 text-center hover:border-cyan-400/40 transition-colors hover:-translate-y-1">
                 <div className="font-mono text-3xl md:text-4xl font-bold gradient-text">7</div>
                 <div className="text-xs text-slate-400 uppercase tracking-wider mt-1">Years Shipping</div>
               </div>
-              <div className="glass rounded-xl p-4 text-center hover:border-cyan-400/40 transition-all hover:-translate-y-1">
+              <div className="glass rounded-xl p-4 text-center hover:border-cyan-400/40 transition-colors hover:-translate-y-1">
                 <div className="font-mono text-3xl md:text-4xl font-bold gradient-text">60+</div>
                 <div className="text-xs text-slate-400 uppercase tracking-wider mt-1">WordPress Sites</div>
               </div>
@@ -1301,7 +1334,7 @@ export default function CV() {
                 href="https://github.com/softglazee"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="glass rounded-xl p-4 text-center hover:border-cyan-400/40 transition-all hover:-translate-y-1 block group"
+                className="glass rounded-xl p-4 text-center hover:border-cyan-400/40 transition-colors hover:-translate-y-1 block group"
               >
                 <div className="font-mono text-3xl md:text-4xl font-bold gradient-text flex items-center justify-center gap-1">
                   {githubStats.loading ? (
@@ -1317,7 +1350,7 @@ export default function CV() {
                   GitHub Repos
                 </div>
               </a>
-              <div className="glass rounded-xl p-4 text-center hover:border-cyan-400/40 transition-all hover:-translate-y-1">
+              <div className="glass rounded-xl p-4 text-center hover:border-cyan-400/40 transition-colors hover:-translate-y-1">
                 <div className="font-mono text-3xl md:text-4xl font-bold gradient-text">5</div>
                 <div className="text-xs text-slate-400 uppercase tracking-wider mt-1">Countries</div>
               </div>
@@ -1414,7 +1447,7 @@ export default function CV() {
                           </div>
                         </div>
                         <p className="text-sm md:text-[15px] text-slate-300 leading-relaxed mb-3">{step.desc}</p>
-                        <div className="font-mono text-[10px] text-cyan-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                        <div className="font-mono text-xs text-cyan-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                           <FileCode size={10} /> deliverables
                         </div>
                         <p className="text-xs text-slate-400 italic">{step.output}</p>
@@ -1434,7 +1467,7 @@ export default function CV() {
                       <Activity size={18} className="text-green-400" />
                     </div>
                     <div>
-                      <div className="font-mono text-[10px] text-green-400 uppercase tracking-wider">// response time</div>
+                      <div className="font-mono text-xs text-green-400 uppercase tracking-wider">// response time</div>
                       <div className="text-white font-semibold text-base">Avg &lt; 4 hours</div>
                     </div>
                   </div>
@@ -1446,7 +1479,7 @@ export default function CV() {
                       <CalendarCheck size={18} className="text-cyan-400" />
                     </div>
                     <div>
-                      <div className="font-mono text-[10px] text-cyan-400 uppercase tracking-wider">// availability</div>
+                      <div className="font-mono text-xs text-cyan-400 uppercase tracking-wider">// availability</div>
                       <div className="text-white font-semibold text-base">Open for new work</div>
                     </div>
                   </div>
@@ -1543,7 +1576,7 @@ export default function CV() {
                       <div className="font-mono text-xs text-slate-400">{job.when}</div>
                     </div>
                     <div className="font-mono text-sm text-cyan-400 mb-4">
-                      {job.company} <span className="text-slate-600 mx-1.5">|</span>
+                      {job.company} <span className="text-slate-400 mx-1.5">|</span>
                       <span className="text-slate-400">{job.location}</span>
                     </div>
                     <ul className="space-y-2">
@@ -1565,7 +1598,7 @@ export default function CV() {
         <AnimatedSection id="wporg" tag="// wordpress.org" icon={<Package />} number="08">
           <FadeIn>
             <div className="text-center mb-3">
-              <span className="font-mono text-[10px] px-2 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/40 text-cyan-400 uppercase tracking-widest inline-flex items-center gap-1.5">
+              <span className="font-mono text-xs px-2 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/40 text-cyan-400 uppercase tracking-widest inline-flex items-center gap-1.5">
                 <ShieldCheck size={10} /> Every one through manual code review
               </span>
             </div>
@@ -1588,7 +1621,7 @@ export default function CV() {
               ].map((s, i) => (
                 <div key={i} className="glass rounded-lg px-3 py-4 text-center">
                   <div className="font-mono text-2xl md:text-3xl font-bold gradient-text">{s.n}</div>
-                  <div className="text-[10px] text-slate-500 uppercase tracking-wider mt-1">{s.l}</div>
+                  <div className="text-xs text-slate-500 uppercase tracking-wider mt-1">{s.l}</div>
                 </div>
               ))}
             </div>
@@ -1655,17 +1688,17 @@ export default function CV() {
                     <h4 className="font-display text-lg font-semibold text-slate-100 leading-snug group-hover:text-cyan-300 transition-colors">
                       {p.name}
                     </h4>
-                    <span className="font-mono text-[10px] text-slate-500 border border-slate-700 rounded px-1.5 py-0.5 flex-shrink-0 mt-0.5">
+                    <span className="font-mono text-xs text-slate-500 border border-slate-700 rounded px-1.5 py-0.5 flex-shrink-0 mt-0.5">
                       v{p.v}
                     </span>
                   </div>
                   <p className="text-sm text-slate-400 leading-relaxed flex-1">{p.desc}</p>
                   <div className="flex flex-wrap items-center gap-1.5 mt-4">
                     {p.tags.map((t, j) => (
-                      <span key={j} className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-slate-800/70 text-slate-400">{t}</span>
+                      <span key={j} className="font-mono text-xs px-1.5 py-0.5 rounded bg-slate-800/70 text-slate-400">{t}</span>
                     ))}
                   </div>
-                  <div className="flex items-center gap-1.5 mt-3 pt-3 border-t border-slate-800 font-mono text-[11px] text-cyan-400">
+                  <div className="flex items-center gap-1.5 mt-3 pt-3 border-t border-slate-800 font-mono text-xs text-cyan-400">
                     <span className="w-1.5 h-1.5 rounded-full bg-green-400 blink-slow" />
                     Live on WordPress.org
                     <ArrowUpRight size={12} className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -1694,17 +1727,17 @@ export default function CV() {
                   <h4 className="font-display text-lg font-semibold text-slate-100 leading-snug group-hover:text-cyan-300 transition-colors">
                     Warqa
                   </h4>
-                  <span className="font-mono text-[10px] text-slate-500 border border-slate-700 rounded px-1.5 py-0.5 flex-shrink-0 mt-0.5">v1.1.0</span>
+                  <span className="font-mono text-xs text-slate-500 border border-slate-700 rounded px-1.5 py-0.5 flex-shrink-0 mt-0.5">v1.1.0</span>
                 </div>
                 <p className="text-sm text-slate-400 leading-relaxed flex-1">
                   A block theme for writers and publishers. theme.json v3, nine templates, 36 insertable patterns, light and dark variations, and fonts bundled locally so it makes no remote requests. The review team set it live with no required changes and no revision round.
                 </p>
                 <div className="flex flex-wrap items-center gap-1.5 mt-4">
                   {['Full site editing', 'theme.json v3', '36 patterns'].map((t, j) => (
-                    <span key={j} className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-slate-800/70 text-slate-400">{t}</span>
+                    <span key={j} className="font-mono text-xs px-1.5 py-0.5 rounded bg-slate-800/70 text-slate-400">{t}</span>
                   ))}
                 </div>
-                <div className="flex items-center gap-1.5 mt-3 pt-3 border-t border-slate-800 font-mono text-[11px] text-cyan-400">
+                <div className="flex items-center gap-1.5 mt-3 pt-3 border-t border-slate-800 font-mono text-xs text-cyan-400">
                   <span className="w-1.5 h-1.5 rounded-full bg-green-400 blink-slow" />
                   Live on WordPress.org
                   <ArrowUpRight size={12} className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -1716,17 +1749,17 @@ export default function CV() {
               <div className="glass rounded-xl p-5 h-full flex flex-col border-dashed opacity-90">
                 <div className="flex items-start justify-between gap-3 mb-2">
                   <h4 className="font-display text-lg font-semibold text-slate-300 leading-snug">Driveline</h4>
-                  <span className="font-mono text-[10px] text-slate-500 border border-slate-700 rounded px-1.5 py-0.5 flex-shrink-0 mt-0.5">v1.0.1</span>
+                  <span className="font-mono text-xs text-slate-500 border border-slate-700 rounded px-1.5 py-0.5 flex-shrink-0 mt-0.5">v1.0.1</span>
                 </div>
                 <p className="text-sm text-slate-400 leading-relaxed flex-1">
                   A theme for vehicle rental and fleet sites, built to sit on top of Driveline Core. Fourteen block patterns, four page templates, a live-preview Customizer panel, WooCommerce styling and no remote requests.
                 </p>
                 <div className="flex flex-wrap items-center gap-1.5 mt-4">
                   {['Vehicle rental', 'WooCommerce', 'Accessible'].map((t, j) => (
-                    <span key={j} className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-slate-800/70 text-slate-500">{t}</span>
+                    <span key={j} className="font-mono text-xs px-1.5 py-0.5 rounded bg-slate-800/70 text-slate-400">{t}</span>
                   ))}
                 </div>
-                <div className="flex items-center gap-1.5 mt-3 pt-3 border-t border-slate-800 font-mono text-[11px] text-slate-500">
+                <div className="flex items-center gap-1.5 mt-3 pt-3 border-t border-slate-800 font-mono text-xs text-slate-500">
                   <Clock size={11} />
                   Coming soon, in the theme review queue
                 </div>
@@ -1762,7 +1795,7 @@ export default function CV() {
             <div className="flex flex-wrap justify-center gap-2 mb-4">
               <button
                 onClick={() => { setPortfolioFilter('all'); setExpandedSite(null); }}
-                className={`font-mono text-xs px-3 py-1.5 rounded-full border transition-all flex items-center gap-1.5 ${
+                className={`font-mono text-xs px-4 min-h-[44px] rounded-full border transition-colors flex items-center gap-1.5 ${
                   portfolioFilter === 'all' ? 'bg-cyan-400/10 border-cyan-400 text-cyan-400' : 'border-slate-700 text-slate-400 hover:border-slate-500 hover:text-slate-300'
                 }`}
               >
@@ -1770,7 +1803,7 @@ export default function CV() {
               </button>
               <button
                 onClick={() => { setPortfolioFilter('featured'); setExpandedSite(null); }}
-                className={`font-mono text-xs px-3 py-1.5 rounded-full border transition-all flex items-center gap-1.5 ${
+                className={`font-mono text-xs px-4 min-h-[44px] rounded-full border transition-colors flex items-center gap-1.5 ${
                   portfolioFilter === 'featured' ? 'bg-yellow-400/10 border-yellow-400 text-yellow-400' : 'border-slate-700 text-slate-400 hover:border-slate-500 hover:text-slate-300'
                 }`}
               >
@@ -1778,7 +1811,7 @@ export default function CV() {
               </button>
               <button
                 onClick={() => { setPortfolioFilter('verified'); setExpandedSite(null); }}
-                className={`font-mono text-xs px-3 py-1.5 rounded-full border transition-all flex items-center gap-1.5 ${
+                className={`font-mono text-xs px-4 min-h-[44px] rounded-full border transition-colors flex items-center gap-1.5 ${
                   portfolioFilter === 'verified' ? 'bg-green-400/10 border-green-400 text-green-400' : 'border-slate-700 text-slate-400 hover:border-slate-500 hover:text-slate-300'
                 }`}
               >
@@ -1786,7 +1819,7 @@ export default function CV() {
               </button>
               <button
                 onClick={() => { setPortfolioFilter('inProgress'); setExpandedSite(null); }}
-                className={`font-mono text-xs px-3 py-1.5 rounded-full border transition-all flex items-center gap-1.5 ${
+                className={`font-mono text-xs px-4 min-h-[44px] rounded-full border transition-colors flex items-center gap-1.5 ${
                   portfolioFilter === 'inProgress' ? 'bg-orange-400/10 border-orange-400 text-orange-400' : 'border-slate-700 text-slate-400 hover:border-slate-500 hover:text-slate-300'
                 }`}
               >
@@ -1804,7 +1837,7 @@ export default function CV() {
                     <button
                       key={cat}
                       onClick={() => { setStatusFilter(cat); setExpandedSite(null); }}
-                      className={`font-mono text-[11px] px-2.5 py-1 rounded-full border transition-all ${
+                      className={`font-mono text-xs px-2.5 py-1 rounded-full border transition-colors ${
                         statusFilter === cat
                           ? `bg-${catColors[cat] || 'cyan'}-400/10 border-${catColors[cat] || 'cyan'}-400 text-${catColors[cat] || 'cyan'}-400`
                           : 'border-slate-800 text-slate-500 hover:border-slate-600 hover:text-slate-400'
@@ -1881,7 +1914,7 @@ export default function CV() {
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={(e) => e.stopPropagation()}
-                          className="font-mono text-[11px] text-cyan-400/70 hover:text-cyan-400 truncate block underline-offset-2 hover:underline"
+                          className="font-mono text-xs text-cyan-400/70 hover:text-cyan-400 truncate block underline-offset-2 hover:underline"
                         >
                           {site.url.replace(/^https?:\/\//, '').replace(/\/$/, '')}
                         </a>
@@ -1889,19 +1922,19 @@ export default function CV() {
                     </div>
 
                     <div className="flex items-center justify-between gap-2 mb-2 flex-wrap">
-                      <span className={`font-mono text-[10px] px-2 py-0.5 rounded bg-slate-900/80 border border-slate-700/60 text-${catColors[site.cat] || 'slate'}-400 whitespace-nowrap`}>
+                      <span className={`font-mono text-xs px-2 py-0.5 rounded bg-slate-900/80 border border-slate-700/60 text-${catColors[site.cat] || 'slate'}-400 whitespace-nowrap`}>
                         // {site.cat}
                       </span>
                       <div className="flex items-center gap-1.5">
                         <Package size={11} className="text-purple-400" />
-                        <span className="font-mono text-[10.5px] text-purple-300">{site.cms}</span>
+                        <span className="font-mono text-xs text-purple-300">{site.cms}</span>
                       </div>
                     </div>
 
                     <div className="text-xs text-slate-400 leading-snug mb-2">{site.desc}</div>
 
                     {site.inProgress && !isExpanded && (
-                      <span className="inline-block font-mono text-[10px] px-2 py-0.5 rounded bg-orange-500/10 border border-orange-500/30 text-orange-400 mt-1">
+                      <span className="inline-block font-mono text-xs px-2 py-0.5 rounded bg-orange-500/10 border border-orange-500/30 text-orange-400 mt-1">
                         content rolling out
                       </span>
                     )}
@@ -1910,12 +1943,12 @@ export default function CV() {
                       <div className="mt-4 pt-4 border-t border-slate-700/50 space-y-3">
                         {site.plugins && site.plugins.length > 0 && (
                           <div>
-                            <div className="font-mono text-[10px] text-cyan-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                            <div className="font-mono text-xs text-cyan-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                               <Package size={10} /> Plugins Used
                             </div>
                             <div className="flex flex-wrap gap-1">
                               {site.plugins.map((p, j) => (
-                                <span key={j} className="font-mono text-[10px] px-2 py-0.5 rounded bg-slate-900/60 border border-slate-700/60 text-slate-300">{p}</span>
+                                <span key={j} className="font-mono text-xs px-2 py-0.5 rounded bg-slate-900/60 border border-slate-700/60 text-slate-300">{p}</span>
                               ))}
                             </div>
                           </div>
@@ -1923,7 +1956,7 @@ export default function CV() {
 
                         {site.custom && site.custom.length > 0 && (
                           <div>
-                            <div className="font-mono text-[10px] text-pink-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                            <div className="font-mono text-xs text-pink-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                               <Wrench size={10} /> Custom Built
                             </div>
                             <ul className="space-y-1">
@@ -1938,12 +1971,12 @@ export default function CV() {
 
                         {site.features && site.features.length > 0 && (
                           <div>
-                            <div className="font-mono text-[10px] text-yellow-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                            <div className="font-mono text-xs text-yellow-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                               <Zap size={10} /> Key Features
                             </div>
                             <div className="flex flex-wrap gap-1">
                               {site.features.map((f, j) => (
-                                <span key={j} className="font-mono text-[10px] px-2 py-0.5 rounded bg-yellow-500/10 border border-yellow-500/30 text-yellow-300">{f}</span>
+                                <span key={j} className="font-mono text-xs px-2 py-0.5 rounded bg-yellow-500/10 border border-yellow-500/30 text-yellow-300">{f}</span>
                               ))}
                             </div>
                           </div>
@@ -2024,27 +2057,27 @@ export default function CV() {
                 <div className="glass rounded-xl p-6 relative overflow-hidden group hover:-translate-y-1 h-full">
                   <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-cyan-300 to-cyan-600 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
                   <div className="flex items-start justify-between gap-3 mb-3">
-                    <div className="font-mono text-[10px] text-purple-400 uppercase tracking-widest">// {p.tag}</div>
-                    <div className="font-mono text-[10px] px-2 py-0.5 rounded bg-cyan-400/10 border border-cyan-400/30 text-cyan-400">{p.count}</div>
+                    <div className="font-mono text-xs text-purple-400 uppercase tracking-widest">// {p.tag}</div>
+                    <div className="font-mono text-xs px-2 py-0.5 rounded bg-cyan-400/10 border border-cyan-400/30 text-cyan-400">{p.count}</div>
                   </div>
                   <h3 className="text-lg md:text-xl font-semibold text-white mb-2">{p.title}</h3>
                   <div className="flex items-center gap-2 mb-3">
                     <Package size={12} className="text-purple-400" />
-                    <span className="font-mono text-[11px] text-purple-300">{p.cms}</span>
+                    <span className="font-mono text-xs text-purple-300">{p.cms}</span>
                   </div>
                   <p className="text-sm leading-relaxed text-slate-300 mb-4">{p.desc}</p>
 
                   <div className="space-y-2.5 pt-3 border-t border-slate-700/50">
                     <div>
-                      <div className="font-mono text-[10px] text-cyan-400 uppercase tracking-wider mb-1.5">// stack</div>
+                      <div className="font-mono text-xs text-cyan-400 uppercase tracking-wider mb-1.5">// stack</div>
                       <div className="flex flex-wrap gap-1">
                         {p.stack.map((s, j) => (
-                          <span key={j} className="font-mono text-[10px] px-2 py-0.5 rounded bg-slate-900/60 border border-slate-700/60 text-slate-300">{s}</span>
+                          <span key={j} className="font-mono text-xs px-2 py-0.5 rounded bg-slate-900/60 border border-slate-700/60 text-slate-300">{s}</span>
                         ))}
                       </div>
                     </div>
                     <div>
-                      <div className="font-mono text-[10px] text-pink-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                      <div className="font-mono text-xs text-pink-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                         <Wrench size={10} /> custom built
                       </div>
                       <ul className="space-y-0.5">
@@ -2127,11 +2160,11 @@ export default function CV() {
                     <div key={i}>
                       <div className="flex justify-between mb-1">
                         <span className="font-mono text-xs text-slate-300">{s.skill}</span>
-                        <span className={`font-mono text-[10px] text-${s.color}-400`}>{s.progress}%</span>
+                        <span className={`font-mono text-xs text-${s.color}-400`}>{s.progress}%</span>
                       </div>
                       <div className="h-1.5 bg-slate-800 rounded-full overflow-hidden">
                         <div
-                          className={`h-full bg-gradient-to-r from-${s.color}-500 to-${s.color}-400 rounded-full transition-all duration-1000`}
+                          className={`h-full bg-gradient-to-r from-${s.color}-500 to-${s.color}-400 rounded-full transition-colors duration-1000`}
                           style={{ width: `${s.progress}%` }}
                         />
                       </div>
@@ -2187,7 +2220,7 @@ export default function CV() {
                   ].map((b, i) => (
                     <li key={i} className="border-l-2 border-pink-400/30 pl-3">
                       <div className="font-medium text-white text-[13px]">{b.book}</div>
-                      <div className="text-[11px] text-slate-400">{b.author} | <span className="italic text-slate-500">{b.why}</span></div>
+                      <div className="text-xs text-slate-400">{b.author} | <span className="italic text-slate-500">{b.why}</span></div>
                     </li>
                   ))}
                 </ul>
@@ -2225,16 +2258,16 @@ export default function CV() {
                     <span className="font-mono text-xs md:text-sm text-white truncate flex-1 min-w-0">
                       {testimonials[currentReview].title}
                     </span>
-                    <span className={`font-mono text-[10px] px-2 py-0.5 rounded-full bg-${testimonials[currentReview].labelColor}-500/10 border border-${testimonials[currentReview].labelColor}-500/40 text-${testimonials[currentReview].labelColor}-400 uppercase tracking-wider whitespace-nowrap`}>
+                    <span className={`font-mono text-xs px-2 py-0.5 rounded-full bg-${testimonials[currentReview].labelColor}-500/10 border border-${testimonials[currentReview].labelColor}-500/40 text-${testimonials[currentReview].labelColor}-400 uppercase tracking-wider whitespace-nowrap`}>
                       {testimonials[currentReview].label}
                     </span>
                   </div>
 
                   {/* Branch info */}
-                  <div className="px-4 md:px-6 py-2 bg-slate-900/40 border-b border-slate-700/40 font-mono text-[11px] text-slate-500 flex items-center gap-2 flex-wrap">
-                    <GitBranch size={12} className="text-slate-600" />
+                  <div className="px-4 md:px-6 py-2 bg-slate-900/40 border-b border-slate-700/40 font-mono text-xs text-slate-500 flex items-center gap-2 flex-wrap">
+                    <GitBranch size={12} className="text-slate-400" />
                     <span className="text-cyan-400">{testimonials[currentReview].branches[0]}</span>
-                    <ChevronRight size={11} className="text-slate-600" />
+                    <ChevronRight size={11} className="text-slate-400" />
                     <span className="text-purple-400">{testimonials[currentReview].branches[1]}</span>
                   </div>
 
@@ -2248,10 +2281,10 @@ export default function CV() {
                       </div>
                       <div className="min-w-0 flex-1">
                         <div className="font-semibold text-white text-sm md:text-base">{testimonials[currentReview].author}</div>
-                        <div className="font-mono text-[11px] md:text-xs text-cyan-400">{testimonials[currentReview].role}</div>
-                        <div className="font-mono text-[10px] md:text-[11px] text-slate-500">{testimonials[currentReview].company}</div>
+                        <div className="font-mono text-xs md:text-xs text-cyan-400">{testimonials[currentReview].role}</div>
+                        <div className="font-mono text-xs md:text-xs text-slate-500">{testimonials[currentReview].company}</div>
                       </div>
-                      <div className="font-mono text-[10px] text-slate-600 hidden sm:flex items-center gap-1 flex-shrink-0">
+                      <div className="font-mono text-xs text-slate-400 hidden sm:flex items-center gap-1 flex-shrink-0">
                         <MessageSquare size={10} /> review
                       </div>
                     </div>
@@ -2261,11 +2294,11 @@ export default function CV() {
                     </div>
 
                     <div className="mt-4 flex items-center justify-between flex-wrap gap-2">
-                      <div className="font-mono text-[10px] md:text-[11px] text-slate-500 flex items-center gap-1.5">
+                      <div className="font-mono text-xs md:text-xs text-slate-500 flex items-center gap-1.5">
                         <Check size={11} className="text-green-400" />
                         review approved
                       </div>
-                      <div className="font-mono text-[10px] text-slate-600 flex items-center gap-1">
+                      <div className="font-mono text-xs text-slate-400 flex items-center gap-1">
                         <Clock size={10} />
                         {currentReview + 1} of {testimonials.length}
                       </div>
@@ -2276,14 +2309,14 @@ export default function CV() {
                 {/* Navigation arrows */}
                 <button
                   onClick={() => setCurrentReview((prev) => (prev - 1 + testimonials.length) % testimonials.length)}
-                  className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 md:-translate-x-12 w-9 h-9 md:w-10 md:h-10 rounded-full glass border border-slate-600 hover:border-cyan-400 hover:text-cyan-400 text-slate-300 flex items-center justify-center transition-all hover:-translate-x-3 md:hover:-translate-x-14"
+                  className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 md:-translate-x-12 w-9 h-9 md:w-10 md:h-10 rounded-full glass border border-slate-600 hover:border-cyan-400 hover:text-cyan-400 text-slate-300 flex items-center justify-center transition-colors hover:-translate-x-3 md:hover:-translate-x-14"
                   aria-label="Previous review"
                 >
                   <ChevronLeft size={18} />
                 </button>
                 <button
                   onClick={() => setCurrentReview((prev) => (prev + 1) % testimonials.length)}
-                  className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 md:translate-x-12 w-9 h-9 md:w-10 md:h-10 rounded-full glass border border-slate-600 hover:border-cyan-400 hover:text-cyan-400 text-slate-300 flex items-center justify-center transition-all hover:translate-x-3 md:hover:translate-x-14"
+                  className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 md:translate-x-12 w-9 h-9 md:w-10 md:h-10 rounded-full glass border border-slate-600 hover:border-cyan-400 hover:text-cyan-400 text-slate-300 flex items-center justify-center transition-colors hover:translate-x-3 md:hover:translate-x-14"
                   aria-label="Next review"
                 >
                   <ChevronRight size={18} />
@@ -2296,7 +2329,7 @@ export default function CV() {
                   <button
                     key={i}
                     onClick={() => setCurrentReview(i)}
-                    className={`h-2 rounded-full transition-all ${
+                    className={`h-2 rounded-full transition-colors ${
                       i === currentReview ? 'w-8 bg-cyan-400' : 'w-2 bg-slate-700 hover:bg-slate-600'
                     }`}
                     aria-label={`Go to review ${i + 1}`}
@@ -2304,7 +2337,7 @@ export default function CV() {
                 ))}
               </div>
 
-              <p className="text-center font-mono text-[10px] text-slate-600 mt-4">
+              <p className="text-center font-mono text-xs text-slate-400 mt-4">
                 {autoplayPaused ? 'paused — hover off to resume' : 'auto-rotating every 6s'}
               </p>
             </div>
@@ -2367,17 +2400,17 @@ export default function CV() {
             ].map((faq, i) => (
               <FadeIn key={i} delay={i * 50}>
                 <div
-                  className={`glass rounded-xl overflow-hidden transition-all cursor-pointer ${openFaq === i ? 'border-cyan-400/40' : 'hover:border-cyan-400/20'}`}
+                  className={`glass rounded-xl overflow-hidden transition-colors cursor-pointer ${openFaq === i ? 'border-cyan-400/40' : 'hover:border-cyan-400/20'}`}
                   onClick={() => setOpenFaq(openFaq === i ? -1 : i)}
                 >
                   <div className="p-5 flex items-start gap-3">
-                    <div className={`flex-shrink-0 w-7 h-7 rounded-md flex items-center justify-center transition-all ${openFaq === i ? 'bg-cyan-400/20 text-cyan-400 rotate-90' : 'bg-slate-800/60 text-slate-500'}`}>
+                    <div className={`flex-shrink-0 w-7 h-7 rounded-md flex items-center justify-center transition-colors ${openFaq === i ? 'bg-cyan-400/20 text-cyan-400 rotate-90' : 'bg-slate-800/60 text-slate-500'}`}>
                       <ChevronRight size={14} />
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between gap-3 flex-wrap">
                         <h3 className="font-semibold text-white text-sm md:text-[15px] leading-snug">{faq.q}</h3>
-                        <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-slate-900/80 border border-slate-700/60 text-slate-400 flex-shrink-0">// {faq.tag}</span>
+                        <span className="font-mono text-xs px-2 py-0.5 rounded bg-slate-900/80 border border-slate-700/60 text-slate-400 flex-shrink-0">// {faq.tag}</span>
                       </div>
                       {openFaq === i && (
                         <p className="text-sm text-slate-300 leading-relaxed mt-3 animate-in fade-in slide-in-from-top-2 duration-300">{faq.a}</p>
@@ -2392,9 +2425,9 @@ export default function CV() {
           <FadeIn delay={500}>
             <div className="text-center mt-10">
               <p className="font-mono text-sm text-slate-400 mb-4">
-                <span className="text-slate-600">{'//'}</span> didn't see your question? ask me directly.
+                <span className="text-slate-400">{'//'}</span> didn't see your question? ask me directly.
               </p>
-              <a href="mailto:admin@softglaze.com" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-cyan-400 to-cyan-600 text-white font-medium text-sm hover:shadow-xl hover:shadow-cyan-500/30 transition-all hover:-translate-y-0.5">
+              <a href="mailto:admin@softglaze.com" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-cyan-400 to-cyan-600 text-white font-medium text-sm hover:shadow-xl hover:shadow-cyan-500/30 transition-colors hover:-translate-y-0.5">
                 <Mail size={14} /> Email me
                 <ArrowUpRight size={12} />
               </a>
@@ -2424,7 +2457,7 @@ export default function CV() {
                     <Wrench size={16} className="text-cyan-400" />
                   </div>
                   <div>
-                    <div className="font-mono text-[10px] text-cyan-400 uppercase tracking-wider">// currently building</div>
+                    <div className="font-mono text-xs text-cyan-400 uppercase tracking-wider">// currently building</div>
                     <div className="text-white font-semibold text-sm">This week's focus</div>
                   </div>
                 </div>
@@ -2454,7 +2487,7 @@ export default function CV() {
                     <BookOpen size={16} className="text-purple-400" />
                   </div>
                   <div>
-                    <div className="font-mono text-[10px] text-purple-400 uppercase tracking-wider">// reading</div>
+                    <div className="font-mono text-xs text-purple-400 uppercase tracking-wider">// reading</div>
                     <div className="text-white font-semibold text-sm">In my queue</div>
                   </div>
                 </div>
@@ -2484,7 +2517,7 @@ export default function CV() {
                     <Headphones size={16} className="text-pink-400" />
                   </div>
                   <div>
-                    <div className="font-mono text-[10px] text-pink-400 uppercase tracking-wider">// coding playlist</div>
+                    <div className="font-mono text-xs text-pink-400 uppercase tracking-wider">// coding playlist</div>
                     <div className="text-white font-semibold text-sm flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
                       What's on rotation
@@ -2500,11 +2533,11 @@ export default function CV() {
                   ].map((track, i) => (
                     <div
                       key={i}
-                      className={`flex items-center gap-2 leading-relaxed transition-all ${nowPlayingIndex === i ? 'text-pink-400 font-medium' : 'text-slate-400'}`}
+                      className={`flex items-center gap-2 leading-relaxed transition-colors ${nowPlayingIndex === i ? 'text-pink-400 font-medium' : 'text-slate-400'}`}
                     >
-                      <PlayCircle size={11} className={nowPlayingIndex === i ? 'text-pink-400' : 'text-slate-600'} />
+                      <PlayCircle size={11} className={nowPlayingIndex === i ? 'text-pink-400' : 'text-slate-400'} />
                       <span>{track.genre}</span>
-                      <span className="text-slate-600 italic text-[10px]">— {track.for}</span>
+                      <span className="text-slate-400 italic text-xs">— {track.for}</span>
                     </div>
                   ))}
                 </div>
@@ -2520,7 +2553,7 @@ export default function CV() {
                     <Smile size={16} className="text-yellow-400" />
                   </div>
                   <div>
-                    <div className="font-mono text-[10px] text-yellow-400 uppercase tracking-wider">// quirks.json</div>
+                    <div className="font-mono text-xs text-yellow-400 uppercase tracking-wider">// quirks.json</div>
                     <div className="text-white font-semibold text-sm">When I'm not coding</div>
                   </div>
                 </div>
@@ -2554,7 +2587,7 @@ export default function CV() {
                     <Github size={16} className="text-green-400" />
                   </div>
                   <div>
-                    <div className="font-mono text-[10px] text-green-400 uppercase tracking-wider">// community</div>
+                    <div className="font-mono text-xs text-green-400 uppercase tracking-wider">// community</div>
                     <div className="text-white font-semibold text-sm flex items-center gap-1.5">
                       Open Source
                       <a href="https://github.com/softglazee" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:text-cyan-300">
@@ -2571,11 +2604,11 @@ export default function CV() {
                     <div className="font-mono text-base font-bold gradient-text">
                       {githubStats.loading ? '...' : (githubStats.repos !== null ? githubStats.repos : '—')}
                     </div>
-                    <div className="text-[10px] text-slate-500 uppercase tracking-wider">Repos</div>
+                    <div className="text-xs text-slate-500 uppercase tracking-wider">Repos</div>
                   </div>
                   <div className="bg-slate-900/60 border border-slate-700/40 rounded-md p-2">
                     <div className="font-mono text-base font-bold gradient-text">7</div>
-                    <div className="text-[10px] text-slate-500 uppercase tracking-wider">Years</div>
+                    <div className="text-xs text-slate-500 uppercase tracking-wider">Years</div>
                   </div>
                 </div>
               </div>
@@ -2590,7 +2623,7 @@ export default function CV() {
                     <Pen size={16} className="text-orange-400" />
                   </div>
                   <div>
-                    <div className="font-mono text-[10px] text-orange-400 uppercase tracking-wider">// writing soon</div>
+                    <div className="font-mono text-xs text-orange-400 uppercase tracking-wider">// writing soon</div>
                     <div className="text-white font-semibold text-sm">Tech blog (in progress)</div>
                   </div>
                 </div>
@@ -2642,25 +2675,25 @@ export default function CV() {
               </p>
 
               <div className="flex flex-wrap gap-3 justify-center mb-10">
-                <a href="mailto:admin@softglaze.com" className="font-mono text-sm px-6 py-3 rounded-lg bg-gradient-to-r from-cyan-400 to-cyan-600 text-white hover:shadow-lg hover:shadow-cyan-500/40 transition-all hover:-translate-y-0.5 flex items-center gap-2">
+                <a href="mailto:admin@softglaze.com" className="font-mono text-sm px-6 py-3 rounded-lg bg-gradient-to-r from-cyan-400 to-cyan-600 text-white hover:shadow-lg hover:shadow-cyan-500/40 transition-colors hover:-translate-y-0.5 flex items-center gap-2">
                   <Send size={14} /> admin@softglaze.com
                 </a>
-                <button onClick={handlePrint} className="font-mono text-sm px-6 py-3 rounded-lg border border-cyan-400/40 text-cyan-400 hover:bg-cyan-400/10 transition-all hover:-translate-y-0.5 flex items-center gap-2">
+                <button onClick={handlePrint} className="font-mono text-sm px-6 py-3 rounded-lg border border-cyan-400/40 text-cyan-400 hover:bg-cyan-400/10 transition-colors hover:-translate-y-0.5 flex items-center gap-2">
                   <Download size={14} /> Download Resume (PDF)
                 </button>
-                <a href="tel:+923007484750" className="font-mono text-sm px-6 py-3 rounded-lg border border-cyan-400/40 text-cyan-400 hover:bg-cyan-400/10 transition-all hover:-translate-y-0.5 flex items-center gap-2">
+                <a href="tel:+923007484750" className="font-mono text-sm px-6 py-3 rounded-lg border border-cyan-400/40 text-cyan-400 hover:bg-cyan-400/10 transition-colors hover:-translate-y-0.5 flex items-center gap-2">
                   <Phone size={14} /> +92 300 7484750
                 </a>
-                <a href="https://github.com/softglazee" target="_blank" rel="noopener noreferrer" className="font-mono text-sm px-6 py-3 rounded-lg border border-slate-600 text-slate-300 hover:border-cyan-400 hover:text-cyan-400 transition-all hover:-translate-y-0.5 flex items-center gap-2">
+                <a href="https://github.com/softglazee" target="_blank" rel="noopener noreferrer" className="font-mono text-sm px-6 py-3 rounded-lg border border-slate-600 text-slate-300 hover:border-cyan-400 hover:text-cyan-400 transition-colors hover:-translate-y-0.5 flex items-center gap-2">
                   <Github size={14} /> github.com/softglazee
                 </a>
-                <a href="https://www.linkedin.com/in/azharalidev/" target="_blank" rel="noopener noreferrer" className="font-mono text-sm px-6 py-3 rounded-lg border border-slate-600 text-slate-300 hover:border-cyan-400 hover:text-cyan-400 transition-all hover:-translate-y-0.5 flex items-center gap-2">
+                <a href="https://www.linkedin.com/in/azharalidev/" target="_blank" rel="noopener noreferrer" className="font-mono text-sm px-6 py-3 rounded-lg border border-slate-600 text-slate-300 hover:border-cyan-400 hover:text-cyan-400 transition-colors hover:-translate-y-0.5 flex items-center gap-2">
                   <Linkedin size={14} /> azharalidev
                 </a>
-                <a href="https://softglaze.com" target="_blank" rel="noopener noreferrer" className="font-mono text-sm px-6 py-3 rounded-lg border border-slate-600 text-slate-300 hover:border-cyan-400 hover:text-cyan-400 transition-all hover:-translate-y-0.5 flex items-center gap-2">
+                <a href="https://softglaze.com" target="_blank" rel="noopener noreferrer" className="font-mono text-sm px-6 py-3 rounded-lg border border-slate-600 text-slate-300 hover:border-cyan-400 hover:text-cyan-400 transition-colors hover:-translate-y-0.5 flex items-center gap-2">
                   <Globe size={14} /> softglaze.com
                 </a>
-                <a href="https://chromewebstore.google.com/detail/softglaze-screen-recorder/ofjommapkklakbolagajoiklgfldhlmp" target="_blank" rel="noopener noreferrer" className="font-mono text-sm px-6 py-3 rounded-lg border border-purple-500/40 text-purple-400 hover:bg-purple-500/10 transition-all hover:-translate-y-0.5 flex items-center gap-2">
+                <a href="https://chromewebstore.google.com/detail/softglaze-screen-recorder/ofjommapkklakbolagajoiklgfldhlmp" target="_blank" rel="noopener noreferrer" className="font-mono text-sm px-6 py-3 rounded-lg border border-purple-500/40 text-purple-400 hover:bg-purple-500/10 transition-colors hover:-translate-y-0.5 flex items-center gap-2">
                   <Chrome size={14} /> Chrome Extension
                 </a>
               </div>
@@ -2682,7 +2715,7 @@ export default function CV() {
             </div>
           </FadeIn>
 
-          <div className="relative z-10 mt-16 font-mono text-[10px] text-slate-700 flex items-center gap-1 flex-wrap justify-center px-4 text-center">
+          <div className="relative z-10 mt-16 font-mono text-xs text-slate-400 flex items-center gap-1 flex-wrap justify-center px-4 text-center">
             built with react | tailwind | <Heart size={10} className="text-pink-400 fill-pink-400" /> by Azhar Ali | azhar.softglaze.com
           </div>
         </section>
@@ -2737,7 +2770,7 @@ function AnimatedSection({ id, children, tag, icon, number }) {
       <div className="w-full max-w-7xl mx-auto">
         <FadeIn>
           <div className="text-center mb-2">
-            <div className="font-mono text-xs text-slate-700 tracking-widest mb-2">// {number}</div>
+            <div className="font-mono text-xs text-slate-400 tracking-widest mb-2">// {number}</div>
             <div className="font-mono text-sm text-cyan-400 mb-2 flex items-center gap-2 justify-center">
               {icon && <span className="opacity-60">{icon}</span>}
               {tag}

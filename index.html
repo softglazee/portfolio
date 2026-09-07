@@ -11,7 +11,19 @@
     <meta name="description" content="WordPress and PHP engineer in Multan, Pakistan. Eight plugins and a block theme published on WordPress.org, credited in the WordPress 7.1 core release, and seven years of client work across PHP, WooCommerce, Laravel and React." />
     <meta name="author" content="Azhar Ali" />
     <link rel="canonical" href="https://azhar.softglaze.com/" />
-    <meta name="theme-color" content="#0E1013" />
+    <meta name="theme-color" content="#11100D" />
+
+    <!-- In the head, before the module script. Previously this was an @import
+         inside a <style> element rendered by React, so nothing downloaded until
+         the 336 KB bundle had parsed and painted and the first render was
+         Georgia and system-ui. Inter 300 dropped: light weights bloom on dark
+         grounds and it was never used. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+    />
 
     <meta property="og:type" content="profile" />
     <meta property="og:site_name" content="Azhar Ali" />

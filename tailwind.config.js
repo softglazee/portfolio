@@ -32,10 +32,17 @@ const clay = {
 // Warm ink. Deliberately not blue-black: it sits better against a photograph
 // and it is the fastest way to stop a dark portfolio looking like every other
 // dark portfolio.
+// One hue family end to end. The old ramp was warm down to 700 and then
+// flipped to blue at 800/900/950 (hue ~260 deg), and since those three steps
+// are the canvas, every card and every border, the whole page read cool while
+// the text read warm. That mismatch is why the warm palette never landed.
+//
+// 500 is lifted so it passes 4.5:1 as body text on both the canvas and a card.
+// 600 and 700 are borders and disabled states only, never text.
 const ink = {
-  50: '#F6F5F2', 100: '#EDEAE4', 200: '#DAD5CB', 300: '#BDB6A8',
-  400: '#9A9285', 500: '#7D766A', 600: '#635D54', 700: '#4A4740',
-  800: '#2E3138', 900: '#1A1D22', 950: '#0E1013',
+  50: '#F7F6F3', 100: '#EDEAE4', 200: '#DAD5CB', 300: '#BDB6A8',
+  400: '#A79E8F', 500: '#8B8474', 600: '#625D54', 700: '#4A4740',
+  800: '#34312C', 900: '#1F1D19', 950: '#11100D',
 };
 
 export default {
@@ -63,6 +70,14 @@ export default {
       },
       letterSpacing: {
         tightest: '-0.04em',
+      },
+      // 13px floor. text-xs was 12px and appeared on 214 elements, often at
+      // 4.2:1, which is the combination that makes small print unreadable
+      // rather than merely small. rem so OS font-size settings are respected.
+      fontSize: {
+        xs: ['0.8125rem', { lineHeight: '1.5' }],
+        sm: ['0.875rem', { lineHeight: '1.6' }],
+        base: ['1rem', { lineHeight: '1.65' }],
       },
     },
   },
